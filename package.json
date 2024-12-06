@@ -1,0 +1,10 @@
+{
+  "name": "attention",
+  "description": "Highlight and memo contents of pages you read",
+  "author": "ssongq",
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
