@@ -1,2 +1,2 @@
-const customSidebar = document.createElement('webhighlights-sidebar');
-document.body.appendChild(customSidebar);
+const webHighlightLayer = document.createElement('webhighlight-layer');
+document.body.appendChild(webHighlightLayer);
