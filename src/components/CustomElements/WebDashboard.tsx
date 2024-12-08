@@ -2,9 +2,9 @@ import { StrictMode } from 'react';
 
 import { createRoot } from 'react-dom/client';
 
-import ServiceHighlightLayer from '../ServiceHighlight/ServiceHighlightLayer';
+import DashboardContainer from '../Dashboard/DashboardContainer';
 
-class WebHighlightLayer extends HTMLElement {
+class WebDashboard extends HTMLElement {
   constructor() {
     super();
 
@@ -15,10 +15,10 @@ class WebHighlightLayer extends HTMLElement {
 
     createRoot(reactRoot).render(
       <StrictMode>
-        <ServiceHighlightLayer />
+        <DashboardContainer />
       </StrictMode>
     );
   }
 }
 
-customElements.define('web-highlight-layer', WebHighlightLayer);
+customElements.define('web-dashboard', WebDashboard);
