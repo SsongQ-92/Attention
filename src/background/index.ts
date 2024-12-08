@@ -1,6 +1,6 @@
 import Browser from 'webextension-polyfill';
 
-import { ALLOW_URL } from '../consts';
+import { ALLOW_URL } from '../config/consts';
 
 const checkMessageType = (message: unknown): message is { action: string } => {
   return (
