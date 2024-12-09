@@ -6,7 +6,7 @@ function ServiceHighlightLayer() {
   useSendMessage('PAGE_LOADED');
 
   return (
-    <main>
+    <main className='w-screen h-screen'>
       <div></div>
     </main>
   );

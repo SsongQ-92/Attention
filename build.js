@@ -1,14 +1,11 @@
 import archiver from 'archiver';
 import autoprefixer from 'autoprefixer';
 import cssnano from 'cssnano';
-import * as dotenv from 'dotenv';
 import esbuild from 'esbuild';
 import postcssPlugin from 'esbuild-style-plugin';
 import fs from 'fs-extra';
 import postcssPresetEnv from 'postcss-preset-env';
 import tailwindcss from 'tailwindcss';
-
-dotenv.config();
 
 const outdir = 'build';
 
@@ -24,9 +21,6 @@ const runEsbuild = async () => {
     treeShaking: true,
     minify: true,
     legalComments: 'none',
-    define: {
-      'process.env.NODE_ENV': 'production',
-    },
     jsx: 'automatic',
     loader: {
       '.png': 'dataurl',
