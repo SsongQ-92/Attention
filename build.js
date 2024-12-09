@@ -79,6 +79,7 @@ const build = async () => {
     { src: 'build/content-script/index.js', dst: 'content-script.js' },
     { src: 'build/content-script/index.css', dst: 'content-script.css' },
     { src: 'build/background/index.js', dst: 'background.js' },
+    { src: 'src/assets', dst: 'assets' },
   ];
 
   await copyFiles(
