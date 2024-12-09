@@ -1,50 +1,58 @@
 import { StrictMode } from 'react';
 
 import { createRoot } from 'react-dom/client';
+import Browser from 'webextension-polyfill';
 
 import DashboardContainer from '../components/Dashboard/DashboardContainer';
 import ServiceHighlightLayer from '../components/ServiceHighlight/ServiceHighlightLayer';
 
-class WebHighlightLayer extends HTMLElement {
-  constructor() {
-    super();
+const injectScript = async () => {
+  const script = document.createElement('script');
+  script.src = Browser.runtime.getURL('injected-customElements-script.js');
+  (document.body || document.head || document.documentElement).appendChild(script);
+  script.remove();
+};
 
-    const shadowRoot = this.attachShadow({ mode: 'open' });
+const initializeRender = async () => {
+  await injectScript();
 
-    const reactRoot = document.createElement('div');
-    shadowRoot.appendChild(reactRoot);
+  if (document) {
+    const webHighlightLayer = document.createElement('web-highlight-layer');
+    document.body.appendChild(webHighlightLayer);
 
-    createRoot(reactRoot).render(
-      <StrictMode>
-        <ServiceHighlightLayer />
-      </StrictMode>
-    );
+    const webDashboard = document.createElement('web-dashboard');
+    document.body.parentNode?.insertBefore(webDashboard, document.body.nextSibling);
+
+    window.addEventListener('message', (event) => {
+      if (event.data?.type === 'ELEMENT_READY' && event.data.element === 'web-highlight-layer') {
+        const webHighlightLayer = document.querySelector('web-highlight-layer');
+        const shadowRootForWebHighlightLayer = webHighlightLayer?.shadowRoot;
+        const renderRoot = shadowRootForWebHighlightLayer?.querySelector('div');
+
+        if (renderRoot) {
+          createRoot(renderRoot).render(
+            <StrictMode>
+              <ServiceHighlightLayer />
+            </StrictMode>
+          );
+        }
+      }
+
+      if (event.data?.type === 'ELEMENT_READY' && event.data.element === 'web-dashboard') {
+        const webHighlightLayer = document.querySelector('web-dashboard');
+        const shadowRootForWebHighlightLayer = webHighlightLayer?.shadowRoot;
+        const renderRoot = shadowRootForWebHighlightLayer?.querySelector('div');
+
+        if (renderRoot) {
+          createRoot(renderRoot).render(
+            <StrictMode>
+              <DashboardContainer />
+            </StrictMode>
+          );
+        }
+      }
+    });
   }
-}
+};
 
-customElements.define('web-highlight-layer', WebHighlightLayer);
-
-class WebDashboard extends HTMLElement {
-  constructor() {
-    super();
-
-    const shadowRoot = this.attachShadow({ mode: 'open' });
-
-    const reactRoot = document.createElement('div');
-    shadowRoot.appendChild(reactRoot);
-
-    createRoot(reactRoot).render(
-      <StrictMode>
-        <DashboardContainer />
-      </StrictMode>
-    );
-  }
-}
-
-customElements.define('web-dashboard', WebDashboard);
-
-const webHighlightLayer = document.createElement('web-highlight-layer');
-document.body.appendChild(webHighlightLayer);
-
-const webDashboard = document.createElement('web-dashboard');
-document.body.parentNode?.insertBefore(webDashboard, document.body.nextSibling);
+initializeRender();

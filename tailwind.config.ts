@@ -11,7 +11,7 @@ const createPxEntries = (size: number) => {
 };
 
 const PX_ENTRIES_10 = createPxEntries(10);
-const PX_ENTRIES_200 = createPxEntries(200);
+const PX_ENTRIES_100 = createPxEntries(100);
 const PX_ENTRIES_1000 = createPxEntries(1000);
 
 const config: Config = {
@@ -19,7 +19,7 @@ const config: Config = {
   content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
   theme: {
     borderWidth: PX_ENTRIES_10,
-    fontSize: PX_ENTRIES_200,
+    fontSize: PX_ENTRIES_100,
     spacing: PX_ENTRIES_1000,
     extend: {
       fontFamily: {

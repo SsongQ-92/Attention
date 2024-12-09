@@ -2,8 +2,8 @@ import archiver from 'archiver';
 import autoprefixer from 'autoprefixer';
 import cssnano from 'cssnano';
 import esbuild from 'esbuild';
-import postcssPlugin from 'esbuild-style-plugin';
 import fs from 'fs-extra';
+import postcss from 'postcss';
 import postcssPresetEnv from 'postcss-preset-env';
 import tailwindcss from 'tailwindcss';
 
@@ -13,46 +13,59 @@ const deleteOldDir = async () => {
   await fs.remove(outdir);
 };
 
-const runEsbuild = async () => {
+const buildCSS = async () => {
+  const css = `
+    @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css');
+    @tailwind base;
+    @tailwind components;
+    @tailwind utilities;
+
+    @layer utilities {
+      .flex-center {
+        @apply flex flex-row items-center justify-center;
+      }
+      .flex-col-center {
+        @apply flex flex-col items-center justify-center;
+      }
+    }
+  `;
+
+  const result = await postcss([
+    tailwindcss,
+    autoprefixer,
+    cssnano({
+      preset: 'default',
+    }),
+    postcssPresetEnv({
+      stage: 2,
+      autoprefixer: { grid: true },
+    }),
+  ]).process(css, { from: undefined });
+
+  return result.css;
+};
+
+const runEsbuild = async (inlineCSS) => {
   await esbuild.build({
-    entryPoints: ['src/content-script/index.tsx', 'src/background/index.ts'],
+    entryPoints: [
+      'src/content-script/index.tsx',
+      'src/content-script/injected-customElements-script.ts',
+      'src/background/index.ts',
+    ],
     bundle: true,
     outdir: outdir,
     treeShaking: true,
     minify: true,
     legalComments: 'none',
     jsx: 'automatic',
+    define: {
+      'process.env.INLINE_CSS': JSON.stringify(inlineCSS),
+    },
     loader: {
       '.png': 'dataurl',
       '.svg': 'file',
     },
-    plugins: [
-      postcssPlugin({
-        postcss: {
-          plugins: [
-            tailwindcss,
-            autoprefixer,
-            cssnano({
-              preset: 'default',
-            }),
-            postcssPresetEnv({
-              stage: 2,
-              autoprefixer: { grid: true },
-            }),
-          ],
-        },
-      }),
-    ],
   });
-};
-
-const copyFiles = async (entryPoints, targetDir) => {
-  await fs.ensureDir(targetDir);
-  await Promise.all(
-    entryPoints.map(async (entryPoint) => {
-      await fs.copy(entryPoint.src, `${targetDir}/${entryPoint.dst}`);
-    })
-  );
 };
 
 const zipFolder = async (dir) => {
@@ -67,19 +80,23 @@ const zipFolder = async (dir) => {
 
 const build = async () => {
   await deleteOldDir();
-  await runEsbuild();
+  const inlineCSS = await buildCSS();
+  await runEsbuild(inlineCSS);
 
   const commonFiles = [
     { src: 'build/content-script/index.js', dst: 'content-script.js' },
-    { src: 'build/content-script/index.css', dst: 'content-script.css' },
+    {
+      src: 'build/content-script/injected-customElements-script.js',
+      dst: 'injected-customElements-script.js',
+    },
     { src: 'build/background/index.js', dst: 'background.js' },
     { src: 'src/assets', dst: 'assets' },
+    { src: 'src/manifest.json', dst: 'manifest.json' },
   ];
 
-  await copyFiles(
-    [...commonFiles, { src: 'src/manifest.json', dst: 'manifest.json' }],
-    `./${outdir}/chromium`
-  );
+  for (const file of commonFiles) {
+    await fs.copy(file.src, `./${outdir}/chromium/${file.dst}`);
+  }
 
   await zipFolder(`./${outdir}/chromium`);
 

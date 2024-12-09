@@ -1,5 +1,3 @@
-import '../../config/base.css';
-
 function DashboardContainer() {
   return (
     <main>

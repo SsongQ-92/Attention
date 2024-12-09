@@ -9,7 +9,6 @@
     "forceConsistentCasingInFileNames": true,
     "allowJs": true,
     "removeComments": true,
-    "sourceMap": true,
     "jsx": "react-jsx"
   },
   "include": ["**/*.ts", "**/*.tsx"],

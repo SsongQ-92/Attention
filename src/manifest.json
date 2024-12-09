@@ -24,9 +24,15 @@
   },
   "content_scripts": [
     {
-      "matches": ["https://velog.io/*"],
+      "matches": ["https://velog.io/*", "https://*.tistory.com/*"],
       "js": ["content-script.js"],
-      "css": ["content-script.css"]
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "matches": ["https://velog.io/*", "https://*.tistory.com/*"],
+      "resources": ["injected-customElements-script.js"]
     }
   ],
   "commands": {

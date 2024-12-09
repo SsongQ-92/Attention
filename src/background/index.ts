@@ -34,7 +34,7 @@ Browser.runtime.onMessage.addListener((message: unknown, sender: Browser.Runtime
 
 Browser.action.onClicked.addListener(async (tab: Browser.Tabs.Tab) => {
   for (const url of ALLOW_URL) {
-    if (tab?.url?.startsWith(url)) {
+    if (tab?.url?.includes(url)) {
       const prevState = await Browser.action.getBadgeText({ tabId: tab.id });
       const nextState = prevState === 'OPEN' ? 'CLOSE' : 'OPEN';
 
