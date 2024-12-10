@@ -17,11 +17,15 @@ const initializeRender = async () => {
   await injectScript();
 
   if (document) {
-    const webHighlightLayer = document.createElement('web-highlight-layer');
-    document.body.appendChild(webHighlightLayer);
+    if (!document.querySelector('web-highlight-layer')) {
+      const webHighlightLayer = document.createElement('web-highlight-layer');
+      document.body.appendChild(webHighlightLayer);
+    }
 
-    const webDashboard = document.createElement('web-dashboard');
-    document.body.parentNode?.insertBefore(webDashboard, document.body.nextSibling);
+    if (!document.querySelector('web-dashboard')) {
+      const webDashboard = document.createElement('web-dashboard');
+      document.body.parentNode?.insertBefore(webDashboard, document.body.nextSibling);
+    }
 
     window.addEventListener('message', (event) => {
       if (event.data?.type === 'ELEMENT_READY' && event.data.element === 'web-highlight-layer') {

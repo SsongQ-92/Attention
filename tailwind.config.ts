@@ -15,13 +15,21 @@ const PX_ENTRIES_100 = createPxEntries(100);
 const PX_ENTRIES_1000 = createPxEntries(1000);
 
 const config: Config = {
-  darkMode: 'media',
   content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
   theme: {
     borderWidth: PX_ENTRIES_10,
     fontSize: PX_ENTRIES_100,
     spacing: PX_ENTRIES_1000,
     extend: {
+      colors: {
+        backgroundColor: {
+          hover: 'rgb(244, 244, 245)',
+          black: 'rgb(24, 24, 27)',
+        },
+        borderColor: {
+          DEFAULT: 'rgb(228, 228, 231)',
+        },
+      },
       fontFamily: {
         pretendard: ['Pretendard', 'sans-serif'],
       },

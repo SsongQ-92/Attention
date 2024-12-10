@@ -10,57 +10,30 @@ Browser.runtime.onInstalled.addListener(() => {
 
 Browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   if (changeInfo.status === 'complete' && tab.url) {
-    for (const url of ALLOW_URL) {
-      if (tab.url.includes(url)) {
-        Browser.action.setBadgeText({ tabId, text: badgeText.ON });
-
-        break;
-      } else {
-        Browser.action.setBadgeText({ tabId, text: badgeText.OFF });
-      }
-    }
+    const isAllowed = ALLOW_URL.some((url) => tab.url?.includes(url) && tab.url !== url);
+    Browser.action.setBadgeText({ tabId, text: isAllowed ? badgeText.ON : badgeText.OFF });
   }
 });
 
 Browser.tabs.onActivated.addListener(async (activeInfo) => {
   const tab = await Browser.tabs.get(activeInfo.tabId);
 
-  for (const url of ALLOW_URL) {
-    if (tab.url?.includes(url)) {
-      Browser.action.setBadgeText({ tabId: tab.id, text: badgeText.ON });
-
-      break;
-    } else {
-      Browser.action.setBadgeText({ tabId: tab.id, text: badgeText.OFF });
-    }
+  if (tab.url) {
+    const isAllowed = ALLOW_URL.some((url) => tab.url?.includes(url) && tab.url !== url);
+    Browser.action.setBadgeText({
+      tabId: activeInfo.tabId,
+      text: isAllowed ? badgeText.ON : badgeText.OFF,
+    });
   }
 });
 
-Browser.action.onClicked.addListener((tab: Browser.Tabs.Tab) => {
-  for (const url of ALLOW_URL) {
-    if (tab?.url?.includes(url) && tab.id) {
-      Browser.tabs.sendMessage(tab.id, { action: msgAction.ICON_CLICKED });
+Browser.action.onClicked.addListener(async (tab: Browser.Tabs.Tab) => {
+  if (!tab?.url || !tab.id) return;
 
-      break;
-    }
-  }
-});
+  const isAllowed = ALLOW_URL.some((url) => tab.url?.startsWith(url));
+  const currentBadgeText = await Browser.action.getBadgeText({ tabId: tab.id });
 
-Browser.commands.onCommand.addListener(async (command) => {
-  if (command === '_execute_action') {
-    try {
-      const tabs = await Browser.tabs.query({ active: true, currentWindow: true });
-      const currentTab = tabs[0];
-
-      for (const url of ALLOW_URL) {
-        if (currentTab?.url?.includes(url) && currentTab.id) {
-          Browser.tabs.sendMessage(currentTab.id, { action: msgAction.ICON_CLICKED });
-
-          break;
-        }
-      }
-    } catch (error) {
-      console.error('tabs.query 실패:', error);
-    }
+  if (isAllowed && currentBadgeText === badgeText.ON) {
+    Browser.tabs.sendMessage(tab.id, { action: msgAction.ICON_CLICKED });
   }
 });

@@ -6,32 +6,34 @@ import { msgAction } from '../config/consts';
 import { checkMessageType } from '../config/types';
 import useBoundStore from '../store/useBoundStore';
 
-const useToggleDashboard = () => {
-  const toggleDashboard = useBoundStore((state) => state.toggleDashboard);
+const useToggleDashboard = (isDashboardOpen: boolean) => {
+  const toggleDashboardOpen = useBoundStore((state) => state.toggleDashboardOpen);
 
   useEffect(() => {
     const listener = (message: unknown, sender: Browser.Runtime.MessageSender) => {
       if (
         checkMessageType(message) &&
         message.action === msgAction.ICON_CLICKED &&
-        sender.tab?.id !== undefined
+        sender.id !== undefined
       ) {
-        toggleDashboard();
+        toggleDashboardOpen();
 
-        return true;
+        return undefined;
       }
     };
 
-    try {
-      Browser.runtime.onMessage.addListener(listener);
-    } catch (error) {
-      console.error('background로부터 메시지 수신 실패', error);
-    }
+    Browser.runtime.onMessage.addListener(listener);
 
     return () => {
       Browser.runtime.onMessage.removeListener(listener);
     };
-  }, [toggleDashboard]);
+  }, [toggleDashboardOpen]);
+
+  useEffect(() => {
+    requestAnimationFrame(() => {
+      document.body.style.marginLeft = isDashboardOpen ? '400px' : '0';
+    });
+  }, [isDashboardOpen]);
 };
 
 export default useToggleDashboard;
