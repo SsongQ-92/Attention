@@ -10,7 +10,7 @@
     "128": "assets/icon-128.png"
   },
   "action": {
-    "default_title": "toggle dashboard",
+    "default_title": "Attention - Toggle dashboard",
     "default_icon": {
       "16": "assets/icon-16.png",
       "32": "assets/icon-32.png",
