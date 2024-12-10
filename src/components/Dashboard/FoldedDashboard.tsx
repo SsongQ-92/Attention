@@ -1,4 +1,5 @@
 import ArrowLineRightIcon from '../Icon/ArrowLineRightIcon';
+import ArticleIcon from '../Icon/ArticleIcon';
 
 interface Props {
   onArrowClick: () => void;
@@ -12,6 +13,9 @@ function FoldedDashboard({ onArrowClick }: Props) {
         className='flex-center rounded-[5px] size-35 hover:bg-backgroundColor-hover'
       >
         <ArrowLineRightIcon className='size-25 hover:cursor-pointer' />
+      </div>
+      <div className='flex-center rounded-[5px] size-35 hover:bg-backgroundColor-hover'>
+        <ArticleIcon className='size-25 hover:cursor-pointer' />
       </div>
     </main>
   );

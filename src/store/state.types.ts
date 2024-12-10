@@ -5,6 +5,5 @@ export interface DashboardState {
 
 export interface ServiceHighlightState {
   isHighlightBarOpen: boolean;
-  openHighlightBar: () => void;
-  closeHighlightBar: () => void;
+  toggleHighlightBarOpen: () => void;
 }

@@ -4,6 +4,5 @@ import { ServiceHighlightState } from './state.types';
 
 export const createServiceHighlightSlice: StateCreator<ServiceHighlightState> = (set) => ({
   isHighlightBarOpen: false,
-  openHighlightBar: () => set(() => ({ isHighlightBarOpen: true })),
-  closeHighlightBar: () => set(() => ({ isHighlightBarOpen: false })),
+  toggleHighlightBarOpen: () => set((state) => ({ isHighlightBarOpen: !state.isHighlightBarOpen })),
 });
