@@ -13,6 +13,7 @@ function ServiceHighlightBar({ onRevertIconClick }: Props) {
       >
         <RevertIcon className='size-25 hover:cursor-pointer' />
       </div>
+      <div className='w-full h-full bg-borderColor'></div>
     </>
   );
 }
