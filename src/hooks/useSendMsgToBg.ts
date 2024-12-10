@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 import Browser from 'webextension-polyfill';
 
-const useSendMessage = (message: string) => {
+const useSendMsgToBg = (message: string) => {
   useEffect(() => {
     try {
       if (typeof Browser !== 'undefined' && Browser.runtime) {
@@ -14,4 +14,4 @@ const useSendMessage = (message: string) => {
   }, [message]);
 };
 
-export default useSendMessage;
+export default useSendMsgToBg;

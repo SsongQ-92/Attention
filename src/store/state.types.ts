@@ -1,7 +1,6 @@
 export interface DashboardState {
   isDashboardOpen: boolean;
-  openDashboard: () => void;
-  closeDashboard: () => void;
+  toggleDashboard: () => void;
 }
 
 export interface ServiceHighlightState {

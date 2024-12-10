@@ -1,7 +1,7 @@
-import useSendMessage from '../../hooks/useSendMessage';
+import useSendMsgToBg from '../../hooks/useSendMsgToBg';
 
 function ServiceHighlightLayer() {
-  useSendMessage('PAGE_LOADED');
+  useSendMsgToBg('PAGE_LOADED');
 
   return (
     <main className='font-pretendard w-screen h-screen'>

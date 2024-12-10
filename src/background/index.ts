@@ -1,15 +1,7 @@
 import Browser from 'webextension-polyfill';
 
 import { ALLOW_URL } from '../config/consts';
-
-const checkMessageType = (message: unknown): message is { action: string } => {
-  return (
-    typeof message === 'object' &&
-    message !== null &&
-    'action' in message &&
-    typeof (message as Record<string, string>).action === 'string'
-  );
-};
+import { checkMessageType } from '../config/types';
 
 Browser.runtime.onInstalled.addListener(() => {
   Browser.action.setBadgeText({
@@ -35,19 +27,7 @@ Browser.runtime.onMessage.addListener((message: unknown, sender: Browser.Runtime
 Browser.action.onClicked.addListener(async (tab: Browser.Tabs.Tab) => {
   for (const url of ALLOW_URL) {
     if (tab?.url?.includes(url)) {
-      const prevState = await Browser.action.getBadgeText({ tabId: tab.id });
-      const nextState = prevState === 'OPEN' ? 'CLOSE' : 'OPEN';
-
-      await chrome.action.setBadgeText({
-        tabId: tab.id,
-        text: nextState,
-      });
-
-      if (nextState === 'OPEN') {
-        // ON일 때 실행할 메시징 전달 로직
-      } else if (nextState === 'CLOSE') {
-        // OFF일 때 실행할 메시징 전달 로직
-      }
+      Browser.runtime.sendMessage({ action: 'ICON_CLICKED' });
     }
   }
 });
