@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 
 import Browser from 'webextension-polyfill';
 
+import { msgAction } from '../config/consts';
 import { checkMessageType } from '../config/types';
 import useBoundStore from '../store/useBoundStore';
 
@@ -12,7 +13,7 @@ const useToggleDashboard = () => {
     const listener = (message: unknown, sender: Browser.Runtime.MessageSender) => {
       if (
         checkMessageType(message) &&
-        message.action === 'ICON_CLICKED' &&
+        message.action === msgAction.ICON_CLICKED &&
         sender.tab?.id !== undefined
       ) {
         toggleDashboard();

@@ -1,23 +1,23 @@
 import Browser from 'webextension-polyfill';
 
-import { ALLOW_URL } from '../config/consts';
+import { ALLOW_URL, badgeText, msgAction } from '../config/consts';
 import { checkMessageType } from '../config/types';
 
 Browser.runtime.onInstalled.addListener(() => {
   Browser.action.setBadgeText({
-    text: 'OFF',
+    text: badgeText.OFF,
   });
 });
 
 Browser.runtime.onMessage.addListener((message: unknown, sender: Browser.Runtime.MessageSender) => {
   if (
     checkMessageType(message) &&
-    message.action === 'PAGE_LOADED' &&
+    message.action === msgAction.PAGE_LOADED &&
     sender.tab?.id !== undefined
   ) {
     Browser.action.setBadgeText({
       tabId: sender.tab.id,
-      text: 'ON',
+      text: badgeText.ON,
     });
 
     return true;
@@ -27,7 +27,7 @@ Browser.runtime.onMessage.addListener((message: unknown, sender: Browser.Runtime
 Browser.action.onClicked.addListener(async (tab: Browser.Tabs.Tab) => {
   for (const url of ALLOW_URL) {
     if (tab?.url?.includes(url)) {
-      Browser.runtime.sendMessage({ action: 'ICON_CLICKED' });
+      Browser.runtime.sendMessage({ action: msgAction.ICON_CLICKED });
     }
   }
 });
