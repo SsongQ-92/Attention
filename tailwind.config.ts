@@ -22,9 +22,11 @@ const config: Config = {
     spacing: PX_ENTRIES_1000,
     extend: {
       colors: {
+        customBlack: {
+          DEFAULT: 'rgb(24, 24, 27)',
+        },
         backgroundColor: {
           hover: 'rgb(244, 244, 245)',
-          black: 'rgb(24, 24, 27)',
         },
         borderColor: {
           DEFAULT: 'rgb(228, 228, 231)',
