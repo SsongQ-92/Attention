@@ -1,3 +1,4 @@
+import { SERVICE_TITLE } from '../../config/consts';
 import useToggleDashboard from '../../hooks/useToggleDashboard';
 import useBoundStore from '../../store/useBoundStore';
 import ArrowLineLeftIcon from '../Icon/ArrowLineLeftIcon';
@@ -21,7 +22,7 @@ function DashboardContainer() {
     <main className='fixed flex flex-col justify-start gap-30 p-10 py-30 top-0 left-0 h-screen w-320 bg-white border-r-2 border-borderColor shadow-md transform transition-all duration-500 ease-in-out'>
       <div className='flex justify-between items-end'>
         <h1 className='font-pretendard color-customBlack text-25 bg-yellow-100 px-10 font-bold'>
-          Attention
+          {SERVICE_TITLE}
         </h1>
         <div
           onClick={handleArrowIconClick}
