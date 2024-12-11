@@ -57,7 +57,7 @@ const useAnalyzeDOM = () => {
           }
         });
 
-        return updatedRects;
+        return updatedRects.sort((a, b) => a.tagStartRectY - b.tagStartRectY);
       });
     };
 
