@@ -1,3 +1,4 @@
+import useAnalyzeDOM from '../../hooks/useAnalyzeDOM';
 import RevertIcon from '../Icon/RevertIcon';
 
 interface Props {
@@ -5,6 +6,10 @@ interface Props {
 }
 
 function ServiceHighlightBar({ onRevertIconClick }: Props) {
+  const elementRects = useAnalyzeDOM();
+
+  console.log(elementRects);
+
   return (
     <>
       <div

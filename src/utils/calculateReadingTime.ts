@@ -1,6 +1,6 @@
 import { TARGET_HIGHLIGHTS_SELECTORS } from '../config/consts';
 
-export const calculateReadingTime = () => {
+const calculateReadingTime = () => {
   let text = '';
 
   TARGET_HIGHLIGHTS_SELECTORS.forEach((tagName) => {
@@ -19,3 +19,5 @@ export const calculateReadingTime = () => {
 
   return readingTime;
 };
+
+export default calculateReadingTime;
