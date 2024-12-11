@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 
+import { throttle } from 'lodash-es';
+
 import { TARGET_HIGHLIGHTS_SELECTORS } from '../config/consts';
 import { TagRectData } from '../config/types';
 import isElementInsideViewport from '../utils/isElementInsideViewport';
@@ -28,32 +30,19 @@ const useAnalyzeDOM = () => {
             tagVisiblePartially:
               entry.isIntersecting && isElementInsideViewport(rect.top, rect.bottom),
             tagTextContent: trimmedTextContent,
-            tagUniqueKey:
-              `${trimmedTextContent.length < 10 ? trimmedTextContent : trimmedTextContent.slice(0, 10)}` +
-              rect.width +
-              rect.height,
+            tagUniqueKey: `${trimmedTextContent.length < 10 ? trimmedTextContent : trimmedTextContent.slice(0, 10)}_${rect.width}_${rect.height}`,
           };
 
-          if (entry.isIntersecting) {
-            const isExisted = updatedRects.some(
-              (rect) =>
-                rect.tagName === currentRect.tagName &&
-                rect.tagUniqueKey === currentRect.tagUniqueKey
-            );
+          const index = updatedRects.findIndex(
+            (rect) => rect.tagUniqueKey === currentRect.tagUniqueKey
+          );
 
-            if (!isExisted && currentRect.tagTextContent !== '') {
+          if (entry.isIntersecting) {
+            if (index === -1 && currentRect.tagTextContent !== '') {
               updatedRects.push(currentRect);
             }
-          } else {
-            const index = updatedRects.findIndex(
-              (rect) =>
-                rect.tagName === currentRect.tagName &&
-                rect.tagUniqueKey === currentRect.tagUniqueKey
-            );
-
-            if (index !== -1) {
-              updatedRects.splice(index, 1);
-            }
+          } else if (index !== -1) {
+            updatedRects.splice(index, 1);
           }
         });
 
@@ -75,6 +64,33 @@ const useAnalyzeDOM = () => {
 
     observeElements();
 
+    const handleScroll = throttle(() => {
+      requestAnimationFrame(() => {
+        setElementsRects((prevRects) =>
+          prevRects.map((rect) => {
+            const elements = Array.from(document.querySelectorAll(rect.tagName)) as HTMLElement[];
+
+            const element = elements.find((el) => el.textContent?.trim() === rect.tagTextContent);
+
+            if (element) {
+              const newRect = element.getBoundingClientRect();
+
+              return {
+                ...rect,
+                tagStartRectY: newRect.top,
+                tagEndRectY: newRect.bottom,
+                tagVisiblePartially: isElementInsideViewport(newRect.top, newRect.bottom),
+              };
+            }
+
+            return { ...rect };
+          })
+        );
+      });
+    }, 100);
+
+    window.addEventListener('scroll', handleScroll);
+
     const mutationObserver = new MutationObserver(() => {
       if (observer) observer.disconnect();
       observeElements();
@@ -87,6 +103,7 @@ const useAnalyzeDOM = () => {
         observer.disconnect();
       }
       mutationObserver.disconnect();
+      window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 

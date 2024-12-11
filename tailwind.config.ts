@@ -27,6 +27,7 @@ const config: Config = {
         },
         backgroundColor: {
           hover: 'rgb(244, 244, 245)',
+          darkHover: 'rgba(24, 24, 27, 0.8)',
         },
         borderColor: {
           DEFAULT: 'rgb(228, 228, 231)',

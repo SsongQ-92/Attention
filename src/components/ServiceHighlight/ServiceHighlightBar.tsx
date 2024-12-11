@@ -1,25 +1,31 @@
 import useAnalyzeDOM from '../../hooks/useAnalyzeDOM';
-import RevertIcon from '../Icon/RevertIcon';
 
-interface Props {
-  onRevertIconClick: () => void;
-}
-
-function ServiceHighlightBar({ onRevertIconClick }: Props) {
+function ServiceHighlightBar() {
   const elementRects = useAnalyzeDOM();
 
-  console.log(elementRects);
-
   return (
-    <>
-      <div
-        onClick={onRevertIconClick}
-        className='flex-center rounded-[5px] size-35 hover:bg-backgroundColor-hover'
-      >
-        <RevertIcon className='size-25 hover:cursor-pointer' />
-      </div>
-      <div className='w-full h-full bg-borderColor'></div>
-    </>
+    <div className='absolute top-0 -right-28 w-28 h-full px-1 bg-borderColor'>
+      {elementRects.map((rect, index) => {
+        const marginTop =
+          index === 0
+            ? Math.round(rect.tagStartRectY)
+            : Math.round(rect.tagStartRectY - elementRects[index - 1].tagEndRectY);
+        const height = Math.round(rect.tagHeight);
+
+        console.log(elementRects, rect.tagName, marginTop, height);
+
+        return (
+          <div
+            key={rect.tagUniqueKey}
+            style={{
+              height: `${height}px`,
+              marginTop: `${marginTop}px`,
+            }}
+            className={`w-full bg-yellow-100`}
+          />
+        );
+      })}
+    </div>
   );
 }
 
