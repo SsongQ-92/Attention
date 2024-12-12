@@ -10,6 +10,7 @@ interface Props {
 function FoldedDashboard({ onArrowClick }: Props) {
   const isHighlightBarOpen = useBoundStore((state) => state.isHighlightBarOpen);
   const toggleHighlightBarOpen = useBoundStore((state) => state.toggleHighlightBarOpen);
+  const setKeyboardModeOff = useBoundStore((state) => state.setKeyboardModeOff);
 
   const handleArticleIcon = () => {
     requestAnimationFrame(() => {
@@ -17,6 +18,7 @@ function FoldedDashboard({ onArrowClick }: Props) {
     });
 
     toggleHighlightBarOpen();
+    setKeyboardModeOff();
   };
 
   return (

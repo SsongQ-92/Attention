@@ -13,6 +13,7 @@ export const createServiceHighlightSlice: StateCreator<ServiceHighlightState> = 
   },
   toggleHighlightBarOpen: () => set((state) => ({ isHighlightBarOpen: !state.isHighlightBarOpen })),
   toggleKeyboardMode: () => set((state) => ({ isKeyboardMode: !state.isKeyboardMode })),
+  setKeyboardModeOff: () => set(() => ({ isKeyboardMode: false })),
   setHighlightLayerInfo: (layerInfo) =>
     set((state) => ({ highlightLayerInfo: { ...state.highlightLayerInfo, ...layerInfo } })),
 });
