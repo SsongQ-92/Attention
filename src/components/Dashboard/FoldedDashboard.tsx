@@ -11,10 +11,18 @@ function FoldedDashboard({ onArrowClick }: Props) {
   const isHighlightBarOpen = useBoundStore((state) => state.isHighlightBarOpen);
   const toggleHighlightBarOpen = useBoundStore((state) => state.toggleHighlightBarOpen);
   const setKeyboardModeOff = useBoundStore((state) => state.setKeyboardModeOff);
+  const setHighlightLayerInfo = useBoundStore((state) => state.setHighlightLayerInfo);
 
   const handleArticleIcon = () => {
     requestAnimationFrame(() => {
       document.body.style.marginLeft = isHighlightBarOpen ? '50px' : '78px';
+    });
+
+    setHighlightLayerInfo({
+      top: 0,
+      left: 0,
+      width: 0,
+      height: 0,
     });
 
     toggleHighlightBarOpen();
