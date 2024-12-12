@@ -19,7 +19,8 @@ const initializeRender = async () => {
   if (document) {
     if (!document.querySelector('web-highlight-layer')) {
       const webHighlightLayer = document.createElement('web-highlight-layer');
-      document.body.appendChild(webHighlightLayer);
+      const mainRootDiv = document.body.querySelector('#root') as HTMLDivElement;
+      mainRootDiv.appendChild(webHighlightLayer);
     }
 
     if (!document.querySelector('web-dashboard')) {
