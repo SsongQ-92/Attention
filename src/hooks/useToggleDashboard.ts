@@ -5,8 +5,11 @@ import Browser from 'webextension-polyfill';
 import { msgAction } from '../config/consts';
 import { checkMessageType } from '../config/types';
 import { DashboardState } from '../store/state.types';
+import useBoundStore from '../store/useBoundStore';
 
 const useToggleDashboard = ({ isDashboardOpen, toggleDashboardOpen }: DashboardState) => {
+  const isHighlightBarOpen = useBoundStore((state) => state.isHighlightBarOpen);
+
   useEffect(() => {
     const listener = (message: unknown, sender: Browser.Runtime.MessageSender) => {
       if (
@@ -29,9 +32,13 @@ const useToggleDashboard = ({ isDashboardOpen, toggleDashboardOpen }: DashboardS
 
   useEffect(() => {
     requestAnimationFrame(() => {
-      document.body.style.marginLeft = isDashboardOpen ? '330px' : '50px';
+      if (isDashboardOpen) {
+        document.body.style.marginLeft = isHighlightBarOpen ? '358px' : '330px';
+      } else {
+        document.body.style.marginLeft = isHighlightBarOpen ? '78px' : '50px';
+      }
     });
-  }, [isDashboardOpen]);
+  }, [isDashboardOpen, isHighlightBarOpen]);
 };
 
 export default useToggleDashboard;

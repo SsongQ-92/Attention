@@ -1,30 +1,31 @@
+import { useState } from 'react';
+
+import useParseDOM from '../../hooks/useParseDOM';
 import useBoundStore from '../../store/useBoundStore';
 import ArrowLineLeftIcon from '../Icon/ArrowLineLeftIcon';
 import ArrowLineRightIcon from '../Icon/ArrowLineRightIcon';
 import ArticleIcon from '../Icon/ArticleIcon';
+import KeyboardIcon from '../Icon/KeyboardIcon';
 import ServiceHighlightBar from '../ServiceHighlight/ServiceHighlightBar';
 
 function FoldedDashboard() {
-  const isHighlightBarOpen = useBoundStore((state) => state.isHighlightBarOpen);
+  const elementRects = useParseDOM();
+  const [activeIndex, setActiveIndex] = useState<number>(0);
+
   const isDashboardOpen = useBoundStore((state) => state.isDashboardOpen);
-  const toggleHighlightBarOpen = useBoundStore((state) => state.toggleHighlightBarOpen);
-  const setKeyboardModeOff = useBoundStore((state) => state.setKeyboardModeOff);
-  const setHighlightLayerInfo = useBoundStore((state) => state.setHighlightLayerInfo);
+  const isHighlightBarOpen = useBoundStore((state) => state.isHighlightBarOpen);
+  const isKeyboardMode = useBoundStore((state) => state.isKeyboardMode);
   const toggleDashboardOpen = useBoundStore((state) => state.toggleDashboardOpen);
+  const toggleHighlightBarOpen = useBoundStore((state) => state.toggleHighlightBarOpen);
+  const setHighlightLayerInfo = useBoundStore((state) => state.setHighlightLayerInfo);
+  const toggleKeyboardMode = useBoundStore((state) => state.toggleKeyboardMode);
+  const setKeyboardModeOff = useBoundStore((state) => state.setKeyboardModeOff);
 
   const handleArrowIconClick = () => {
     toggleDashboardOpen();
   };
 
-  const handleArticleIcon = () => {
-    requestAnimationFrame(() => {
-      if (isDashboardOpen) {
-        document.body.style.marginLeft = isHighlightBarOpen ? '330px' : '358px';
-      } else {
-        document.body.style.marginLeft = isHighlightBarOpen ? '50px' : '78px';
-      }
-    });
-
+  const handleArticleIconClick = () => {
     setHighlightLayerInfo({
       top: 0,
       left: 0,
@@ -34,6 +35,29 @@ function FoldedDashboard() {
 
     toggleHighlightBarOpen();
     setKeyboardModeOff();
+  };
+
+  const handleKeyboardIconClick = () => {
+    if (!isHighlightBarOpen) return;
+
+    if (isKeyboardMode) {
+      setHighlightLayerInfo({
+        top: 0,
+        left: 0,
+        width: 0,
+        height: 0,
+      });
+    } else {
+      setHighlightLayerInfo({
+        top: elementRects[0].tagStartRectY,
+        left: elementRects[0].tagStartRectX,
+        width: elementRects[0].tagWidth,
+        height: elementRects[0].tagHeight,
+      });
+    }
+
+    setActiveIndex(0);
+    toggleKeyboardMode();
   };
 
   return (
@@ -49,14 +73,28 @@ function FoldedDashboard() {
         )}
       </div>
       <div
-        onClick={handleArticleIcon}
+        onClick={handleArticleIconClick}
         className={`flex-center rounded-[5px] size-35 ${isHighlightBarOpen ? 'bg-customBlack hover:bg-backgroundColor-darkHover' : 'hover:bg-backgroundColor-hover'}`}
       >
         <ArticleIcon
           className={`size-25 hover:cursor-pointer ${isHighlightBarOpen && 'fill-white'}`}
         />
       </div>
-      {isHighlightBarOpen && <ServiceHighlightBar />}
+      <div
+        onClick={handleKeyboardIconClick}
+        className={`flex-center rounded-[5px] size-35 ${isHighlightBarOpen && (isKeyboardMode ? 'bg-customBlack hover:bg-backgroundColor-darkHover' : 'hover:bg-backgroundColor-hover')}`}
+      >
+        <KeyboardIcon
+          className={`size-25 ${isHighlightBarOpen && 'hover:cursor-pointer'} ${isKeyboardMode && 'fill-white'}`}
+        />
+      </div>
+      {isHighlightBarOpen && (
+        <ServiceHighlightBar
+          activeIndex={activeIndex}
+          setActiveIndex={setActiveIndex}
+          elementRects={elementRects}
+        />
+      )}
     </main>
   );
 }

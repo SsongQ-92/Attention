@@ -1,12 +1,16 @@
-import { useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
-import useParseDOM from '../../hooks/useParseDOM';
+import { TagRectData } from '../../config/types';
 import useBoundStore from '../../store/useBoundStore';
 
-function ServiceHighlightBar() {
-  const elementRects = useParseDOM();
+interface Props {
+  elementRects: TagRectData[];
+  activeIndex: number;
+  setActiveIndex: Dispatch<SetStateAction<number>>;
+}
+
+function ServiceHighlightBar({ elementRects, activeIndex, setActiveIndex }: Props) {
   const [prevScrollY, setPrevScrollY] = useState<number>(window.scrollY);
-  const [activeIndex, setActiveIndex] = useState<number>(0);
 
   const isKeyboardMode = useBoundStore((state) => state.isKeyboardMode);
   const setHighlightLayerInfo = useBoundStore((state) => state.setHighlightLayerInfo);
@@ -68,7 +72,7 @@ function ServiceHighlightBar() {
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('wheel', handleWheel);
     };
-  }, [isKeyboardMode, activeIndex, elementRects, setHighlightLayerInfo]);
+  }, [isKeyboardMode, activeIndex, setActiveIndex, elementRects, setHighlightLayerInfo]);
 
   useEffect(() => {
     if (!isKeyboardMode) return;
@@ -94,7 +98,7 @@ function ServiceHighlightBar() {
         height: elementRects[0].tagHeight,
       });
     }
-  }, [isKeyboardMode, elementRects, prevScrollY, setHighlightLayerInfo]);
+  }, [isKeyboardMode, elementRects, setActiveIndex, prevScrollY, setHighlightLayerInfo]);
 
   return (
     <div className='absolute top-0 -right-28 w-28 h-full px-1 bg-borderColor'>
