@@ -1,21 +1,28 @@
 import useBoundStore from '../../store/useBoundStore';
+import ArrowLineLeftIcon from '../Icon/ArrowLineLeftIcon';
 import ArrowLineRightIcon from '../Icon/ArrowLineRightIcon';
 import ArticleIcon from '../Icon/ArticleIcon';
 import ServiceHighlightBar from '../ServiceHighlight/ServiceHighlightBar';
 
-interface Props {
-  onArrowClick: () => void;
-}
-
-function FoldedDashboard({ onArrowClick }: Props) {
+function FoldedDashboard() {
   const isHighlightBarOpen = useBoundStore((state) => state.isHighlightBarOpen);
+  const isDashboardOpen = useBoundStore((state) => state.isDashboardOpen);
   const toggleHighlightBarOpen = useBoundStore((state) => state.toggleHighlightBarOpen);
   const setKeyboardModeOff = useBoundStore((state) => state.setKeyboardModeOff);
   const setHighlightLayerInfo = useBoundStore((state) => state.setHighlightLayerInfo);
+  const toggleDashboardOpen = useBoundStore((state) => state.toggleDashboardOpen);
+
+  const handleArrowIconClick = () => {
+    toggleDashboardOpen();
+  };
 
   const handleArticleIcon = () => {
     requestAnimationFrame(() => {
-      document.body.style.marginLeft = isHighlightBarOpen ? '50px' : '78px';
+      if (isDashboardOpen) {
+        document.body.style.marginLeft = isHighlightBarOpen ? '330px' : '358px';
+      } else {
+        document.body.style.marginLeft = isHighlightBarOpen ? '50px' : '78px';
+      }
     });
 
     setHighlightLayerInfo({
@@ -30,12 +37,16 @@ function FoldedDashboard({ onArrowClick }: Props) {
   };
 
   return (
-    <main className='fixed flex flex-col justify-start items-center gap-30 p-10 py-30 top-0 left-0 h-screen w-50 bg-white border-r-2 border-borderColor shadow-md transform transition-all duration-500 ease-in-out'>
+    <main className='absolute flex flex-col justify-start items-center gap-30 p-10 py-30 top-0 -right-50 h-screen w-50 bg-white border-r-2 border-borderColor transform transition-all duration-500 ease-in-out'>
       <div
-        onClick={onArrowClick}
+        onClick={handleArrowIconClick}
         className='flex-center rounded-[5px] size-35 hover:bg-backgroundColor-hover'
       >
-        <ArrowLineRightIcon className='size-25 hover:cursor-pointer' />
+        {isDashboardOpen ? (
+          <ArrowLineLeftIcon className='size-25 hover:cursor-pointer' />
+        ) : (
+          <ArrowLineRightIcon className='size-25 hover:cursor-pointer' />
+        )}
       </div>
       <div
         onClick={handleArticleIcon}

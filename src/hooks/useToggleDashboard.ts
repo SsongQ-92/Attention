@@ -29,7 +29,7 @@ const useToggleDashboard = ({ isDashboardOpen, toggleDashboardOpen }: DashboardS
 
   useEffect(() => {
     requestAnimationFrame(() => {
-      document.body.style.marginLeft = isDashboardOpen ? '350px' : '50px';
+      document.body.style.marginLeft = isDashboardOpen ? '330px' : '50px';
     });
   }, [isDashboardOpen]);
 };
