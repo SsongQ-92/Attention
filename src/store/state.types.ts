@@ -4,10 +4,10 @@ export interface DashboardState {
 }
 
 interface layerInfo {
-  top: 0;
-  left: 0;
-  width: 0;
-  height: 0;
+  top: number;
+  left: number;
+  width: number;
+  height: number;
 }
 
 export interface ServiceHighlightState {

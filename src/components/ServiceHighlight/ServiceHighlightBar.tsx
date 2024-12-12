@@ -1,7 +1,9 @@
 import useParseDOM from '../../hooks/useParseDOM';
+import useBoundStore from '../../store/useBoundStore';
 
 function ServiceHighlightBar() {
   const elementRects = useParseDOM();
+  const setHighlightLayerInfo = useBoundStore((state) => state.setHighlightLayerInfo);
 
   return (
     <div className='absolute top-0 -right-28 w-28 h-full px-1 bg-borderColor'>
@@ -12,8 +14,6 @@ function ServiceHighlightBar() {
             : Math.round(rect.tagStartRectY - elementRects[index - 1].tagEndRectY);
         const height = Math.round(rect.tagHeight);
 
-        console.log(elementRects, rect.tagName, marginTop, height);
-
         return (
           <div
             key={rect.tagUniqueKey}
@@ -22,6 +22,14 @@ function ServiceHighlightBar() {
               marginTop: `${marginTop}px`,
             }}
             className={`w-full bg-yellow-100`}
+            onMouseEnter={() => {
+              setHighlightLayerInfo({
+                top: rect.tagStartRectY,
+                left: rect.tagStartRectX,
+                width: rect.tagWidth,
+                height: rect.tagHeight,
+              });
+            }}
           />
         );
       })}
