@@ -93,10 +93,21 @@ const useParseDOM = () => {
 
     const mutationObserver = new MutationObserver(() => {
       if (observer) observer.disconnect();
+      setElementsRects([]);
+
       observeElements();
     });
 
     mutationObserver.observe(document.body, { childList: true, subtree: true });
+
+    const resizeObserver = new ResizeObserver(() => {
+      if (observer) observer.disconnect();
+      setElementsRects([]);
+
+      observeElements();
+    });
+
+    resizeObserver.observe(document.body);
 
     return () => {
       if (observer) {
@@ -104,6 +115,7 @@ const useParseDOM = () => {
       }
       mutationObserver.disconnect();
       window.removeEventListener('scroll', handleScroll);
+      resizeObserver.disconnect();
     };
   }, []);
 
