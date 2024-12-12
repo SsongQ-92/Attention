@@ -1,6 +1,6 @@
 function ServiceHighlightLayer() {
   return (
-    <main className='font-pretendard w-screen h-screen'>
+    <main className='fixed w-screen h-screen'>
       <div></div>
     </main>
   );
