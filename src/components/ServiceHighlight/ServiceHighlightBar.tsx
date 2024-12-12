@@ -71,6 +71,8 @@ function ServiceHighlightBar() {
   }, [isKeyboardMode, activeIndex, elementRects, setHighlightLayerInfo]);
 
   useEffect(() => {
+    if (!isKeyboardMode) return;
+
     if (window.scrollY < prevScrollY) {
       setPrevScrollY(window.scrollY);
       setActiveIndex(elementRects.length - 1);
@@ -92,7 +94,7 @@ function ServiceHighlightBar() {
         height: elementRects[0].tagHeight,
       });
     }
-  }, [elementRects, prevScrollY, setHighlightLayerInfo]);
+  }, [isKeyboardMode, elementRects, prevScrollY, setHighlightLayerInfo]);
 
   return (
     <div className='absolute top-0 -right-28 w-28 h-full px-1 bg-borderColor'>
