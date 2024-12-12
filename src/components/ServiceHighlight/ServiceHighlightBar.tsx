@@ -1,7 +1,7 @@
-import useAnalyzeDOM from '../../hooks/useAnalyzeDOM';
+import useParseDOM from '../../hooks/useParseDOM';
 
 function ServiceHighlightBar() {
-  const elementRects = useAnalyzeDOM();
+  const elementRects = useParseDOM();
 
   return (
     <div className='absolute top-0 -right-28 w-28 h-full px-1 bg-borderColor'>

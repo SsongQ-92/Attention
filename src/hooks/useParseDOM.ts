@@ -6,7 +6,7 @@ import { TARGET_HIGHLIGHTS_SELECTORS } from '../config/consts';
 import { TagRectData } from '../config/types';
 import isElementInsideViewport from '../utils/isElementInsideViewport';
 
-const useAnalyzeDOM = () => {
+const useParseDOM = () => {
   const [elementRects, setElementsRects] = useState<TagRectData[]>([]);
 
   useEffect(() => {
@@ -110,4 +110,4 @@ const useAnalyzeDOM = () => {
   return elementRects;
 };
 
-export default useAnalyzeDOM;
+export default useParseDOM;
