@@ -12,7 +12,9 @@ interface layerInfo {
 
 export interface ServiceHighlightState {
   isHighlightBarOpen: boolean;
+  isKeyboardMode: boolean;
   highlightLayerInfo: layerInfo;
   toggleHighlightBarOpen: () => void;
+  toggleKeyboardMode: () => void;
   setHighlightLayerInfo: (layerInfo: layerInfo) => void;
 }
