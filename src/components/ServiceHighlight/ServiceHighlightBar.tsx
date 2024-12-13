@@ -27,7 +27,7 @@ function ServiceHighlightBar({
       if (isKeyboardMode) {
         e.preventDefault();
 
-        if (e.code === 'ArrowDown') {
+        if (e.code === 'ArrowDown' || e.code === 'Space') {
           if (activeIndex === elementRects.length - 1) {
             setPrevScrollY(window.scrollY);
 
@@ -71,21 +71,38 @@ function ServiceHighlightBar({
 
           setActiveIndex(0);
           toggleKeyboardMode();
+        } else if (
+          e.code === 'PageDown' ||
+          e.code === 'PageUp' ||
+          e.code === 'Home' ||
+          e.code === 'End'
+        ) {
+          e.preventDefault();
         }
       }
     };
 
     const handleWheel = (e: WheelEvent) => {
+      const target = e.target;
+
       if (isKeyboardMode) {
-        e.preventDefault();
+        if (target instanceof HTMLElement) {
+          if (
+            target.tagName !== 'TEXTAREA' &&
+            target.tagName !== 'INPUT' &&
+            !target.isContentEditable
+          ) {
+            e.preventDefault();
+          }
+        }
       }
     };
 
-    window.addEventListener('keydown', handleKeyDown);
+    document.body.addEventListener('keydown', handleKeyDown);
     window.addEventListener('wheel', handleWheel, { passive: false });
 
     return () => {
-      window.removeEventListener('keydown', handleKeyDown);
+      document.body.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('wheel', handleWheel);
     };
   }, [
