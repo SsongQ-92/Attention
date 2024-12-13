@@ -12,7 +12,7 @@ function ServiceHighlightLayer() {
     highlightLayerInfo.width !== 0;
 
   return (
-    <main className='fixed inset-0 w-screen h-screen z-40'>
+    <main className={`${isKeyboardMode ? 'fixed inset-0' : 'relative'} w-screen h-screen`}>
       {isKeyboardMode && (
         <div className='fixed top-20 w-full flex-center'>
           <div className='flex-center text-center bg-white text-red-600 p-10 border-customBlack border-2 rounded-md text-12 opacity-30 hover:opacity-100'>
