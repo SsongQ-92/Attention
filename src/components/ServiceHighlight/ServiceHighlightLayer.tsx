@@ -33,13 +33,12 @@ function ServiceHighlightLayer() {
       {isMouseEnter && (
         <div
           style={{
-            position: 'absolute',
             top: `${top}px`,
             left: `${left}px`,
             width: `${width}px`,
             height: `${height}px`,
           }}
-          className='bg-yellow-400/20'
+          className='fixed z-40 bg-yellow-400/20'
         />
       )}
     </main>
