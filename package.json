@@ -12,11 +12,15 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "github-markdown-css": "^5.8.1",
     "lodash-es": "^4.17.21",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-markdown": "^9.0.1",
+    "rehype-pretty-code": "^0.14.0",
     "rehype-remark": "^10.0.0",
+    "remark-gfm": "^4.0.0",
+    "shiki": "^1.24.2",
     "zustand": "^5.0.2"
   },
   "devDependencies": {
@@ -42,16 +46,12 @@
     "eslint-plugin-react": "^7.37.2",
     "eslint-plugin-react-hooks": "^5.1.0",
     "fs-extra": "^11.2.0",
-    "github-markdown-css": "^5.8.1",
     "globals": "^15.13.0",
     "husky": "^9.1.7",
     "lint-staged": "^15.2.10",
     "postcss": "^8.4.49",
     "postcss-preset-env": "^10.1.1",
     "prettier": "^3.4.2",
-    "rehype-pretty-code": "^0.14.0",
-    "remark-gfm": "^4.0.0",
-    "shiki": "^1.24.2",
     "tailwindcss": "^3.4.16",
     "typescript": "^5.7.2",
     "typescript-eslint": "^8.17.0",

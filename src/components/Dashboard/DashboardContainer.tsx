@@ -12,7 +12,7 @@ function DashboardContainer() {
   return (
     <main className='h-screen fixed top-0 left-0 z-50'>
       {isDashboardOpen && (
-        <div className='flex flex-col justify-start gap-30 p-10 py-30 w-270 h-full bg-white'>
+        <div className='flex flex-col justify-start gap-50 p-10 py-30 w-270 h-full bg-white'>
           <h1 className='font-pretendard color-customBlack text-25 bg-yellow-100 px-10 font-bold'>
             {SERVICE_TITLE}
           </h1>

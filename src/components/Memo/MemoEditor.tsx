@@ -14,15 +14,16 @@ function MemoEditor() {
   };
 
   return (
-    <div>
+    <div className='w-full h-full flex flex-col gap-30'>
       <textarea
         name='markdownEditor'
         id='markdownEditor'
+        className='w-full flex-grow border-1 rounded-sm p-5 border-borderColor'
         value={markdown}
         onChange={handleTextareaChange}
       />
 
-      <div>
+      <div className='prose prose-sm max-w-none w-full flex-grow border-1 rounded-sm p-5 border-borderColor'>
         <Markdown
           remarkPlugins={[remarkGfm]}
           rehypePlugins={[[rehypePrettyCode, { theme: 'github-dark' }]]}
