@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect } from 'react';
 
 import { TagRectData } from '../../config/types';
 import useBoundStore from '../../store/useBoundStore';
@@ -7,11 +7,17 @@ interface Props {
   elementRects: TagRectData[];
   activeIndex: number;
   setActiveIndex: Dispatch<SetStateAction<number>>;
+  prevScrollY: number;
+  setPrevScrollY: Dispatch<SetStateAction<number>>;
 }
 
-function ServiceHighlightBar({ elementRects, activeIndex, setActiveIndex }: Props) {
-  const [prevScrollY, setPrevScrollY] = useState<number>(window.scrollY);
-
+function ServiceHighlightBar({
+  elementRects,
+  activeIndex,
+  setActiveIndex,
+  prevScrollY,
+  setPrevScrollY,
+}: Props) {
   const isKeyboardMode = useBoundStore((state) => state.isKeyboardMode);
   const setHighlightLayerInfo = useBoundStore((state) => state.setHighlightLayerInfo);
   const toggleKeyboardMode = useBoundStore((state) => state.toggleKeyboardMode);
@@ -55,6 +61,16 @@ function ServiceHighlightBar({ elementRects, activeIndex, setActiveIndex }: Prop
               height: elementRects[activeIndex - 1].tagHeight,
             });
           }
+        } else if (e.code === 'Escape') {
+          setHighlightLayerInfo({
+            top: 0,
+            left: 0,
+            width: 0,
+            height: 0,
+          });
+
+          setActiveIndex(0);
+          toggleKeyboardMode();
         }
       }
     };
@@ -72,7 +88,15 @@ function ServiceHighlightBar({ elementRects, activeIndex, setActiveIndex }: Prop
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('wheel', handleWheel);
     };
-  }, [isKeyboardMode, activeIndex, setActiveIndex, elementRects, setHighlightLayerInfo]);
+  }, [
+    isKeyboardMode,
+    activeIndex,
+    setActiveIndex,
+    elementRects,
+    setHighlightLayerInfo,
+    setPrevScrollY,
+    toggleKeyboardMode,
+  ]);
 
   useEffect(() => {
     if (!isKeyboardMode) return;
@@ -98,7 +122,14 @@ function ServiceHighlightBar({ elementRects, activeIndex, setActiveIndex }: Prop
         height: elementRects[0].tagHeight,
       });
     }
-  }, [isKeyboardMode, elementRects, setActiveIndex, prevScrollY, setHighlightLayerInfo]);
+  }, [
+    isKeyboardMode,
+    elementRects,
+    setActiveIndex,
+    prevScrollY,
+    setHighlightLayerInfo,
+    setPrevScrollY,
+  ]);
 
   return (
     <div className='absolute top-0 -right-28 w-28 h-full px-1 bg-borderColor'>

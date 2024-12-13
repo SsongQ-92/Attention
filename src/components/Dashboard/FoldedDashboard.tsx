@@ -11,6 +11,7 @@ import ServiceHighlightBar from '../ServiceHighlight/ServiceHighlightBar';
 function FoldedDashboard() {
   const elementRects = useParseDOM();
   const [activeIndex, setActiveIndex] = useState<number>(0);
+  const [prevScrollY, setPrevScrollY] = useState<number>(window.scrollY);
 
   const isDashboardOpen = useBoundStore((state) => state.isDashboardOpen);
   const isHighlightBarOpen = useBoundStore((state) => state.isHighlightBarOpen);
@@ -35,6 +36,7 @@ function FoldedDashboard() {
 
     toggleHighlightBarOpen();
     setKeyboardModeOff();
+    setPrevScrollY(window.scrollY);
   };
 
   const handleKeyboardIconClick = () => {
@@ -58,6 +60,7 @@ function FoldedDashboard() {
 
     setActiveIndex(0);
     toggleKeyboardMode();
+    setPrevScrollY(window.scrollY);
   };
 
   return (
@@ -93,6 +96,8 @@ function FoldedDashboard() {
           activeIndex={activeIndex}
           setActiveIndex={setActiveIndex}
           elementRects={elementRects}
+          prevScrollY={prevScrollY}
+          setPrevScrollY={setPrevScrollY}
         />
       )}
     </main>
