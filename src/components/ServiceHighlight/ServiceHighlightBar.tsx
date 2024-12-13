@@ -116,7 +116,7 @@ function ServiceHighlightBar({ elementRects, activeIndex, setActiveIndex }: Prop
               height: `${height}px`,
               marginTop: `${marginTop}px`,
             }}
-            className={`w-full ${isKeyboardMode && activeIndex === index ? 'bg-yellow-300' : 'bg-yellow-100'} ${(!isKeyboardMode || (isKeyboardMode && activeIndex === index)) && 'cursor-pointer'} ${isKeyboardMode && activeIndex !== index && 'cursor-default'}`}
+            className={`w-full ${isKeyboardMode && activeIndex === index ? 'bg-yellow-500' : 'bg-yellow-100'} ${(!isKeyboardMode || (isKeyboardMode && activeIndex === index)) && 'cursor-pointer'} ${isKeyboardMode && activeIndex !== index && 'cursor-default'}`}
             onClick={() => {
               if (!isKeyboardMode) {
                 setActiveIndex(index);
