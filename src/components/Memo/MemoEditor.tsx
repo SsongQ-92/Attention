@@ -18,6 +18,7 @@ function MemoEditor() {
         name='markdownEditor'
         id='markdownEditor'
         className='w-full flex-grow border-1 rounded-sm p-5 border-borderColor resize-none overflow-y-auto'
+        placeholder='[마크다운 지원] 텍스트를 입력해주세요.'
         value={markdown}
         onChange={handleTextareaChange}
       />
