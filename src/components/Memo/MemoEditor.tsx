@@ -28,6 +28,8 @@ function MemoEditor({ memoId }: Props) {
       id: Date.now(),
       title: newNote.title,
       content: newNote.content,
+      url: window.location.href,
+      metaTitle: document.title,
       createdAt: new Date(),
       modifiedAt: isCreatingMemoMode ? null : new Date(),
     };

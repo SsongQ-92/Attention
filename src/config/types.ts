@@ -23,6 +23,8 @@ export interface Memo {
   id: number;
   title: string;
   content: string;
+  url: string;
+  metaTitle: string;
   createdAt: Date;
   modifiedAt: Date | null;
 }

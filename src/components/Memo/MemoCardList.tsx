@@ -26,7 +26,7 @@ function MemoCardList() {
   }
 
   return (
-    <div>
+    <div className='h-full flex flex-col gap-15'>
       {memos.map((memo) => {
         return <MemoCard key={memo.id} memo={memo} />;
       })}
