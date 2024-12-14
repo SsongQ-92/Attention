@@ -1,15 +1,20 @@
+interface View {
+  isActive: boolean;
+  id: number;
+}
+
 export interface DashboardState {
   isDashboardOpen: boolean;
-  isViewMemoMode: boolean;
+  viewMemoMode: View;
   isCreatingMemoMode: boolean;
   isEditingMemoMode: boolean;
   toggleDashboardOpen: () => void;
-  setViewMemoMode: (isView: boolean) => void;
+  setViewMemoMode: (viewMode: View) => void;
   setCreatingMemoMode: (isCreate: boolean) => void;
   setEditingMemoMode: (isEdit: boolean) => void;
 }
 
-interface layerInfo {
+interface LayerInfo {
   top: number;
   left: number;
   width: number;
@@ -19,9 +24,9 @@ interface layerInfo {
 export interface ServiceHighlightState {
   isHighlightBarOpen: boolean;
   isKeyboardMode: boolean;
-  highlightLayerInfo: layerInfo;
+  highlightLayerInfo: LayerInfo;
   toggleHighlightBarOpen: () => void;
   toggleKeyboardMode: () => void;
   setKeyboardModeOff: () => void;
-  setHighlightLayerInfo: (layerInfo: layerInfo) => void;
+  setHighlightLayerInfo: (layerInfo: LayerInfo) => void;
 }

@@ -1,6 +1,7 @@
 import { SERVICE_TITLE } from '../../config/consts';
 import useToggleDashboard from '../../hooks/useToggleDashboard';
 import useBoundStore from '../../store/useBoundStore';
+import MemoCardList from '../Memo/MemoCardList';
 import MemoEditor from '../Memo/MemoEditor';
 import FoldedDashboard from './FoldedDashboard';
 
@@ -9,6 +10,7 @@ function DashboardContainer() {
   const toggleDashboardOpen = useBoundStore((state) => state.toggleDashboardOpen);
   const isCreatingMemoMode = useBoundStore((state) => state.isCreatingMemoMode);
   const isEditingMemoMode = useBoundStore((state) => state.isEditingMemoMode);
+  const viewMemoMode = useBoundStore((state) => state.viewMemoMode);
 
   useToggleDashboard({ isDashboardOpen, toggleDashboardOpen });
 
@@ -19,6 +21,7 @@ function DashboardContainer() {
           <h1 className='font-pretendard color-customBlack text-25 bg-yellow-100 px-10 font-bold'>
             {SERVICE_TITLE}
           </h1>
+          {!viewMemoMode.isActive && !isCreatingMemoMode && !isEditingMemoMode && <MemoCardList />}
           {(isCreatingMemoMode || isEditingMemoMode) && <MemoEditor />}
         </div>
       )}

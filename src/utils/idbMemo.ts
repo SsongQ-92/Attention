@@ -3,7 +3,7 @@ import { get, set } from 'idb-keyval';
 import { Memo } from '../config/types';
 
 export const asyncLoadMemo = async () => {
-  return await get('memos');
+  return (await get('memos')) || [];
 };
 
 export const asyncCreateMemo = async (newMemo: Memo) => {
