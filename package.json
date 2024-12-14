@@ -41,6 +41,7 @@
     "cssnano": "^7.0.6",
     "dotenv": "^16.4.7",
     "esbuild": "^0.24.0",
+    "esbuild-plugin-inline-css": "^0.0.1",
     "esbuild-style-plugin": "^1.6.3",
     "eslint": "^9.16.0",
     "eslint-config-prettier": "^9.1.0",
