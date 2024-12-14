@@ -15,7 +15,6 @@ const deleteOldDir = async () => {
 
 const buildCSS = async () => {
   const css = `
-    @import 'github-markdown-css';
     @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css');
     @tailwind base;
     @tailwind components;

@@ -3,8 +3,6 @@ import { ChangeEvent, useState } from 'react';
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
-import 'github-markdown-css';
-
 import { Memo } from '../../config/types';
 import useBoundStore from '../../store/useBoundStore';
 import { asyncCreateMemo, asyncUpdateMemoById } from '../../utils/idbMemo';
@@ -86,7 +84,7 @@ function MemoEditor({ memoId }: Props) {
         value={newNote.content}
         onChange={handleContentChange}
       />
-      <article className='prose-sm max-w-none w-full flex-1 border-1 rounded-sm p-5 border-borderColor overflow-y-auto'>
+      <article className='prose prose-sm max-w-none w-full flex-1 border-1 rounded-sm p-5 border-borderColor overflow-y-auto'>
         <Markdown remarkPlugins={[remarkGfm]}>{newNote.content}</Markdown>
       </article>
     </div>
