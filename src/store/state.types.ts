@@ -1,7 +1,11 @@
 export interface DashboardState {
   isDashboardOpen: boolean;
+  isViewMemoMode: boolean;
+  isCreatingMemoMode: boolean;
   isEditingMemoMode: boolean;
   toggleDashboardOpen: () => void;
+  setViewMemoMode: (isView: boolean) => void;
+  setCreatingMemoMode: (isCreate: boolean) => void;
   setEditingMemoMode: (isEdit: boolean) => void;
 }
 

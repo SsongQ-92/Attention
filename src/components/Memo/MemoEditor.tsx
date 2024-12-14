@@ -5,20 +5,58 @@ import remarkGfm from 'remark-gfm';
 
 import 'github-markdown-css';
 
+import { Memo } from '../../config/types';
+import useBoundStore from '../../store/useBoundStore';
+import { asyncCreateMemo, asyncUpdateMemoById } from '../../utils/idbMemo';
 import ListIcon from '../Icon/ListIcon';
 
-function MemoEditor() {
-  const [markdownTitle, setMarkdownTitle] = useState<string>('');
-  const [markdownContent, setMarkdownContent] = useState<string>('');
+interface Props {
+  memoId: number;
+}
 
-  const handleSaveClick = () => {};
+function MemoEditor({ memoId }: Props) {
+  const [newNote, setNewNote] = useState<{ title: string; content: string }>({
+    title: '',
+    content: '',
+  });
+
+  const isCreatingMemoMode = useBoundStore((state) => state.isCreatingMemoMode);
+  const isEditingMemoMode = useBoundStore((state) => state.isEditingMemoMode);
+  const setCreatingMemoMode = useBoundStore((state) => state.setCreatingMemoMode);
+  const setEditingMemoMode = useBoundStore((state) => state.setEditingMemoMode);
+
+  const handleSaveClick = async () => {
+    const memo: Memo = {
+      id: Date.now(),
+      title: newNote.title,
+      content: newNote.content,
+      createdAt: new Date(),
+      modifiedAt: isCreatingMemoMode ? null : new Date(),
+    };
+
+    try {
+      if (isCreatingMemoMode) {
+        await asyncCreateMemo(memo);
+
+        setCreatingMemoMode(false);
+      }
+
+      if (isEditingMemoMode) {
+        await asyncUpdateMemoById(memoId, memo);
+
+        setEditingMemoMode(false);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setMarkdownTitle(e.target.value);
+    setNewNote((prev) => ({ ...prev, title: e.target.value }));
   };
 
   const handleContentChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    setMarkdownContent(e.target.value);
+    setNewNote((prev) => ({ ...prev, content: e.target.value }));
   };
 
   return (
@@ -37,7 +75,7 @@ function MemoEditor() {
       <input
         className='w-full h-30 flex-shrink-0 border-1 rounded-sm p-5 border-borderColor placeholder:text-15 text-15'
         placeholder='제목을 입력해주세요.'
-        value={markdownTitle}
+        value={newNote.title}
         onChange={handleTitleChange}
       />
       <textarea
@@ -45,11 +83,11 @@ function MemoEditor() {
         id='markdownEditor'
         className='w-full flex-1 border-1 rounded-sm p-5 border-borderColor resize-none overflow-y-auto placeholder:text-15 text-15'
         placeholder='[마크다운 지원] 텍스트를 입력해주세요.'
-        value={markdownContent}
+        value={newNote.content}
         onChange={handleContentChange}
       />
       <article className='prose-sm max-w-none w-full flex-1 border-1 rounded-sm p-5 border-borderColor overflow-y-auto'>
-        <Markdown remarkPlugins={[remarkGfm]}>{markdownContent}</Markdown>
+        <Markdown remarkPlugins={[remarkGfm]}>{newNote.content}</Markdown>
       </article>
     </div>
   );

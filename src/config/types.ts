@@ -18,3 +18,11 @@ export interface TagRectData {
   tagTextContent: string;
   tagUniqueKey: string;
 }
+
+export interface Memo {
+  id: number;
+  title: string;
+  content: string;
+  createdAt: Date;
+  modifiedAt: Date | null;
+}

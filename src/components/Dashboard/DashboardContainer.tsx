@@ -7,6 +7,8 @@ import FoldedDashboard from './FoldedDashboard';
 function DashboardContainer() {
   const isDashboardOpen = useBoundStore((state) => state.isDashboardOpen);
   const toggleDashboardOpen = useBoundStore((state) => state.toggleDashboardOpen);
+  const isCreatingMemoMode = useBoundStore((state) => state.isCreatingMemoMode);
+  const isEditingMemoMode = useBoundStore((state) => state.isEditingMemoMode);
 
   useToggleDashboard({ isDashboardOpen, toggleDashboardOpen });
 
@@ -17,7 +19,7 @@ function DashboardContainer() {
           <h1 className='font-pretendard color-customBlack text-25 bg-yellow-100 px-10 font-bold'>
             {SERVICE_TITLE}
           </h1>
-          <MemoEditor />
+          {(isCreatingMemoMode || isEditingMemoMode) && <MemoEditor />}
         </div>
       )}
       <FoldedDashboard />
