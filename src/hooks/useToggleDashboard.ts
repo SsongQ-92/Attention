@@ -7,7 +7,10 @@ import { checkMessageType } from '../config/types';
 import { DashboardState } from '../store/state.types';
 import useBoundStore from '../store/useBoundStore';
 
-const useToggleDashboard = ({ isDashboardOpen, toggleDashboardOpen }: DashboardState) => {
+const useToggleDashboard = ({
+  isDashboardOpen,
+  toggleDashboardOpen,
+}: Pick<DashboardState, 'isDashboardOpen' | 'toggleDashboardOpen'>) => {
   const isHighlightBarOpen = useBoundStore((state) => state.isHighlightBarOpen);
 
   useEffect(() => {

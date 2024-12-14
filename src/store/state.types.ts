@@ -1,6 +1,8 @@
 export interface DashboardState {
   isDashboardOpen: boolean;
+  isEditingMemoMode: boolean;
   toggleDashboardOpen: () => void;
+  setEditingMemoMode: (isEdit: boolean) => void;
 }
 
 interface layerInfo {
