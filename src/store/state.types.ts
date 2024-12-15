@@ -30,3 +30,10 @@ export interface ServiceHighlightState {
   setKeyboardModeOff: () => void;
   setHighlightLayerInfo: (layerInfo: LayerInfo) => void;
 }
+
+export interface ModalState {
+  openModalTypeList: string[];
+  addModal: (modalType: string) => void;
+  closeModal: (modalType: string) => void;
+  clearOpenModalTypeList: () => void;
+}
