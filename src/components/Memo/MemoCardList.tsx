@@ -8,7 +8,7 @@ function MemoCardList() {
   const [memos, setMemos] = useState<Memo[]>();
 
   useEffect(() => {
-    const fetchMemo = async () => {
+    const fetchMemos = async () => {
       try {
         const response = await asyncLoadMemo();
 
@@ -18,7 +18,7 @@ function MemoCardList() {
       }
     };
 
-    fetchMemo();
+    fetchMemos();
   }, []);
 
   if (!memos || memos.length === 0) {

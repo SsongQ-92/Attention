@@ -3,6 +3,7 @@ import useToggleDashboard from '../../hooks/useToggleDashboard';
 import useBoundStore from '../../store/useBoundStore';
 import MemoCardList from '../Memo/MemoCardList';
 import MemoEditor from '../Memo/MemoEditor';
+import MemoViewer from '../Memo/MemoViewer';
 import FoldedDashboard from './FoldedDashboard';
 
 function DashboardContainer() {
@@ -22,6 +23,7 @@ function DashboardContainer() {
             {SERVICE_TITLE}
           </h1>
           {!viewMemoMode.isActive && !isCreatingMemoMode && !isEditingMemoMode && <MemoCardList />}
+          {viewMemoMode.isActive && <MemoViewer />}
           {(isCreatingMemoMode || isEditingMemoMode) && <MemoEditor />}
         </div>
       )}

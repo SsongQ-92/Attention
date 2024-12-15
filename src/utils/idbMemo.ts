@@ -25,7 +25,19 @@ export const asyncUpdateMemoById = async (id: number, updatedMemo: Partial<Memo>
       memo.id === id ? { ...memo, ...updatedMemo } : memo
     );
 
-    await set('notes', updatedMemos);
+    await set('memos', updatedMemos);
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const asyncDeleteMemoById = async (id: number) => {
+  try {
+    const existingMemos = (await get('memos')) || [];
+
+    const updatedMemos = existingMemos.filter((memo: Memo) => memo.id !== id);
+
+    await set('memos', updatedMemos);
   } catch (err) {
     console.error(err);
   }
