@@ -31,7 +31,7 @@ function MemoCard({ memo }: Props) {
       <div className='text-12'>
         <p className='flex items-start gap-6 mb-1'>
           <span className='bg-blue-50 py-1 px-2 text-10'>사이트 바로가기</span>
-          <span className='border-1 border-borderColor text-8 p-1'>새 창</span>
+          <span className='border-1 border-borderColor text-8 py-1-1 px-2'>새 창</span>
         </p>
         <a href={url} rel='noopener noreferrer' target='_blank'>
           <span className='text-blue-400 hover:underline'>{` ${url} | ${metaTitle}`}</span>
