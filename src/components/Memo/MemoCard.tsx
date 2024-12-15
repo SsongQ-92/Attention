@@ -1,13 +1,14 @@
 import { Memo } from '../../config/types';
 import useBoundStore from '../../store/useBoundStore';
 import getDate from '../../utils/getDate';
+import ClockwiseIcon from '../Icon/ClockwiseIcon';
 
 interface Props {
   memo: Memo;
 }
 
 function MemoCard({ memo }: Props) {
-  const { id, title, content, createdAt, modifiedAt, url, metaTitle } = memo;
+  const { id, title, createdAt, modifiedAt, url, metaTitle } = memo;
 
   const setViewMemoMode = useBoundStore((state) => state.setViewMemoMode);
   const updatedDate = modifiedAt !== null ? modifiedAt : createdAt;
@@ -37,8 +38,10 @@ function MemoCard({ memo }: Props) {
           <span className='text-blue-400 hover:underline'>{` ${url} | ${metaTitle}`}</span>
         </a>
       </div>
-      <p className='text-14'>{content.length < 50 ? content : content.slice(0, 50) + '...'}</p>
-      <p className='text-12 text-black/80'>{`${year}-${month}-${date} ${hour}:${minute} ${standard}`}</p>
+      <div className='flex items-center gap-5 text-12 text-black/80'>
+        <ClockwiseIcon className='size-14 pt-1' />
+        {`${year}-${month}-${date} ${hour}:${minute} ${standard}`}
+      </div>
     </div>
   );
 }
