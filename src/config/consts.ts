@@ -12,3 +12,7 @@ export const badgeText = Object.freeze({
   ON: 'ON',
   OFF: 'OFF',
 });
+
+export const modalText = Object.freeze({
+  confirm: '목록으로 돌아가시겠습니까? 현재 작성 중인 내용은 저장되지 않습니다.',
+});

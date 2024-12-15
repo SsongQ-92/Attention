@@ -33,9 +33,11 @@ export interface ServiceHighlightState {
   setHighlightLayerInfo: (layerInfo: LayerInfo) => void;
 }
 
+type modalType = 'confirm';
+
 export interface ModalState {
-  openModalTypeList: string[];
-  addModal: (modalType: string) => void;
-  closeModal: (modalType: string) => void;
+  openModalTypeList: modalType[];
+  addModal: (modalType: modalType) => void;
+  closeModal: (modalType: modalType) => void;
   clearOpenModalTypeList: () => void;
 }

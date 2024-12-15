@@ -4,15 +4,19 @@ import { omit } from 'lodash-es';
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
+import { modalText } from '../../config/consts';
 import { Memo } from '../../config/types';
 import useBoundStore from '../../store/useBoundStore';
 import { asyncCreateMemo, asyncUpdateMemoById } from '../../utils/idbMemo';
 import ListIcon from '../Icon/ListIcon';
+import ConfirmModal from '../Modal/ConfirmModal';
 
 function MemoEditor() {
   const viewMemoMode = useBoundStore((state) => state.viewMemoMode);
   const isCreatingMemoMode = useBoundStore((state) => state.isCreatingMemoMode);
   const isEditingMemoMode = useBoundStore((state) => state.isEditingMemoMode);
+  const openModalTypeList = useBoundStore((state) => state.openModalTypeList);
+  const addModal = useBoundStore((state) => state.addModal);
   const setViewMemoMode = useBoundStore((state) => state.setViewMemoMode);
   const setCreatingMemoMode = useBoundStore((state) => state.setCreatingMemoMode);
   const setEditingMemoMode = useBoundStore((state) => state.setEditingMemoMode);
@@ -22,7 +26,7 @@ function MemoEditor() {
     content: viewMemoMode.content,
   });
 
-  const handleListClick = () => {
+  const handleConfirmClick = () => {
     setCreatingMemoMode(false);
     setEditingMemoMode(false);
 
@@ -32,6 +36,10 @@ function MemoEditor() {
       title: '',
       content: '',
     });
+  };
+
+  const handleListClick = () => {
+    addModal('confirm');
   };
 
   const handleSaveClick = async () => {
@@ -111,6 +119,9 @@ function MemoEditor() {
       <article className='prose prose-sm max-w-none w-full flex-1 border-1 rounded-sm p-5 border-borderColor overflow-y-auto'>
         <Markdown remarkPlugins={[remarkGfm]}>{newNote.content}</Markdown>
       </article>
+      {openModalTypeList.includes('confirm') && (
+        <ConfirmModal confirmText={modalText.confirm} onConfirmClick={handleConfirmClick} />
+      )}
     </div>
   );
 }

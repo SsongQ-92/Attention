@@ -7,7 +7,7 @@ interface Props {
   hasCloseButton: boolean;
 }
 
-const ModalFrame = ({ hasCloseButton, children }: PropsWithChildren<Props>) => {
+const ModalContainer = ({ hasCloseButton, children }: PropsWithChildren<Props>) => {
   const clearOpenModalTypeList = useBoundStore((state) => state.clearOpenModalTypeList);
 
   const handleCloseIconClick = () => {
@@ -16,7 +16,7 @@ const ModalFrame = ({ hasCloseButton, children }: PropsWithChildren<Props>) => {
 
   return (
     <div
-      className='relative py-10 px-30 rounded-[5px] bg-white border-2 border-borderColor'
+      className='relative py-10 px-20 rounded-[5px] bg-white border-2 border-borderColor'
       onClick={(e) => e.stopPropagation()}
     >
       {children}
@@ -29,4 +29,4 @@ const ModalFrame = ({ hasCloseButton, children }: PropsWithChildren<Props>) => {
   );
 };
 
-export default ModalFrame;
+export default ModalContainer;
