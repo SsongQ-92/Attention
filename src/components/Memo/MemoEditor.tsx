@@ -10,6 +10,7 @@ import useBoundStore from '../../store/useBoundStore';
 import { asyncCreateMemo, asyncUpdateMemoById } from '../../utils/idbMemo';
 import ListIcon from '../Icon/ListIcon';
 import ConfirmModal from '../Modal/ConfirmModal';
+import InformModal from '../Modal/InformModal';
 
 function MemoEditor() {
   const viewMemoMode = useBoundStore((state) => state.viewMemoMode);
@@ -48,6 +49,8 @@ function MemoEditor() {
     const highlightedText = highlightLayerInfo.content;
 
     navigator.clipboard.writeText(highlightedText);
+
+    addModal('inform');
   };
 
   const handleSaveClick = async () => {
@@ -139,6 +142,9 @@ function MemoEditor() {
       </article>
       {openModalTypeList.includes('confirm') && (
         <ConfirmModal confirmText={modalText.backToList} onConfirmClick={handleConfirmClick} />
+      )}
+      {openModalTypeList.includes('inform') && (
+        <InformModal confirmText={modalText.copyHighlightText} />
       )}
     </div>
   );
