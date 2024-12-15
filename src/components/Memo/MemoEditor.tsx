@@ -120,7 +120,7 @@ function MemoEditor() {
         <Markdown remarkPlugins={[remarkGfm]}>{newNote.content}</Markdown>
       </article>
       {openModalTypeList.includes('confirm') && (
-        <ConfirmModal confirmText={modalText.confirm} onConfirmClick={handleConfirmClick} />
+        <ConfirmModal confirmText={modalText.backToList} onConfirmClick={handleConfirmClick} />
       )}
     </div>
   );

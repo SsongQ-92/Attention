@@ -3,18 +3,33 @@ import { useEffect, useState } from 'react';
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
+import { modalText } from '../../config/consts';
 import { Memo } from '../../config/types';
 import useBoundStore from '../../store/useBoundStore';
 import getDate from '../../utils/getDate';
 import { asyncDeleteMemoById, asyncLoadMemo } from '../../utils/idbMemo';
 import RevertIcon from '../Icon/RevertIcon';
+import ConfirmModal from '../Modal/ConfirmModal';
 
 function MemoViewer() {
   const [memo, setMemo] = useState<Memo>();
 
   const viewMemoMode = useBoundStore((state) => state.viewMemoMode);
+  const openModalTypeList = useBoundStore((state) => state.openModalTypeList);
   const setViewMemoMode = useBoundStore((state) => state.setViewMemoMode);
   const setEditingMemoMode = useBoundStore((state) => state.setEditingMemoMode);
+  const addModal = useBoundStore((state) => state.addModal);
+
+  const handleConfirmClick = async () => {
+    await asyncDeleteMemoById(viewMemoMode.id);
+
+    setViewMemoMode({
+      isActive: false,
+      id: 0,
+      title: '',
+      content: '',
+    });
+  };
 
   const handleRevertIconClick = () => {
     setViewMemoMode({
@@ -38,14 +53,7 @@ function MemoViewer() {
   };
 
   const handleDeleteClick = async () => {
-    await asyncDeleteMemoById(viewMemoMode.id);
-
-    setViewMemoMode({
-      isActive: false,
-      id: 0,
-      title: '',
-      content: '',
-    });
+    addModal('confirm');
   };
 
   useEffect(() => {
@@ -118,6 +126,9 @@ function MemoViewer() {
           <Markdown remarkPlugins={[remarkGfm]}>{content}</Markdown>
         </article>
       </div>
+      {openModalTypeList.includes('confirm') && (
+        <ConfirmModal confirmText={modalText.confirmDelete} onConfirmClick={handleConfirmClick} />
+      )}
     </div>
   );
 }
