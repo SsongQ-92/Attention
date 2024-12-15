@@ -11,6 +11,9 @@ export const asyncCreateMemo = async (newMemo: Memo) => {
     const existingMemos = (await get('memos')) || [];
 
     const updatedMemos = [...existingMemos, newMemo];
+
+    updatedMemos.sort((a: Memo, b: Memo) => b.id - a.id);
+
     await set('memos', updatedMemos);
   } catch (err) {
     console.error(err);
@@ -24,6 +27,8 @@ export const asyncUpdateMemoById = async (id: number, updatedMemo: Partial<Memo>
     const updatedMemos = existingMemos.map((memo: Memo) =>
       memo.id === id ? { ...memo, ...updatedMemo } : memo
     );
+
+    updatedMemos.sort((a: Memo, b: Memo) => b.id - a.id);
 
     await set('memos', updatedMemos);
   } catch (err) {
