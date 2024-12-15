@@ -90,10 +90,10 @@ function MemoEditor() {
     <div className='w-full h-full flex flex-col gap-10'>
       <div className='flex justify-between items-center'>
         <div
-          className='flex-center rounded-[5px] size-26 hover:bg-backgroundColor-hover'
+          className='flex-center rounded-[5px] size-26 hover:cursor-pointer hover:bg-backgroundColor-hover'
           onClick={handleListClick}
         >
-          <ListIcon className='size-22 hover:cursor-pointer' />
+          <ListIcon className='size-22' />
         </div>
         <button
           className='py-3 px-5 rounded-sm border-1 border-borderColor text-customBlack text-14 hover:bg-backgroundColor-hover '

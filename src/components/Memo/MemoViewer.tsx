@@ -85,9 +85,9 @@ function MemoViewer() {
       <div className='flex justify-between items-center'>
         <div
           onClick={handleRevertIconClick}
-          className='flex-center rounded-[5px] size-26 hover:bg-backgroundColor-hover'
+          className='flex-center rounded-[5px] size-26 hover:cursor-pointer hover:bg-backgroundColor-hover'
         >
-          <RevertIcon className='size-22 hover:cursor-pointer' />
+          <RevertIcon className='size-22' />
         </div>
         <div className='flex-center gap-10'>
           <button

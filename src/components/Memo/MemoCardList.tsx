@@ -12,13 +12,21 @@ import MemoCard from './MemoCard';
 function MemoCardList() {
   const [memos, setMemos] = useState<Memo[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const sort = 'newest';
+  const [sort, setSort] = useState<'newest' | 'oldest'>('newest');
 
   const setCreatingMemoMode = useBoundStore((state) => state.setCreatingMemoMode);
   const { pages, hasPrev, hasNext } = getPagination(memos.length, currentPage);
 
   const startIndex = pagination.pageSize * (currentPage - 1);
   const endIndex = pagination.pageSize * (currentPage - 1) + 4;
+
+  const handleSortClick = () => {
+    if (sort === 'newest') {
+      setSort('oldest');
+    } else {
+      setSort('newest');
+    }
+  };
 
   const handleCreateClick = () => {
     setCreatingMemoMode(true);
@@ -44,14 +52,25 @@ function MemoCardList() {
     );
   }
 
+  const slicedMemos = memos.slice(startIndex, endIndex);
+
+  if (sort === 'newest') {
+    slicedMemos.sort((a, b) => b.id - a.id);
+  } else {
+    slicedMemos.sort((a, b) => a.id - b.id);
+  }
+
   return (
     <div className='h-full flex flex-col gap-15 pb-20'>
       <div className='flex justify-between items-center'>
-        <div className='flex-center rounded-[5px] size-26 hover:bg-backgroundColor-hover'>
+        <div
+          className='flex-center rounded-[5px] size-26 hover:cursor-pointer hover:bg-backgroundColor-hover'
+          onClick={handleSortClick}
+        >
           {sort === 'newest' ? (
-            <SortNewestIcon classNames='size-22 hover:cursor-pointer' />
+            <SortNewestIcon classNames='size-18' />
           ) : (
-            <SortOldestIcon classNames='size-22 hover:cursor-pointer' />
+            <SortOldestIcon classNames='size-18' />
           )}
         </div>
         <button
@@ -62,7 +81,7 @@ function MemoCardList() {
         </button>
       </div>
       <div className='flex flex-col gap-15 flex-grow w-full'>
-        {memos.slice(startIndex, endIndex).map((memo) => {
+        {slicedMemos.map((memo) => {
           return <MemoCard key={memo.id} memo={memo} />;
         })}
       </div>

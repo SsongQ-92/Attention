@@ -67,29 +67,25 @@ function FoldedDashboard() {
     <main className='absolute flex flex-col justify-start items-center gap-30 p-10 py-30 top-0 -right-50 h-screen w-50 bg-white border-r-2 border-borderColor transform transition-all duration-500 ease-in-out'>
       <div
         onClick={handleArrowIconClick}
-        className='flex-center rounded-[5px] size-35 hover:bg-backgroundColor-hover'
+        className='flex-center rounded-[5px] size-35 hover:cursor-pointer hover:bg-backgroundColor-hover'
       >
         {isDashboardOpen ? (
-          <ArrowLineLeftIcon className='size-25 hover:cursor-pointer' />
+          <ArrowLineLeftIcon className='size-25' />
         ) : (
-          <ArrowLineRightIcon className='size-25 hover:cursor-pointer' />
+          <ArrowLineRightIcon className='size-25' />
         )}
       </div>
       <div
         onClick={handleArticleIconClick}
-        className={`flex-center rounded-[5px] size-35 ${isHighlightBarOpen ? 'bg-customBlack hover:bg-backgroundColor-darkHover' : 'hover:bg-backgroundColor-hover'}`}
+        className={`flex-center rounded-[5px] size-35 hover:cursor-pointer ${isHighlightBarOpen ? 'bg-customBlack hover:bg-backgroundColor-darkHover' : 'hover:bg-backgroundColor-hover'}`}
       >
-        <ArticleIcon
-          className={`size-25 hover:cursor-pointer ${isHighlightBarOpen && 'fill-white'}`}
-        />
+        <ArticleIcon className={`size-25 ${isHighlightBarOpen && 'fill-white'}`} />
       </div>
       <div
         onClick={handleKeyboardIconClick}
-        className={`flex-center rounded-[5px] size-35 ${isHighlightBarOpen && (isKeyboardMode ? 'bg-customBlack hover:bg-backgroundColor-darkHover' : 'hover:bg-backgroundColor-hover')}`}
+        className={`flex-center rounded-[5px] size-35 ${isHighlightBarOpen && (isKeyboardMode ? 'bg-customBlack hover:cursor-pointer hover:bg-backgroundColor-darkHover' : 'hover:cursor-pointer hover:bg-backgroundColor-hover')}`}
       >
-        <KeyboardIcon
-          className={`size-25 ${isHighlightBarOpen && 'hover:cursor-pointer'} ${isKeyboardMode && 'fill-white'}`}
-        />
+        <KeyboardIcon className={`size-25 ${isKeyboardMode && 'fill-white'}`} />
       </div>
       {isHighlightBarOpen && (
         <ServiceHighlightBar
