@@ -23,6 +23,11 @@ function MemoEditor({ memoId }: Props) {
   const setCreatingMemoMode = useBoundStore((state) => state.setCreatingMemoMode);
   const setEditingMemoMode = useBoundStore((state) => state.setEditingMemoMode);
 
+  const handleListClick = () => {
+    setCreatingMemoMode(false);
+    setEditingMemoMode(false);
+  };
+
   const handleSaveClick = async () => {
     const memo: Memo = {
       id: Date.now(),
@@ -62,7 +67,10 @@ function MemoEditor({ memoId }: Props) {
   return (
     <div className='w-full h-full flex flex-col gap-10'>
       <div className='flex justify-between items-center'>
-        <div className='flex-center rounded-[5px] size-26 hover:bg-backgroundColor-hover'>
+        <div
+          className='flex-center rounded-[5px] size-26 hover:bg-backgroundColor-hover'
+          onClick={handleListClick}
+        >
           <ListIcon className='size-22 hover:cursor-pointer' />
         </div>
         <button
