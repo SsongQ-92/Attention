@@ -7,6 +7,8 @@ export const createDashboardSlice: StateCreator<DashboardState> = (set) => ({
   viewMemoMode: {
     isActive: false,
     id: 0,
+    title: '',
+    content: '',
   },
   isCreatingMemoMode: false,
   isEditingMemoMode: false,

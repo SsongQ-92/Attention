@@ -1,6 +1,8 @@
 interface View {
   isActive: boolean;
   id: number;
+  title: string;
+  content: string;
 }
 
 export interface DashboardState {

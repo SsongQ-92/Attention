@@ -1,5 +1,6 @@
 import { ChangeEvent, useState } from 'react';
 
+import { omit } from 'lodash-es';
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
@@ -8,24 +9,29 @@ import useBoundStore from '../../store/useBoundStore';
 import { asyncCreateMemo, asyncUpdateMemoById } from '../../utils/idbMemo';
 import ListIcon from '../Icon/ListIcon';
 
-interface Props {
-  memoId: number;
-}
-
-function MemoEditor({ memoId }: Props) {
-  const [newNote, setNewNote] = useState<{ title: string; content: string }>({
-    title: '',
-    content: '',
-  });
-
+function MemoEditor() {
+  const viewMemoMode = useBoundStore((state) => state.viewMemoMode);
   const isCreatingMemoMode = useBoundStore((state) => state.isCreatingMemoMode);
   const isEditingMemoMode = useBoundStore((state) => state.isEditingMemoMode);
+  const setViewMemoMode = useBoundStore((state) => state.setViewMemoMode);
   const setCreatingMemoMode = useBoundStore((state) => state.setCreatingMemoMode);
   const setEditingMemoMode = useBoundStore((state) => state.setEditingMemoMode);
+
+  const [newNote, setNewNote] = useState<{ title: string; content: string }>({
+    title: viewMemoMode.title,
+    content: viewMemoMode.content,
+  });
 
   const handleListClick = () => {
     setCreatingMemoMode(false);
     setEditingMemoMode(false);
+
+    setViewMemoMode({
+      isActive: false,
+      id: 0,
+      title: '',
+      content: '',
+    });
   };
 
   const handleSaveClick = async () => {
@@ -47,9 +53,17 @@ function MemoEditor({ memoId }: Props) {
       }
 
       if (isEditingMemoMode) {
-        await asyncUpdateMemoById(memoId, memo);
+        const editingMemo = omit(memo, ['createdAt']);
+
+        await asyncUpdateMemoById(viewMemoMode.id, editingMemo);
 
         setEditingMemoMode(false);
+        setViewMemoMode({
+          isActive: false,
+          id: 0,
+          title: '',
+          content: '',
+        });
       }
     } catch (error) {
       console.error(error);

@@ -20,14 +20,20 @@ function MemoViewer() {
     setViewMemoMode({
       isActive: false,
       id: 0,
+      title: '',
+      content: '',
     });
   };
 
   const handleEditClick = () => {
-    setViewMemoMode({
-      isActive: false,
-      id: viewMemoMode.id,
-    });
+    if (memo && memo.title && memo.content) {
+      setViewMemoMode({
+        isActive: false,
+        id: viewMemoMode.id,
+        title: memo.title,
+        content: memo.content,
+      });
+    }
     setEditingMemoMode(true);
   };
 
@@ -37,6 +43,8 @@ function MemoViewer() {
     setViewMemoMode({
       isActive: false,
       id: 0,
+      title: '',
+      content: '',
     });
   };
 

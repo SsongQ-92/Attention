@@ -8,7 +8,7 @@ interface Props {
 }
 
 function MemoCard({ memo }: Props) {
-  const { id, title, createdAt, modifiedAt, url, metaTitle } = memo;
+  const { id, title, content, createdAt, modifiedAt, url, metaTitle } = memo;
 
   const setViewMemoMode = useBoundStore((state) => state.setViewMemoMode);
   const updatedDate = modifiedAt !== null ? modifiedAt : createdAt;
@@ -18,6 +18,8 @@ function MemoCard({ memo }: Props) {
     setViewMemoMode({
       isActive: true,
       id,
+      title,
+      content,
     });
   };
 
