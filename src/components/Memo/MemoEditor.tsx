@@ -15,8 +15,10 @@ function MemoEditor() {
   const viewMemoMode = useBoundStore((state) => state.viewMemoMode);
   const isCreatingMemoMode = useBoundStore((state) => state.isCreatingMemoMode);
   const isEditingMemoMode = useBoundStore((state) => state.isEditingMemoMode);
+  const isKeyboardMode = useBoundStore((state) => state.isKeyboardMode);
   const openModalTypeList = useBoundStore((state) => state.openModalTypeList);
   const addModal = useBoundStore((state) => state.addModal);
+  const highlightLayerInfo = useBoundStore((state) => state.highlightLayerInfo);
   const setViewMemoMode = useBoundStore((state) => state.setViewMemoMode);
   const setCreatingMemoMode = useBoundStore((state) => state.setCreatingMemoMode);
   const setEditingMemoMode = useBoundStore((state) => state.setEditingMemoMode);
@@ -40,6 +42,12 @@ function MemoEditor() {
 
   const handleListClick = () => {
     addModal('confirm');
+  };
+
+  const handleCopyClick = () => {
+    const highlightedText = highlightLayerInfo.content;
+
+    navigator.clipboard.writeText(highlightedText);
   };
 
   const handleSaveClick = async () => {
@@ -95,12 +103,22 @@ function MemoEditor() {
         >
           <ListIcon className='size-22' />
         </div>
-        <button
-          className='py-3 px-5 rounded-sm border-1 border-borderColor text-customBlack text-14 hover:bg-backgroundColor-hover '
-          onClick={handleSaveClick}
-        >
-          저장
-        </button>
+        <div className='flex items-center gap-6'>
+          {isKeyboardMode && (
+            <button
+              className='py-3 px-5 rounded-sm border-1 bg-yellow-100 text-customBlack text-14 hover:bg-yellow-300 '
+              onClick={handleCopyClick}
+            >
+              하이라이트 복사
+            </button>
+          )}
+          <button
+            className='py-3 px-5 rounded-sm border-1 bg-white border-borderColor text-customBlack text-14 hover:bg-backgroundColor-hover '
+            onClick={handleSaveClick}
+          >
+            저장
+          </button>
+        </div>
       </div>
       <input
         className='w-full h-30 flex-shrink-0 border-1 rounded-sm p-5 border-borderColor placeholder:text-15 text-15'

@@ -42,6 +42,7 @@ function ServiceHighlightBar({
               left: elementRects[activeIndex + 1].tagStartRectX,
               width: elementRects[activeIndex + 1].tagWidth,
               height: elementRects[activeIndex + 1].tagHeight,
+              content: elementRects[activeIndex + 1].tagTextContent,
             });
           }
         } else if (e.code === 'ArrowUp') {
@@ -59,6 +60,7 @@ function ServiceHighlightBar({
               left: elementRects[activeIndex - 1].tagStartRectX,
               width: elementRects[activeIndex - 1].tagWidth,
               height: elementRects[activeIndex - 1].tagHeight,
+              content: elementRects[activeIndex - 1].tagTextContent,
             });
           }
         } else if (e.code === 'Escape') {
@@ -67,6 +69,7 @@ function ServiceHighlightBar({
             left: 0,
             width: 0,
             height: 0,
+            content: '',
           });
 
           setActiveIndex(0);
@@ -127,6 +130,7 @@ function ServiceHighlightBar({
         left: elementRects[elementRects.length - 1].tagStartRectX,
         width: elementRects[elementRects.length - 1].tagWidth,
         height: elementRects[elementRects.length - 1].tagHeight,
+        content: elementRects[elementRects.length - 1].tagTextContent,
       });
     } else if (window.scrollY > prevScrollY) {
       setPrevScrollY(window.scrollY);
@@ -137,6 +141,7 @@ function ServiceHighlightBar({
         left: elementRects[0].tagStartRectX,
         width: elementRects[0].tagWidth,
         height: elementRects[0].tagHeight,
+        content: elementRects[0].tagTextContent,
       });
     }
   }, [
@@ -184,6 +189,7 @@ function ServiceHighlightBar({
                   left: rect.tagStartRectX,
                   width: rect.tagWidth,
                   height: rect.tagHeight,
+                  content: rect.tagTextContent,
                 });
               }
             }}
@@ -194,6 +200,7 @@ function ServiceHighlightBar({
                   left: 0,
                   width: 0,
                   height: 0,
+                  content: '',
                 });
               }
             }}

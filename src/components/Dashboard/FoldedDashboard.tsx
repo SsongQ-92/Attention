@@ -32,6 +32,7 @@ function FoldedDashboard() {
       left: 0,
       width: 0,
       height: 0,
+      content: '',
     });
 
     toggleHighlightBarOpen();
@@ -48,6 +49,7 @@ function FoldedDashboard() {
         left: 0,
         width: 0,
         height: 0,
+        content: '',
       });
     } else {
       setHighlightLayerInfo({
@@ -55,6 +57,7 @@ function FoldedDashboard() {
         left: elementRects[0].tagStartRectX,
         width: elementRects[0].tagWidth,
         height: elementRects[0].tagHeight,
+        content: elementRects[0].tagTextContent,
       });
     }
 

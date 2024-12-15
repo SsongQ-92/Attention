@@ -21,6 +21,7 @@ interface LayerInfo {
   left: number;
   width: number;
   height: number;
+  content: string;
 }
 
 export interface ServiceHighlightState {
