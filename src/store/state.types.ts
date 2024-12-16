@@ -16,7 +16,7 @@ export interface DashboardState {
   setEditingMemoMode: (isEdit: boolean) => void;
 }
 
-interface LayerInfo {
+interface ServiceLayerInfo {
   top: number;
   left: number;
   width: number;
@@ -27,11 +27,17 @@ interface LayerInfo {
 export interface ServiceHighlightState {
   isHighlightBarOpen: boolean;
   isKeyboardMode: boolean;
-  highlightLayerInfo: LayerInfo;
+  highlightLayerInfo: ServiceLayerInfo;
   toggleHighlightBarOpen: () => void;
   toggleKeyboardMode: () => void;
   setKeyboardModeOff: () => void;
-  setHighlightLayerInfo: (layerInfo: LayerInfo) => void;
+  setHighlightLayerInfo: (layerInfo: ServiceLayerInfo) => void;
+}
+
+export interface UserHighlightState {
+  isUserHighlightMode: boolean;
+  toggleUserHighlightMode: () => void;
+  setUserHighlightModeOff: () => void;
 }
 
 type modalType = 'confirm' | 'inform';
