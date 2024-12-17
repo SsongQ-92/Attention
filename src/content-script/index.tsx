@@ -5,6 +5,7 @@ import Browser from 'webextension-polyfill';
 
 import DashboardContainer from '../components/Dashboard/DashboardContainer';
 import ServiceHighlightLayer from '../components/ServiceHighlight/ServiceHighlightLayer';
+import UserHighlightLayer from '../components/UserHighlight/UserHighlightLayer';
 
 const injectScript = async () => {
   const script = document.createElement('script');
@@ -37,6 +38,7 @@ const initializeRender = async () => {
         if (renderRoot) {
           createRoot(renderRoot).render(
             <StrictMode>
+              <UserHighlightLayer />
               <ServiceHighlightLayer />
             </StrictMode>
           );

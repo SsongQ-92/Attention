@@ -28,3 +28,30 @@ export interface Memo {
   createdAt: Date;
   modifiedAt: Date | null;
 }
+
+export type annotationType =
+  | 'underline'
+  | 'box'
+  | 'circle'
+  | 'highlight'
+  | 'strike-through'
+  | 'crossed-off'
+  | 'bracket';
+
+export interface AnnotationInfo {
+  tagName: string;
+  content: string;
+  type: annotationType;
+  context: {
+    beforeText: string;
+    afterText: string;
+    beforeTagName: string;
+    afterTagName: string;
+  };
+  position: {
+    top: number;
+    left: number;
+    width: number;
+    height: number;
+  };
+}

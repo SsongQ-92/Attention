@@ -5,6 +5,7 @@ import useBoundStore from '../../store/useBoundStore';
 import ArrowLineLeftIcon from '../Icon/ArrowLineLeftIcon';
 import ArrowLineRightIcon from '../Icon/ArrowLineRightIcon';
 import ArticleIcon from '../Icon/ArticleIcon';
+import HighlightIcon from '../Icon/HighlightIcon';
 import KeyboardIcon from '../Icon/KeyboardIcon';
 import ServiceHighlightBar from '../ServiceHighlight/ServiceHighlightBar';
 
@@ -16,10 +17,12 @@ function FoldedDashboard() {
   const isDashboardOpen = useBoundStore((state) => state.isDashboardOpen);
   const isHighlightBarOpen = useBoundStore((state) => state.isHighlightBarOpen);
   const isKeyboardMode = useBoundStore((state) => state.isKeyboardMode);
+  const isUserHighlightMode = useBoundStore((state) => state.isUserHighlightMode);
   const toggleDashboardOpen = useBoundStore((state) => state.toggleDashboardOpen);
   const toggleHighlightBarOpen = useBoundStore((state) => state.toggleHighlightBarOpen);
-  const setHighlightLayerInfo = useBoundStore((state) => state.setHighlightLayerInfo);
   const toggleKeyboardMode = useBoundStore((state) => state.toggleKeyboardMode);
+  const toggleUserHighlightMode = useBoundStore((state) => state.toggleUserHighlightMode);
+  const setHighlightLayerInfo = useBoundStore((state) => state.setHighlightLayerInfo);
   const setKeyboardModeOff = useBoundStore((state) => state.setKeyboardModeOff);
 
   const handleArrowIconClick = () => {
@@ -66,6 +69,10 @@ function FoldedDashboard() {
     setPrevScrollY(window.scrollY);
   };
 
+  const handleHighlightIconClick = () => {
+    toggleUserHighlightMode();
+  };
+
   return (
     <main className='absolute flex flex-col justify-start items-center gap-30 p-10 py-30 top-0 -right-50 h-screen w-50 bg-white border-r-2 border-borderColor transform transition-all duration-500 ease-in-out'>
       <div
@@ -89,6 +96,12 @@ function FoldedDashboard() {
         className={`flex-center rounded-[5px] size-35 ${isHighlightBarOpen && (isKeyboardMode ? 'bg-customBlack hover:cursor-pointer hover:bg-backgroundColor-darkHover' : 'hover:cursor-pointer hover:bg-backgroundColor-hover')}`}
       >
         <KeyboardIcon className={`size-25 ${isKeyboardMode && 'fill-white'}`} />
+      </div>
+      <div
+        onClick={handleHighlightIconClick}
+        className={`flex-center rounded-[5px] size-35 hover:cursor-pointer ${isUserHighlightMode ? 'bg-customBlack hover:bg-backgroundColor-darkHover' : 'hover:bg-backgroundColor-hover'}`}
+      >
+        <HighlightIcon className={`size-25 ${isUserHighlightMode && 'fill-white'}`} />
       </div>
       {isHighlightBarOpen && (
         <ServiceHighlightBar
