@@ -1,3 +1,4 @@
+import { ANNOTATION_TYPES } from '../../config/consts';
 import useRoughNotation from '../../hooks/useRoughNotation';
 import RoughHighlight from './RoughHighlight';
 
@@ -15,12 +16,16 @@ function UserHighlightLayer() {
           }}
           className='flex gap-3 bg-white p-3 shadow-md border-2 border-borderColor rounded-sm z-[9999] text-14'
         >
-          <button className='bg-white shadow-md border-1 border-borderColor rounded-sm p-1 hover:bg-backgroundColor-hover'>
-            Circle
-          </button>
-          <button className='bg-white shadow-md border-1 border-borderColor rounded-sm p-1 hover:bg-backgroundColor-hover'>
-            Square
-          </button>
+          {ANNOTATION_TYPES.map((type) => {
+            return (
+              <button
+                key={type}
+                className='bg-white shadow-md border-1 border-borderColor rounded-sm p-1 hover:bg-backgroundColor-hover'
+              >
+                {type}
+              </button>
+            );
+          })}
         </div>
       )}
 
