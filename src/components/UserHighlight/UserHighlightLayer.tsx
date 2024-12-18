@@ -107,7 +107,14 @@ function UserHighlightLayer() {
             );
           })}
           <div
-            onClick={() => {}}
+            onClick={() => {
+              const updatedRenderingAnnotations = renderingAnnotations.filter(
+                (annotation) => annotation.id !== editHighlight.id
+              );
+
+              setRenderingAnnotations(updatedRenderingAnnotations);
+              setEditHighlight({ isEditHighlight: false, position: null, id: null });
+            }}
             className='flex-center rounded-sm size-25 cursor-pointer bg-white hover:bg-backgroundColor-hover'
           >
             <TrashIcon className='size-15' />
