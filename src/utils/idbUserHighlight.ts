@@ -1,48 +1,49 @@
 import { get, set } from 'idb-keyval';
 
-import { Memo } from '../config/types';
+import { AnnotationInfo } from '../config/types';
 
 export const asyncLoadMemo = async () => {
-  return (await get('memos')) || [];
+  return (await get('highlights')) || [];
 };
 
-export const asyncCreateMemo = async (newMemo: Memo) => {
+export const asyncCreateHighlight = async (newHighlight: AnnotationInfo) => {
   try {
-    const existingMemos = (await get('memos')) || [];
+    const existingHighlights = (await get('highlights')) || [];
 
-    const updatedMemos = [...existingMemos, newMemo];
+    const updatedHighlights = [...existingHighlights, newHighlight];
 
-    updatedMemos.sort((a: Memo, b: Memo) => b.id - a.id);
-
-    await set('memos', updatedMemos);
+    await set('highlights', updatedHighlights);
   } catch (err) {
     console.error(err);
   }
 };
 
-export const asyncUpdateMemoById = async (id: number, updatedMemo: Partial<Memo>) => {
+export const asyncUpdateHighlightById = async (
+  id: string,
+  updatedHighlight: Partial<AnnotationInfo>
+) => {
   try {
-    const existingMemos = (await get('memos')) || [];
+    const existingHighlights = (await get('highlights')) || [];
 
-    const updatedMemos = existingMemos.map((memo: Memo) =>
-      memo.id === id ? { ...memo, ...updatedMemo } : memo
+    const updatedHighlights = existingHighlights.map((highlight: AnnotationInfo) =>
+      highlight.id === id ? { ...highlight, ...updatedHighlight } : highlight
     );
 
-    updatedMemos.sort((a: Memo, b: Memo) => b.id - a.id);
-
-    await set('memos', updatedMemos);
+    await set('highlights', updatedHighlights);
   } catch (err) {
     console.error(err);
   }
 };
 
-export const asyncDeleteMemoById = async (id: number) => {
+export const asyncDeleteHighlightById = async (id: string) => {
   try {
-    const existingMemos = (await get('memos')) || [];
+    const existingHighlights = (await get('highlights')) || [];
 
-    const updatedMemos = existingMemos.filter((memo: Memo) => memo.id !== id);
+    const updatedHighlights = existingHighlights.filter(
+      (highlight: AnnotationInfo) => highlight.id !== id
+    );
 
-    await set('memos', updatedMemos);
+    await set('highlights', updatedHighlights);
   } catch (err) {
     console.error(err);
   }

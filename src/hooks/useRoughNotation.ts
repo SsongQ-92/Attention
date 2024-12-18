@@ -62,10 +62,12 @@ const useRoughNotation = () => {
 
       if (annotationType !== null) {
         const newAnnotation: AnnotationInfo = {
+          id: tagName + content + beforeTagName + afterTagName + beforeText + afterText,
           tagName,
           content,
           type: annotationType.type,
           color: annotationType.color,
+          url: window.location.href,
           context: {
             beforeText,
             afterText,

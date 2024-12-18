@@ -40,14 +40,7 @@ function UserHighlightLayer() {
 
       {isUserHighlightMode &&
         renderingAnnotations.map((annotation) => {
-          const {
-            tagName,
-            content,
-            context: { beforeTagName, afterTagName, beforeText, afterText },
-          } = annotation;
-          const key = tagName + content + beforeTagName + afterTagName + beforeText + afterText;
-
-          return <RoughHighlight key={key} annotation={annotation} />;
+          return <RoughHighlight key={annotation.id} annotation={annotation} />;
         })}
     </>
   );

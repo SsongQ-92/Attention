@@ -39,10 +39,12 @@ export type annotationType =
   | 'bracket';
 
 export interface AnnotationInfo {
+  id: string;
   tagName: string;
   content: string;
   type: annotationType;
   color: string;
+  url: string;
   context: {
     beforeText: string;
     afterText: string;
