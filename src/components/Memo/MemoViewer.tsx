@@ -107,7 +107,7 @@ function MemoViewer() {
       <div className='w-full h-full flex-shrink-0 flex flex-col gap-10 border-1 rounded-sm p-10 pb-20 text-customBlack border-borderColor'>
         <h3 className='font-semibold text-20'>{title}</h3>
         <a href={url} rel='noopener noreferrer' target='_blank'>
-          <p className='text-12 text-blue-300 hover:underline'>{`${url} | ${metaTitle}`}</p>
+          <p className='text-12 text-blue-300 hover:underline'>{`${url.length > 25 ? url.slice(0, 25) + '...' : url} | ${metaTitle}`}</p>
         </a>
         <div className='flex flex-col gap-3'>
           <p className='text-11 text-black/80'>

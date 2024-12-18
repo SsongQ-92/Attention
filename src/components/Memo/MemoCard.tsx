@@ -24,7 +24,7 @@ function MemoCard({ memo }: Props) {
   };
 
   return (
-    <div className='w-full flex flex-col justify-center items-start gap-8 border-1 rounded-sm p-10 text-customBlack border-borderColor'>
+    <div className='w-full flex flex-col justify-center items-start gap-8 border-1 rounded-sm p-10 text-customBlack border-borderColor break-words'>
       <h3
         onClick={handleCardClick}
         className='w-full p-2 font-semibold text-18 cursor-pointer hover:bg-backgroundColor-hover hover:underline'
@@ -37,7 +37,7 @@ function MemoCard({ memo }: Props) {
           <span className='border-1 border-borderColor text-8 py-1-1 px-2'>새 창</span>
         </p>
         <a href={url} rel='noopener noreferrer' target='_blank'>
-          <span className='text-blue-400 hover:underline'>{` ${url} | ${metaTitle}`}</span>
+          <span className='text-blue-400 hover:underline'>{`${url.length > 25 ? url.slice(0, 25) + '...' : url} | ${metaTitle}`}</span>
         </a>
       </div>
       <div className='flex items-center gap-5 text-12 text-black/80'>
