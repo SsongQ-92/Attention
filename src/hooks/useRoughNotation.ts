@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 
 import { AnnotationInfo, annotationType } from '../config/types';
+import useBoundStore from '../store/useBoundStore';
+import { asyncCreateHighlight, asyncLoadHighlight } from '../utils/idbUserHighlight';
 
 const useRoughNotation = () => {
   const [selection, setSelection] = useState<{
@@ -19,6 +21,26 @@ const useRoughNotation = () => {
     color: string;
   } | null>(null);
   const [renderingAnnotations, setRenderingAnnotations] = useState<AnnotationInfo[]>([]);
+
+  const setUserHighlightMode = useBoundStore((state) => state.setUserHighlightMode);
+
+  useEffect(() => {
+    const currentUrl = window.location.href;
+
+    const loadHighlight = async () => {
+      const annotations = await asyncLoadHighlight();
+
+      const currentAnnotations = annotations.filter((annotation) => annotation.url === currentUrl);
+
+      setRenderingAnnotations(currentAnnotations);
+
+      if (currentAnnotations.length > 0) {
+        setUserHighlightMode(true);
+      }
+    };
+
+    loadHighlight();
+  }, [setUserHighlightMode]);
 
   useEffect(() => {
     const handleMouseUp = () => {
@@ -87,6 +109,8 @@ const useRoughNotation = () => {
         setRenderingAnnotations((prev) => [...prev, newAnnotation]);
         setAnnotationType(null);
         setSelection({ isSelection: false, infoObject: null });
+
+        asyncCreateHighlight(newAnnotation);
       }
     }
   }, [selection, annotationType]);

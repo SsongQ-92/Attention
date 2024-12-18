@@ -2,7 +2,7 @@ import { get, set } from 'idb-keyval';
 
 import { AnnotationInfo } from '../config/types';
 
-export const asyncLoadMemo = async () => {
+export const asyncLoadHighlight = async (): Promise<AnnotationInfo[] | []> => {
   return (await get('highlights')) || [];
 };
 
