@@ -27,7 +27,7 @@ function UserHighlightLayer() {
                 key={type}
                 onClick={() => {
                   setUserHighlightMode(true);
-                  setAnnotationType((prev) => ({ ...prev, type, color: '#e2ff94' }));
+                  setAnnotationType((prev) => ({ ...prev, type, color: '#d4ff00' }));
                 }}
                 className='bg-white shadow-md border-1 border-borderColor rounded-sm p-1 hover:bg-backgroundColor-hover'
               >

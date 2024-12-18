@@ -16,7 +16,7 @@ const useRoughNotation = () => {
   });
   const [annotationType, setAnnotationType] = useState<{
     type: annotationType;
-    color: '#e2ff94';
+    color: string;
   } | null>(null);
   const [renderingAnnotations, setRenderingAnnotations] = useState<AnnotationInfo[]>([]);
 
