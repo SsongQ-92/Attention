@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { ANNOTATION_TYPES } from '../../config/consts';
 import useRoughNotation from '../../hooks/useRoughNotation';
 import useBoundStore from '../../store/useBoundStore';
+import TrashIcon from '../Icon/TrashIcon';
 import RoughHighlight from './RoughHighlight';
 
 interface highlightPosition {
@@ -105,6 +106,12 @@ function UserHighlightLayer() {
               </button>
             );
           })}
+          <div
+            onClick={() => {}}
+            className='flex-center rounded-sm size-25 cursor-pointer bg-white hover:bg-backgroundColor-hover'
+          >
+            <TrashIcon className='size-15' />
+          </div>
         </div>
       )}
 
