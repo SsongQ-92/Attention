@@ -25,11 +25,10 @@ const useRoughNotation = () => {
   const setUserHighlightMode = useBoundStore((state) => state.setUserHighlightMode);
 
   useEffect(() => {
-    const currentUrl = window.location.href;
-
     const loadHighlight = async () => {
       const annotations = await asyncLoadHighlight();
 
+      const currentUrl = window.location.href;
       const currentAnnotations = annotations.filter((annotation) => annotation.url === currentUrl);
 
       setRenderingAnnotations(currentAnnotations);
@@ -42,76 +41,77 @@ const useRoughNotation = () => {
     loadHighlight();
   }, [setUserHighlightMode]);
 
-  useEffect(() => {
-    const handleMouseUp = () => {
-      const selection = window.getSelection();
+  const handleMouseUp = () => {
+    const selection = window.getSelection();
 
-      if (selection && !selection.isCollapsed) {
-        const range = selection.getRangeAt(0);
-        const rect = range.getBoundingClientRect();
+    if (selection && !selection.isCollapsed) {
+      const range = selection.getRangeAt(0);
+      const rect = range.getBoundingClientRect();
 
-        setTooltipPosition({
-          top: rect.top < 30 ? rect.bottom + window.scrollY : rect.top + window.scrollY - 40,
-          left: rect.right + window.scrollX - 130,
-        });
+      setTooltipPosition({
+        top: rect.top < 30 ? rect.bottom + window.scrollY : rect.top + window.scrollY - 40,
+        left: rect.right + window.scrollX - 130,
+      });
 
-        setSelection({ isSelection: true, infoObject: selection });
-      } else {
-        setSelection({ isSelection: false, infoObject: null });
-      }
+      setSelection({ isSelection: true, infoObject: selection });
+    } else {
+      setSelection({ isSelection: false, infoObject: null });
+    }
+  };
+
+  const createAnnotation = (
+    selectionInfo: Selection,
+    annotationType: { type: annotationType; color: string }
+  ) => {
+    const range = selectionInfo.getRangeAt(0);
+    const rect = range.getBoundingClientRect();
+
+    const content = selectionInfo.toString();
+    const tagName = range.commonAncestorContainer.nodeName;
+
+    const beforeText = range.startContainer.parentElement?.previousSibling?.textContent || '';
+    const afterText = range.endContainer.parentElement?.nextSibling?.textContent || '';
+    const beforeTagName = range.startContainer.parentElement?.previousSibling?.nodeName || '';
+    const afterTagName = range.endContainer.parentElement?.nextSibling?.nodeName || '';
+
+    return {
+      id: `${tagName} + ${content} + ${beforeTagName} + ${afterTagName} + ${beforeText} + ${afterText}`,
+      tagName,
+      content,
+      type: annotationType.type,
+      color: annotationType.color,
+      url: window.location.href,
+      context: { beforeText, afterText, beforeTagName, afterTagName },
+      position: {
+        top: rect.top + window.scrollY,
+        left: rect.left + window.scrollX,
+        width: rect.width,
+        height: rect.height,
+      },
     };
+  };
 
+  const resetSelectionState = () => {
+    setAnnotationType(null);
+    setSelection({ isSelection: false, infoObject: null });
+    window.getSelection()?.removeAllRanges();
+  };
+
+  useEffect(() => {
     document.addEventListener('mouseup', handleMouseUp);
 
     return () => {
       document.removeEventListener('mouseup', handleMouseUp);
     };
-  }, [annotationType]);
+  }, []);
 
   useEffect(() => {
-    if (selection.isSelection && selection.infoObject !== null) {
-      const selectionInfo = selection.infoObject;
+    if (selection.isSelection && selection.infoObject && annotationType) {
+      const newAnnotation = createAnnotation(selection.infoObject, annotationType);
 
-      const content = selectionInfo.toString();
-      const range = selectionInfo.getRangeAt(0);
-      const rect = range.getBoundingClientRect();
-      const tagName = range.commonAncestorContainer.nodeName;
-
-      const beforeText = range.startContainer.parentElement?.previousSibling?.textContent || '';
-      const afterText = range.endContainer.parentElement?.nextSibling?.textContent || '';
-      const beforeTagName = range.startContainer.parentElement?.previousSibling?.nodeName || '';
-      const afterTagName = range.endContainer.parentElement?.nextSibling?.nodeName || '';
-
-      if (annotationType !== null) {
-        const newAnnotation: AnnotationInfo = {
-          id: tagName + content + beforeTagName + afterTagName + beforeText + afterText,
-          tagName,
-          content,
-          type: annotationType.type,
-          color: annotationType.color,
-          url: window.location.href,
-          context: {
-            beforeText,
-            afterText,
-            beforeTagName,
-            afterTagName,
-          },
-          position: {
-            top: rect.top + window.scrollY,
-            left: rect.left + window.scrollX,
-            width: rect.width,
-            height: rect.height,
-          },
-        };
-
-        selection.infoObject.removeAllRanges();
-
-        setRenderingAnnotations((prev) => [...prev, newAnnotation]);
-        setAnnotationType(null);
-        setSelection({ isSelection: false, infoObject: null });
-
-        asyncCreateHighlight(newAnnotation);
-      }
+      setRenderingAnnotations((prev) => [...prev, newAnnotation]);
+      asyncCreateHighlight(newAnnotation);
+      resetSelectionState();
     }
   }, [selection, annotationType]);
 
