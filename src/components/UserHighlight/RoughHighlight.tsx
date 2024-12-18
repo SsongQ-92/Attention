@@ -21,8 +21,17 @@ function RoughHighlight({ annotation }: Props) {
         type: annotation.type,
         color: annotation.color,
         animate: false,
-        padding: 4,
       });
+
+      const parent = elementRef.current.parentElement;
+
+      if (parent) {
+        const svgs = parent.querySelectorAll('svg');
+
+        svgs.forEach((svg) => {
+          svg.style.opacity = '0.4';
+        });
+      }
 
       roughAnnotation.show();
     }
