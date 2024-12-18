@@ -37,6 +37,10 @@ const config: Config = {
       fontFamily: {
         pretendard: ['Pretendard', 'sans-serif'],
       },
+      zIndex: {
+        toolTip: '9000',
+        annotation: '9999',
+      },
     },
   },
   plugins: [typography],

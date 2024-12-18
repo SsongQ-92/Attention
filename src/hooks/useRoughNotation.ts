@@ -1,13 +1,23 @@
 import { useEffect, useState } from 'react';
 
-import { AnnotationInfo } from '../config/types';
+import { AnnotationInfo, annotationType } from '../config/types';
 
 const useRoughNotation = () => {
-  const [isSelection, setIsSelection] = useState(false);
+  const [selection, setSelection] = useState<{
+    isSelection: boolean;
+    infoObject: Selection | null;
+  }>({
+    isSelection: false,
+    infoObject: null,
+  });
   const [tooltipPosition, setTooltipPosition] = useState<{ top: number; left: number }>({
     top: 0,
     left: 0,
   });
+  const [annotationType, setAnnotationType] = useState<{
+    type: annotationType;
+    color: '#e2ff94';
+  } | null>(null);
   const [renderingAnnotations, setRenderingAnnotations] = useState<AnnotationInfo[]>([]);
 
   useEffect(() => {
@@ -19,15 +29,13 @@ const useRoughNotation = () => {
         const rect = range.getBoundingClientRect();
 
         setTooltipPosition({
-          top: rect.top + window.scrollY - 30,
-          left: rect.right + window.scrollX + 5,
+          top: rect.top < 30 ? rect.bottom + window.scrollY : rect.top + window.scrollY - 40,
+          left: rect.right + window.scrollX - 130,
         });
 
-        setIsSelection(true);
-
-        console.log(setRenderingAnnotations);
+        setSelection({ isSelection: true, infoObject: selection });
       } else {
-        setIsSelection(false);
+        setSelection({ isSelection: false, infoObject: null });
       }
     };
 
@@ -36,9 +44,52 @@ const useRoughNotation = () => {
     return () => {
       document.removeEventListener('mouseup', handleMouseUp);
     };
-  }, []);
+  }, [annotationType]);
 
-  return { isSelection, tooltipPosition, renderingAnnotations };
+  useEffect(() => {
+    if (selection.isSelection && selection.infoObject !== null) {
+      const selectionInfo = selection.infoObject;
+
+      const content = selectionInfo.toString();
+      const range = selectionInfo.getRangeAt(0);
+      const rect = range.getBoundingClientRect();
+      const tagName = range.commonAncestorContainer.nodeName;
+
+      const beforeText = range.startContainer.parentElement?.previousSibling?.textContent || '';
+      const afterText = range.endContainer.parentElement?.nextSibling?.textContent || '';
+      const beforeTagName = range.startContainer.parentElement?.previousSibling?.nodeName || '';
+      const afterTagName = range.endContainer.parentElement?.nextSibling?.nodeName || '';
+
+      if (annotationType !== null) {
+        const newAnnotation: AnnotationInfo = {
+          tagName,
+          content,
+          type: annotationType.type,
+          color: annotationType.color,
+          context: {
+            beforeText,
+            afterText,
+            beforeTagName,
+            afterTagName,
+          },
+          position: {
+            top: rect.top + window.scrollY,
+            left: rect.left + window.scrollX,
+            width: rect.width,
+            height: rect.height,
+          },
+        };
+
+        selection.infoObject.removeAllRanges();
+
+        setRenderingAnnotations((prev) => [...prev, newAnnotation]);
+        setAnnotationType(null);
+        setSelection({ isSelection: false, infoObject: null });
+      }
+    }
+  }, [selection, annotationType]);
+
+  return { selection, tooltipPosition, renderingAnnotations, setAnnotationType };
 };
 
 export default useRoughNotation;

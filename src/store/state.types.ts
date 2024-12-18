@@ -37,7 +37,7 @@ export interface ServiceHighlightState {
 export interface UserHighlightState {
   isUserHighlightMode: boolean;
   toggleUserHighlightMode: () => void;
-  setUserHighlightModeOff: () => void;
+  setUserHighlightMode: (isActive: boolean) => void;
 }
 
 type modalType = 'confirm' | 'inform';

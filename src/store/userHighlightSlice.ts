@@ -6,5 +6,5 @@ export const createUserHighlightSlice: StateCreator<UserHighlightState> = (set) 
   isUserHighlightMode: false,
   toggleUserHighlightMode: () =>
     set((state) => ({ isUserHighlightMode: !state.isUserHighlightMode })),
-  setUserHighlightModeOff: () => set(() => ({ isUserHighlightMode: false })),
+  setUserHighlightMode: (isActive) => set(() => ({ isUserHighlightMode: isActive })),
 });

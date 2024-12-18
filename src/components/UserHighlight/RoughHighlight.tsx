@@ -19,13 +19,10 @@ function RoughHighlight({ annotation }: Props) {
     if (elementRef.current) {
       const roughAnnotation = annotate(elementRef.current, {
         type: annotation.type,
-        color: 'blue',
-        animate: true,
-        animationDuration: 500,
-        padding: 2,
+        color: annotation.color,
+        animate: false,
+        padding: 4,
       });
-
-      console.log(roughAnnotation.color);
 
       roughAnnotation.show();
     }
@@ -35,12 +32,13 @@ function RoughHighlight({ annotation }: Props) {
     <div
       ref={elementRef}
       style={{
+        position: 'absolute',
         top: `${top}px`,
         left: `${left}px`,
         width: `${width}px`,
         height: `${height}px`,
       }}
-      className='fixed z-30 pointer-events-none bg-slate-200'
+      className='z-annotation pointer-events-none'
     />
   );
 }

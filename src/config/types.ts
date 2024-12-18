@@ -42,6 +42,7 @@ export interface AnnotationInfo {
   tagName: string;
   content: string;
   type: annotationType;
+  color: string;
   context: {
     beforeText: string;
     afterText: string;

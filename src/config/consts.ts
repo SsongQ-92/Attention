@@ -1,9 +1,11 @@
+import { annotationType } from './types';
+
 export const ALLOW_URL = ['https://velog.io/'];
 export const SERVICE_TITLE = 'Attention';
 
 export const TARGET_HIGHLIGHTS_SELECTORS = ['p', 'li', 'h1', 'h2', 'h3', 'pre'];
 
-export const ANNOTATION_TYPES = ['circle', 'box', 'highlight'];
+export const ANNOTATION_TYPES: annotationType[] = ['circle', 'box', 'highlight'];
 
 export const msgAction = Object.freeze({
   ICON_CLICKED: 'ICON_CLICKED',
