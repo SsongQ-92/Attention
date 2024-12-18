@@ -48,7 +48,17 @@ function MemoCardList() {
 
   if (!memos || memos.length === 0) {
     return (
-      <div className='w-full h-full flex-center text-gray-800'>현재 저장된 메모가 없습니다.</div>
+      <div className='h-full flex flex-col gap-15 pb-20'>
+        <div className='flex justify-end items-center'>
+          <button
+            className='py-3 px-5 rounded-sm border-1 border-borderColor text-customBlack text-14 hover:bg-backgroundColor-hover '
+            onClick={handleCreateClick}
+          >
+            새 메모
+          </button>
+        </div>
+        <div className='w-full h-full flex-center text-gray-800'>현재 저장된 메모가 없습니다.</div>
+      </div>
     );
   }
 
