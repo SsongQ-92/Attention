@@ -115,7 +115,13 @@ const useRoughNotation = () => {
     }
   }, [selection, annotationType]);
 
-  return { selection, tooltipPosition, renderingAnnotations, setAnnotationType };
+  return {
+    selection,
+    tooltipPosition,
+    renderingAnnotations,
+    setRenderingAnnotations,
+    setAnnotationType,
+  };
 };
 
 export default useRoughNotation;
