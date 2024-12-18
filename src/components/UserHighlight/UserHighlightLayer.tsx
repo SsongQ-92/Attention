@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { ANNOTATION_TYPES } from '../../config/consts';
 import useRoughNotation from '../../hooks/useRoughNotation';
 import useBoundStore from '../../store/useBoundStore';
+import { asyncDeleteHighlightById, asyncUpdateHighlightById } from '../../utils/idbUserHighlight';
 import TrashIcon from '../Icon/TrashIcon';
 import RoughHighlight from './RoughHighlight';
 
@@ -88,13 +89,22 @@ function UserHighlightLayer() {
             return (
               <button
                 key={type}
-                onClick={() => {
+                onClick={async () => {
                   const updatedRenderingAnnotations = renderingAnnotations.map((annotation) => {
                     if (annotation.id === editHighlight.id) {
                       return { ...annotation, type };
                     }
 
                     return annotation;
+                  });
+
+                  const currentAnnotation = renderingAnnotations.find(
+                    (annotation) => annotation.id === editHighlight.id
+                  );
+
+                  await asyncUpdateHighlightById(editHighlight.id as string, {
+                    ...currentAnnotation,
+                    type,
                   });
 
                   setRenderingAnnotations(updatedRenderingAnnotations);
@@ -107,10 +117,12 @@ function UserHighlightLayer() {
             );
           })}
           <div
-            onClick={() => {
+            onClick={async () => {
               const updatedRenderingAnnotations = renderingAnnotations.filter(
                 (annotation) => annotation.id !== editHighlight.id
               );
+
+              await asyncDeleteHighlightById(editHighlight.id as string);
 
               setRenderingAnnotations(updatedRenderingAnnotations);
               setEditHighlight({ isEditHighlight: false, position: null, id: null });
