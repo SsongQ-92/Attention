@@ -3,11 +3,12 @@ import { Dispatch, SetStateAction, useLayoutEffect, useRef } from 'react';
 import { annotate } from 'rough-notation';
 import { RoughAnnotation } from 'rough-notation/lib/model';
 
+import { editTooltip } from '../../config/consts';
 import { AnnotationInfo } from '../../config/types';
 
 interface highlightPosition {
   top: number;
-  left: number;
+  right: number;
 }
 
 interface Props {
@@ -23,17 +24,20 @@ interface Props {
 
 function RoughHighlight({ annotation, setEditHighlight }: Props) {
   const {
-    position: { top, left, width, height },
+    position: { top, left, right, width, height },
   } = annotation;
 
   const elementRef = useRef<HTMLDivElement>(null);
   const roughAnnotationRef = useRef<RoughAnnotation | null>(null);
 
   const handleHighlightClick = () => {
+    const positionTop = top - editTooltip.height;
+    const positionRight = right - editTooltip.width;
+
     setEditHighlight((prev) => ({
       ...prev,
       isEditHighlight: true,
-      position: { top: top - height, left: left + width },
+      position: { top: positionTop, right: positionRight },
       id: annotation.id,
     }));
   };

@@ -84,7 +84,9 @@ const useRoughNotation = () => {
       context: { beforeText, afterText, beforeTagName, afterTagName },
       position: {
         top: rect.top + window.scrollY,
+        bottom: rect.bottom + window.scrollY,
         left: rect.left + window.scrollX,
+        right: rect.right + window.scrollX,
         width: rect.width,
         height: rect.height,
       },

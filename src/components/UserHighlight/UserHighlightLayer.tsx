@@ -9,7 +9,7 @@ import RoughHighlight from './RoughHighlight';
 
 interface highlightPosition {
   top: number;
-  left: number;
+  right: number;
 }
 
 function UserHighlightLayer() {
@@ -76,11 +76,12 @@ function UserHighlightLayer() {
 
       {editHighlight.isEditHighlight && editHighlight.position !== null && (
         <div
+          id='editToolTip'
           ref={editHighlightRef}
           style={{
             position: 'absolute',
             top: `${editHighlight.position.top}px`,
-            left: `${editHighlight.position.left}px`,
+            left: `${editHighlight.position.right}px`,
           }}
           className='flex gap-3 bg-white p-3 shadow-md border-2 border-borderColor rounded-sm z-toolTip text-14'
           onMouseUp={(e) => e.stopPropagation()}

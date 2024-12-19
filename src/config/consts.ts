@@ -27,3 +27,8 @@ export const pagination = Object.freeze({
   pageSize: 4,
   pageGroupSize: 5,
 });
+
+export const editTooltip = Object.freeze({
+  width: 170,
+  height: 35,
+});
