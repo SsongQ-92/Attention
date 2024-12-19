@@ -57,6 +57,12 @@ function RoughHighlight({ annotation, setEditHighlight }: Props) {
 
       roughAnnotationRef.current.show();
     }
+
+    return () => {
+      if (roughAnnotationRef.current) {
+        roughAnnotationRef.current.remove();
+      }
+    };
   }, [annotation]);
 
   return (
