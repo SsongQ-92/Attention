@@ -118,10 +118,46 @@ const useRoughNotation = () => {
   }, [selection, annotationType]);
 
   useEffect(() => {
-    if (renderingAnnotations.length === 0) {
-      setUserHighlightMode(false);
-    }
-  }, [renderingAnnotations, setUserHighlightMode]);
+    const recalculatePositions = () => {
+      setRenderingAnnotations((prevAnnotations) => {
+        return prevAnnotations.map((annotation) => {
+          const elements = Array.from(
+            document.querySelectorAll(annotation.tagName)
+          ) as HTMLElement[];
+          const element = elements.find((el) => el.textContent?.trim() === annotation.content);
+
+          if (element) {
+            const rect = element.getBoundingClientRect();
+
+            return {
+              ...annotation,
+              position: {
+                top: rect.top + window.scrollY,
+                bottom: rect.bottom + window.scrollY,
+                left: rect.left + window.scrollX,
+                right: rect.right + window.scrollX,
+                width: rect.width,
+                height: rect.height,
+              },
+            };
+          }
+
+          return annotation;
+        });
+      });
+    };
+
+    const resizeObserver = new ResizeObserver(() => recalculatePositions());
+    const mutationObserver = new MutationObserver(() => recalculatePositions());
+
+    resizeObserver.observe(document.body);
+    mutationObserver.observe(document.body, { childList: true, subtree: true });
+
+    return () => {
+      resizeObserver.disconnect();
+      mutationObserver.disconnect();
+    };
+  }, []);
 
   return {
     selection,
