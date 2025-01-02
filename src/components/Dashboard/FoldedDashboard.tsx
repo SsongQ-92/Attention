@@ -24,6 +24,7 @@ function FoldedDashboard() {
   const toggleUserHighlightMode = useBoundStore((state) => state.toggleUserHighlightMode);
   const setHighlightLayerInfo = useBoundStore((state) => state.setHighlightLayerInfo);
   const setKeyboardModeOff = useBoundStore((state) => state.setKeyboardModeOff);
+  const setKeyboardIconHover = useBoundStore((state) => state.setKeyboardIconHover);
 
   const handleArrowIconClick = () => {
     toggleDashboardOpen();
@@ -93,6 +94,8 @@ function FoldedDashboard() {
       </div>
       <div
         onClick={handleKeyboardIconClick}
+        onMouseEnter={() => setKeyboardIconHover(true)}
+        onMouseLeave={() => setKeyboardIconHover(false)}
         className={`flex-center rounded-[5px] size-35 ${isHighlightBarOpen && (isKeyboardMode ? 'bg-customBlack hover:cursor-pointer hover:bg-backgroundColor-darkHover' : 'hover:cursor-pointer hover:bg-backgroundColor-hover')}`}
       >
         <KeyboardIcon className={`size-25 ${isKeyboardMode && 'fill-white'}`} />

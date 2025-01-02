@@ -3,6 +3,7 @@ import useBoundStore from '../../store/useBoundStore';
 function ServiceHighlightLayer() {
   const isHighlightBarOpen = useBoundStore((state) => state.isHighlightBarOpen);
   const isKeyboardMode = useBoundStore((state) => state.isKeyboardMode);
+  const isKeyboardIconHover = useBoundStore((state) => state.isKeyboardIconHover);
   const highlightLayerInfo = useBoundStore((state) => state.highlightLayerInfo);
   const { top, left, width, height } = highlightLayerInfo;
 
@@ -22,7 +23,7 @@ function ServiceHighlightLayer() {
           </div>
         </div>
       )}
-      {isHighlightBarOpen && !isKeyboardMode && (
+      {isHighlightBarOpen && !isKeyboardMode && isKeyboardIconHover && (
         <div className='fixed left-0 z-50 top-20 w-full flex-center pointer-events-none'>
           <div className='flex-center text-center bg-white text-red-600 p-10 border-customBlack border-2 rounded-md text-12 opacity-40 pointer-events-auto hover:opacity-100'>
             키보드 모드 진입을 위해서는 <br />
