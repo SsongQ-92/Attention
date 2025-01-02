@@ -46,10 +46,10 @@ export interface AnnotationInfo {
   color: string;
   url: string;
   context: {
-    beforeText: string;
-    afterText: string;
-    beforeTagName: string;
-    afterTagName: string;
+    firstNodeXPath: string;
+    lastNodeXPath: string;
+    startOffset: number;
+    endOffset: number;
   };
   position: {
     top: number;

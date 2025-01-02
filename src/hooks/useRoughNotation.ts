@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { throttle } from 'lodash-es';
 
@@ -27,6 +27,7 @@ const useRoughNotation = () => {
     color: string;
   } | null>(null);
   const [renderingAnnotations, setRenderingAnnotations] = useState<AnnotationInfo[]>([]);
+  const [lastWindowWidth, setLastWindowWidth] = useState(document.body.clientWidth);
 
   const setUserHighlightMode = useBoundStore((state) => state.setUserHighlightMode);
 
@@ -56,40 +57,87 @@ const useRoughNotation = () => {
     };
   }, []);
 
-  const createAnnotation = (
-    selectionInfo: Selection,
-    annotationType: { type: annotationType; color: string }
-  ) => {
-    const range = selectionInfo.getRangeAt(0);
-    const rect = range.getBoundingClientRect();
+  const createAnnotation = useCallback(
+    (selectionInfo: Selection, annotationType: { type: annotationType; color: string }) => {
+      const getXPath = (node: Node): string => {
+        const paths: string[] = [];
 
-    const content = selectionInfo.toString();
-    const tagName = range.commonAncestorContainer.nodeName;
+        while (node) {
+          if (node.nodeType === Node.ELEMENT_NODE) {
+            const element = node as Element;
+            let index = 0;
+            let sibling = element.previousSibling;
 
-    const beforeText = range.startContainer.textContent?.slice(0, range.startOffset) || '';
-    const afterText = range.endContainer.textContent?.slice(range.endOffset) || '';
-    const beforeTagName =
-      range.startContainer.parentElement?.nodeName || range.startContainer.nodeName;
-    const afterTagName = range.endContainer.parentElement?.nodeName || range.endContainer.nodeName;
+            while (sibling) {
+              if (sibling.nodeType === Node.ELEMENT_NODE && sibling.nodeName === element.nodeName) {
+                index++;
+              }
+              sibling = sibling.previousSibling;
+            }
 
-    return {
-      id: `${tagName} + ${content} + ${beforeTagName} + ${afterTagName} + ${beforeText} + ${afterText}`,
-      tagName,
-      content,
-      type: annotationType.type,
-      color: annotationType.color,
-      url: window.location.href,
-      context: { beforeText, afterText, beforeTagName, afterTagName },
-      position: {
-        top: rect.top + window.scrollY,
-        bottom: rect.bottom + window.scrollY,
-        left: rect.left + window.scrollX,
-        right: rect.right + window.scrollX,
-        width: rect.width,
-        height: rect.height,
-      },
-    };
-  };
+            const tagName = element.nodeName.toLowerCase();
+            const pathIndex = `[${index + 1}]`;
+
+            paths.unshift(`${tagName}${pathIndex}`);
+          } else if (node.nodeType === Node.TEXT_NODE) {
+            const parent = node.parentNode;
+
+            if (parent && parent.nodeType === Node.ELEMENT_NODE) {
+              node = parent;
+
+              continue;
+            } else {
+              break;
+            }
+          } else {
+            break;
+          }
+
+          if (node.parentNode) {
+            node = node.parentNode;
+          } else {
+            break;
+          }
+        }
+
+        return paths.length ? '/' + paths.join('/') : '';
+      };
+
+      const range = selectionInfo.getRangeAt(0);
+      const content = selectionInfo.toString();
+
+      const firstNode = range.startContainer;
+      const lastNode = range.endContainer;
+
+      const rect = range.getBoundingClientRect();
+      const firstNodeXPath = getXPath(firstNode);
+      const lastNodeXPath = getXPath(lastNode);
+
+      return {
+        id: `${firstNodeXPath} + ${lastNodeXPath} + ${content}`,
+        tagName: range.commonAncestorContainer.nodeName,
+        content,
+        type: annotationType.type,
+        color: annotationType.color,
+        url: window.location.href,
+        context: {
+          firstNodeXPath,
+          lastNodeXPath,
+          startOffset: range.startOffset,
+          endOffset: range.endOffset,
+        },
+        position: {
+          top: rect.top + window.scrollY,
+          bottom: rect.bottom + window.scrollY,
+          left: rect.left + window.scrollX,
+          right: rect.right + window.scrollX,
+          width: rect.width,
+          height: rect.height,
+        },
+      };
+    },
+    []
+  );
 
   const resetSelectionState = () => {
     setAnnotationType(null);
@@ -105,121 +153,105 @@ const useRoughNotation = () => {
       asyncCreateHighlight(newAnnotation);
       resetSelectionState();
     }
-  }, [selection, annotationType]);
+  }, [selection, annotationType, createAnnotation]);
 
-  const findMatchingNode = (content: string, context: AnnotationInfo['context']) => {
-    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
-      acceptNode: (node) => {
-        if (node.nodeType === Node.TEXT_NODE && typeof node.nodeValue === 'string') {
-          if (node.nodeValue?.includes(content) || content.includes(node.nodeValue)) {
-            return NodeFilter.FILTER_ACCEPT;
-          }
-        }
+  const getNodeByXPath = useCallback(
+    (xpath: string, documentRoot: Document = document): Node | null => {
+      const result = documentRoot.evaluate(
+        xpath,
+        documentRoot,
+        null,
+        XPathResult.FIRST_ORDERED_NODE_TYPE,
+        null
+      );
 
-        return NodeFilter.FILTER_REJECT;
-      },
-    });
+      const node = result.singleNodeValue;
 
-    console.log(context);
-
-    let currentNode = walker.nextNode();
-    let combinedText = '';
-    let firstNode: Node | null = null;
-    let lastNode: Node | null = null;
-
-    while (currentNode) {
-      if (currentNode.nodeType === Node.TEXT_NODE) {
-        const nodeText = currentNode.nodeValue || '';
-
-        if (combinedText === '' && content.includes(nodeText)) {
-          combinedText += nodeText;
-          firstNode = currentNode;
-          lastNode = currentNode;
-        } else if (combinedText && content.includes(combinedText + nodeText)) {
-          combinedText += nodeText;
-          lastNode = currentNode;
-        }
-
-        if (combinedText.includes(content)) {
-          break;
-        }
+      if (node?.nodeType === Node.TEXT_NODE) {
+        return node;
       }
 
-      currentNode = walker.nextNode();
-    }
+      return node?.firstChild?.nodeType === Node.TEXT_NODE ? node.firstChild : null;
+    },
+    []
+  );
 
-    if (combinedText.includes(content) && firstNode && lastNode) {
-      return { firstNode, lastNode };
-    }
+  const throttledRecalculatePositions = useMemo(
+    () =>
+      throttle(() => {
+        try {
+          requestAnimationFrame(() => {
+            setRenderingAnnotations((prevAnnotations) => {
+              return prevAnnotations
+                .map((annotation) => {
+                  const { context } = annotation;
+                  const { firstNodeXPath, lastNodeXPath, startOffset, endOffset } = context;
 
-    return null;
-  };
+                  const firstNode = getNodeByXPath(firstNodeXPath);
+                  const lastNode = getNodeByXPath(lastNodeXPath);
 
-  const recalculatePositions = throttle(() => {
-    try {
-      requestAnimationFrame(() => {
-        setRenderingAnnotations((prevAnnotations) => {
-          return prevAnnotations
-            .map((annotation) => {
-              const { content, context } = annotation;
+                  if (
+                    firstNode &&
+                    lastNode &&
+                    firstNode.nodeType === Node.TEXT_NODE &&
+                    lastNode.nodeType === Node.TEXT_NODE
+                  ) {
+                    const range = document.createRange();
 
-              const foundNode = findMatchingNode(content, context);
+                    range.setStart(firstNode, startOffset);
+                    range.setEnd(lastNode, endOffset);
 
-              console.log(foundNode);
+                    const rect = range.getBoundingClientRect();
 
-              if (foundNode) {
-                const { firstNode, lastNode } = foundNode;
+                    return {
+                      ...annotation,
+                      position: {
+                        top: rect.top + window.scrollY,
+                        bottom: rect.bottom + window.scrollY,
+                        left: rect.left + window.scrollX,
+                        right: rect.right + window.scrollX,
+                        width: rect.width,
+                        height: rect.height,
+                      },
+                    };
+                  } else {
+                    asyncDeleteHighlightById(annotation.id);
 
-                const range = document.createRange();
+                    return null;
+                  }
+                })
+                .filter(Boolean) as AnnotationInfo[];
+            });
+          });
+        } catch (error) {
+          console.error('Error in recalculatePositions:', error);
+        }
+      }, 100),
+    [setRenderingAnnotations, getNodeByXPath]
+  );
 
-                range.setStart(firstNode, 0);
-                range.setEnd(lastNode, lastNode.textContent?.length || 0);
-
-                const rect = range.getBoundingClientRect();
-
-                return {
-                  ...annotation,
-                  position: {
-                    top: rect.top + window.scrollY,
-                    bottom: rect.bottom + window.scrollY,
-                    left: rect.left + window.scrollX,
-                    right: rect.right + window.scrollX,
-                    width: rect.width,
-                    height: rect.height,
-                  },
-                };
-              } else {
-                asyncDeleteHighlightById(annotation.id);
-
-                return null;
-              }
-            })
-            .filter(Boolean) as AnnotationInfo[];
-        });
-      });
-    } catch (error) {
-      console.error('Error in recalculatePositions:', error);
-    }
-  }, 100);
+  const recalculatePositions = useCallback(() => {
+    throttledRecalculatePositions();
+  }, [throttledRecalculatePositions]);
 
   useEffect(() => {
-    const handleRecalculate = () => recalculatePositions();
+    const handleRecalculate = () => {
+      const currentWidth = document.body.clientWidth;
+
+      if (currentWidth !== lastWindowWidth) {
+        setLastWindowWidth(currentWidth);
+        recalculatePositions();
+      }
+    };
 
     const resizeObserver = new ResizeObserver(handleRecalculate);
-    const mutationObserver = new MutationObserver(handleRecalculate);
 
     resizeObserver.observe(document.body);
-    mutationObserver.observe(document.body, {
-      childList: true,
-      subtree: true,
-      characterData: false,
-    });
 
     return () => {
       resizeObserver.disconnect();
-      mutationObserver.disconnect();
     };
-  }, [recalculatePositions]);
+  }, [lastWindowWidth, recalculatePositions]);
 
   useEffect(() => {
     const loadHighlight = async () => {
