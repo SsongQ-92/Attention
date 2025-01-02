@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
-import { ANNOTATION_TYPES } from '../../config/consts';
+import { ANNOTATION_TYPES, ANNOTATION_TYPES_MAP } from '../../config/consts';
 import useRoughNotation from '../../hooks/useRoughNotation';
 import useBoundStore from '../../store/useBoundStore';
 import { asyncDeleteHighlightById, asyncUpdateHighlightById } from '../../utils/idbUserHighlight';
@@ -63,7 +63,11 @@ function UserHighlightLayer() {
                 key={type}
                 onClick={() => {
                   setUserHighlightMode(true);
-                  setAnnotationType((prev) => ({ ...prev, type, color: '#d4ff00' }));
+                  setAnnotationType((prev) => ({
+                    ...prev,
+                    type: ANNOTATION_TYPES_MAP[type],
+                    color: '#d4ff00',
+                  }));
                 }}
                 className='bg-white shadow-md border-1 border-borderColor rounded-sm p-1 hover:bg-backgroundColor-hover'
               >
@@ -93,7 +97,7 @@ function UserHighlightLayer() {
                 onClick={async () => {
                   const updatedRenderingAnnotations = renderingAnnotations.map((annotation) => {
                     if (annotation.id === editHighlight.id) {
-                      return { ...annotation, type };
+                      return { ...annotation, type: ANNOTATION_TYPES_MAP[type] };
                     }
 
                     return annotation;
@@ -105,7 +109,7 @@ function UserHighlightLayer() {
 
                   await asyncUpdateHighlightById(editHighlight.id as string, {
                     ...currentAnnotation,
-                    type,
+                    type: ANNOTATION_TYPES_MAP[type],
                   });
 
                   setRenderingAnnotations(updatedRenderingAnnotations);

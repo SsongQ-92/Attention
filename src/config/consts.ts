@@ -5,7 +5,16 @@ export const SERVICE_TITLE = 'Attention';
 
 export const TARGET_HIGHLIGHTS_SELECTORS = ['p', 'li', 'h1', 'h2', 'h3', 'pre'];
 
-export const ANNOTATION_TYPES: annotationType[] = ['circle', 'box', 'highlight'];
+interface AnnotationTypeMap {
+  [key: string]: annotationType;
+}
+
+export const ANNOTATION_TYPES = ['원', '박스', '하이라이트'];
+export const ANNOTATION_TYPES_MAP: AnnotationTypeMap = {
+  원: 'circle',
+  박스: 'box',
+  하이라이트: 'highlight',
+};
 
 export const msgAction = Object.freeze({
   ICON_CLICKED: 'ICON_CLICKED',
