@@ -72,6 +72,7 @@ const useRoughNotation = () => {
               if (sibling.nodeType === Node.ELEMENT_NODE && sibling.nodeName === element.nodeName) {
                 index++;
               }
+
               sibling = sibling.previousSibling;
             }
 
@@ -83,6 +84,18 @@ const useRoughNotation = () => {
             const parent = node.parentNode;
 
             if (parent && parent.nodeType === Node.ELEMENT_NODE) {
+              let textIndex = 0;
+              let sibling = parent.firstChild;
+
+              while (sibling && sibling !== node) {
+                if (sibling.nodeType === Node.TEXT_NODE) {
+                  textIndex++;
+                }
+
+                sibling = sibling.nextSibling;
+              }
+
+              paths.unshift(`text()[${textIndex + 1}]`);
               node = parent;
 
               continue;
@@ -109,9 +122,10 @@ const useRoughNotation = () => {
       const firstNode = range.startContainer;
       const lastNode = range.endContainer;
 
-      const rect = range.getBoundingClientRect();
       const firstNodeXPath = getXPath(firstNode);
       const lastNodeXPath = getXPath(lastNode);
+
+      const rect = range.getBoundingClientRect();
 
       return {
         id: `${firstNodeXPath} + ${lastNodeXPath} + ${content}`,
@@ -171,7 +185,26 @@ const useRoughNotation = () => {
         return node;
       }
 
-      return node?.firstChild?.nodeType === Node.TEXT_NODE ? node.firstChild : null;
+      if (node?.nodeType === Node.ELEMENT_NODE) {
+        const match = xpath.match(/text\(\)\[(\d+)\]$/);
+
+        if (match && node.childNodes.length > 0) {
+          const textIndex = parseInt(match[1], 10) - 1;
+          let currentTextIndex = 0;
+
+          for (const child of node.childNodes) {
+            if (child.nodeType === Node.TEXT_NODE) {
+              if (currentTextIndex === textIndex) {
+                return child;
+              }
+
+              currentTextIndex++;
+            }
+          }
+        }
+      }
+
+      return null;
     },
     []
   );
