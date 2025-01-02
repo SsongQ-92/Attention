@@ -305,6 +305,12 @@ const useRoughNotation = () => {
     loadHighlight();
   }, [setUserHighlightMode, recalculatePositions]);
 
+  useEffect(() => {
+    if (renderingAnnotations.length === 0) {
+      setUserHighlightMode(false);
+    }
+  }, [renderingAnnotations, setUserHighlightMode]);
+
   return {
     selection,
     tooltipPosition,
