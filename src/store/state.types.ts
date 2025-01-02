@@ -27,10 +27,12 @@ interface ServiceLayerInfo {
 export interface ServiceHighlightState {
   isHighlightBarOpen: boolean;
   isKeyboardMode: boolean;
+  isKeyboardIconHover: boolean;
   highlightLayerInfo: ServiceLayerInfo;
   toggleHighlightBarOpen: () => void;
   toggleKeyboardMode: () => void;
   setKeyboardModeOff: () => void;
+  setKeyboardIconHover: (isHover: boolean) => void;
   setHighlightLayerInfo: (layerInfo: ServiceLayerInfo) => void;
 }
 
