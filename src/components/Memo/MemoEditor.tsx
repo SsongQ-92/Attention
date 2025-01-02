@@ -50,7 +50,7 @@ function MemoEditor() {
 
     navigator.clipboard.writeText(highlightedText);
 
-    addModal('inform');
+    addModal('informCopyHighlight');
   };
 
   const handleSaveClick = async () => {
@@ -66,12 +66,36 @@ function MemoEditor() {
 
     try {
       if (isCreatingMemoMode) {
+        if (!memo.title) {
+          addModal('informNoMemoTitle');
+
+          return;
+        }
+
+        if (!memo.content) {
+          addModal('informNoMemoContent');
+
+          return;
+        }
+
         await asyncCreateMemo(memo);
 
         setCreatingMemoMode(false);
       }
 
       if (isEditingMemoMode) {
+        if (!memo.title) {
+          addModal('informNoMemoTitle');
+
+          return;
+        }
+
+        if (!memo.content) {
+          addModal('informNoMemoContent');
+
+          return;
+        }
+
         const editingMemo = omit(memo, ['createdAt']);
 
         await asyncUpdateMemoById(viewMemoMode.id, editingMemo);
@@ -143,8 +167,14 @@ function MemoEditor() {
       {openModalTypeList.includes('confirm') && (
         <ConfirmModal confirmText={modalText.backToList} onConfirmClick={handleConfirmClick} />
       )}
-      {openModalTypeList.includes('inform') && (
+      {openModalTypeList.includes('informCopyHighlight') && (
         <InformModal confirmText={modalText.copyHighlightText} />
+      )}
+      {openModalTypeList.includes('informNoMemoTitle') && (
+        <InformModal confirmText={modalText.NoMemoTitle} />
+      )}
+      {openModalTypeList.includes('informNoMemoContent') && (
+        <InformModal confirmText={modalText.NoMemoContent} />
       )}
     </div>
   );

@@ -42,7 +42,7 @@ export interface UserHighlightState {
   setUserHighlightMode: (isActive: boolean) => void;
 }
 
-type modalType = 'confirm' | 'inform';
+type modalType = 'confirm' | 'informCopyHighlight' | 'informNoMemoTitle' | 'informNoMemoContent';
 
 export interface ModalState {
   openModalTypeList: modalType[];

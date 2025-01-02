@@ -30,6 +30,8 @@ export const modalText = Object.freeze({
   backToList: '목록으로 돌아가시겠습니까? 현재 작성 중인 내용은 저장되지 않습니다.',
   confirmDelete: '해당 글을 삭제하시겠습니까?',
   copyHighlightText: '하이라이트 텍스트가 클립보드에 복사 되었습니다.',
+  NoMemoTitle: '제목을 입력해주세요.',
+  NoMemoContent: '내용을 입력해주세요.',
 });
 
 export const pagination = Object.freeze({
