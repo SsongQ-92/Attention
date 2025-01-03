@@ -1,6 +1,6 @@
 import { annotationType } from './types';
 
-export const ALLOW_URL = ['https://velog.io/', 'tistory.com/'];
+export const ALLOW_URL = ['https://velog.io/', 'tistory.com/', 'https://www.ssongq.com/'];
 export const SERVICE_TITLE = 'Attention';
 
 export const TARGET_HIGHLIGHTS_SELECTORS = ['p', 'li', 'h1', 'h2', 'h3', 'pre'];

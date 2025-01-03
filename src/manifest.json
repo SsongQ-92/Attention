@@ -24,14 +24,14 @@
   },
   "content_scripts": [
     {
-      "matches": ["https://velog.io/*", "https://*.tistory.com/*"],
+      "matches": ["https://velog.io/*", "https://*.tistory.com/*", "https://*.ssongq.com/*"],
       "js": ["content-script.js"],
       "run_at": "document_idle"
     }
   ],
   "web_accessible_resources": [
     {
-      "matches": ["https://velog.io/*", "https://*.tistory.com/*"],
+      "matches": ["https://velog.io/*", "https://*.tistory.com/*", "https://*.ssongq.com/*"],
       "resources": ["injected-customElements-script.js"]
     }
   ],
