@@ -4,14 +4,14 @@ import Browser from 'webextension-polyfill';
 
 import { msgAction } from '../config/consts';
 import { checkMessageType } from '../config/types';
-import { DashboardState } from '../store/state.types';
 import useBoundStore from '../store/useBoundStore';
 
-const useToggleDashboard = ({
-  isDashboardOpen,
-  toggleDashboardOpen,
-}: Pick<DashboardState, 'isDashboardOpen' | 'toggleDashboardOpen'>) => {
+const useToggleDashboard = () => {
   const isHighlightBarOpen = useBoundStore((state) => state.isHighlightBarOpen);
+  const isDashboardOpen = useBoundStore((state) => state.isDashboardOpen);
+  const isFoldedDashboardOpen = useBoundStore((state) => state.isFoldedDashboardOpen);
+  const setDashboardOpen = useBoundStore((state) => state.setDashboardOpen);
+  const setFoldedDashboardOpen = useBoundStore((state) => state.setFoldedDashboardOpen);
 
   useEffect(() => {
     const listener = (message: unknown, sender: Browser.Runtime.MessageSender) => {
@@ -20,7 +20,15 @@ const useToggleDashboard = ({
         message.action === msgAction.ICON_CLICKED &&
         sender.id !== undefined
       ) {
-        toggleDashboardOpen();
+        if (isFoldedDashboardOpen) {
+          setFoldedDashboardOpen(false);
+        } else {
+          setFoldedDashboardOpen(true);
+        }
+
+        if (isDashboardOpen) {
+          setDashboardOpen(false);
+        }
 
         return undefined;
       }
@@ -31,7 +39,7 @@ const useToggleDashboard = ({
     return () => {
       Browser.runtime.onMessage.removeListener(listener);
     };
-  }, [toggleDashboardOpen]);
+  }, [isFoldedDashboardOpen, setFoldedDashboardOpen, isDashboardOpen, setDashboardOpen]);
 
   useEffect(() => {
     requestAnimationFrame(() => {

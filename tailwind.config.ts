@@ -39,7 +39,8 @@ const config: Config = {
       },
       zIndex: {
         toolTip: '9000',
-        annotation: '9999',
+        annotation: '9500',
+        dashboard: '9999',
       },
     },
   },

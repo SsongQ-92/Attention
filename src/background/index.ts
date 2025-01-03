@@ -30,7 +30,7 @@ Browser.tabs.onActivated.addListener(async (activeInfo) => {
 Browser.action.onClicked.addListener(async (tab: Browser.Tabs.Tab) => {
   if (!tab?.url || !tab.id) return;
 
-  const isAllowed = ALLOW_URL.some((url) => tab.url?.startsWith(url));
+  const isAllowed = ALLOW_URL.some((url) => tab.url?.includes(url) && tab.url !== url);
   const currentBadgeText = await Browser.action.getBadgeText({ tabId: tab.id });
 
   if (isAllowed && currentBadgeText === badgeText.ON) {

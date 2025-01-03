@@ -8,15 +8,15 @@ import FoldedDashboard from './FoldedDashboard';
 
 function DashboardContainer() {
   const isDashboardOpen = useBoundStore((state) => state.isDashboardOpen);
-  const toggleDashboardOpen = useBoundStore((state) => state.toggleDashboardOpen);
+  const isFoldedDashboardOpen = useBoundStore((state) => state.isFoldedDashboardOpen);
   const isCreatingMemoMode = useBoundStore((state) => state.isCreatingMemoMode);
   const isEditingMemoMode = useBoundStore((state) => state.isEditingMemoMode);
   const viewMemoMode = useBoundStore((state) => state.viewMemoMode);
 
-  useToggleDashboard({ isDashboardOpen, toggleDashboardOpen });
+  useToggleDashboard();
 
   return (
-    <main className='h-screen fixed top-0 left-0 z-40'>
+    <main className='h-screen fixed top-0 left-0 z-dashboard'>
       {isDashboardOpen && (
         <div className='flex flex-col justify-start gap-20 p-10 py-30 w-270 h-full bg-white'>
           <h1 className='font-pretendard color-customBlack text-25 bg-yellow-100 px-10 font-bold'>
@@ -27,7 +27,7 @@ function DashboardContainer() {
           {(isCreatingMemoMode || isEditingMemoMode) && <MemoEditor />}
         </div>
       )}
-      <FoldedDashboard />
+      {isFoldedDashboardOpen && <FoldedDashboard />}
     </main>
   );
 }

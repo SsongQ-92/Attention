@@ -20,7 +20,7 @@ const initializeRender = async () => {
   if (document) {
     if (!document.querySelector('web-highlight-layer')) {
       const webHighlightLayer = document.createElement('web-highlight-layer');
-      const mainRootDiv = document.body.querySelector('#root') as HTMLDivElement;
+      const mainRootDiv = document.querySelector('body') as HTMLBodyElement;
       mainRootDiv.appendChild(webHighlightLayer);
     }
 
