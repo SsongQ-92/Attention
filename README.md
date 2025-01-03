@@ -99,10 +99,15 @@
   <div markdown="1">
 
 <!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
+  1. 메모 작성
 
   <div align="center">
     <img width="95%" src="/public/기능-3.png" alt="아티클 관련 메모 작성 및 아카이빙 대시보드"/>
   </div>
+
+  <br />
+
+  2. 메모 조회
 
   <div align="center">
     <img width="95%" src="/public/기능-4.png" alt="아티클 관련 메모 작성 및 아카이빙 대시보드"/>
