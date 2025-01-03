@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 import Browser from 'webextension-polyfill';
 
-import { msgAction } from '../config/consts';
+import { ALLOW_URL, msgAction } from '../config/consts';
 import { checkMessageType } from '../config/types';
 import useBoundStore from '../store/useBoundStore';
 
@@ -48,8 +48,21 @@ const useToggleDashboard = () => {
       } else {
         document.body.style.marginLeft = isHighlightBarOpen ? '78px' : '50px';
       }
+
+      if (!isFoldedDashboardOpen) {
+        document.body.style.marginLeft = '0px';
+      }
     });
-  }, [isDashboardOpen, isHighlightBarOpen]);
+  }, [isDashboardOpen, isHighlightBarOpen, isFoldedDashboardOpen]);
+
+  useEffect(() => {
+    const currentUrl = window.location.href;
+    const isAllowed = ALLOW_URL.some((url) => currentUrl.includes(url) && currentUrl !== url);
+
+    if (!isAllowed) {
+      setFoldedDashboardOpen(false);
+    }
+  }, [setFoldedDashboardOpen]);
 };
 
 export default useToggleDashboard;
