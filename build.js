@@ -61,10 +61,6 @@ const runEsbuild = async (inlineCSS) => {
     define: {
       'process.env.INLINE_CSS': JSON.stringify(inlineCSS),
     },
-    loader: {
-      '.png': 'dataurl',
-      '.svg': 'file',
-    },
   });
 };
 
