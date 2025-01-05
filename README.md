@@ -3,8 +3,12 @@
 <div align="center">
   <b>긴 글 읽기를 돕는 크롬 익스텐션</b><br/>
   <b>서비스 자체 가이드라인 하이라이트와 자유로운 주석 표시 및 메모 기능 제공</b>
-  <br />
-  <img width="80%" src="/public/대표이미지.png" alt="서비스 대표이미지" />
+</div>
+
+<br />
+
+<div align="center">
+  <img width="90%" src="/public/대표이미지.png" alt="서비스 대표이미지" />
 </div>
 
 <br />
@@ -383,8 +387,6 @@ const buildCSS = async () => {
   </div>
 </details>
 
-<br />
-
 <details>
   <summary><b>실제 코드</b></summary>
   <div markdown="1">
@@ -455,8 +457,6 @@ connectedCallback() {
 
   </div>
 </details>
-
-<br />
 
 <details>
   <summary><b>관련 이미지</b></summary>
