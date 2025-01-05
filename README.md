@@ -3,6 +3,8 @@
 <div align="center">
   <b>긴 글 읽기를 돕는 크롬 익스텐션</b><br/>
   <b>서비스 자체 가이드라인 하이라이트와 자유로운 주석 표시 및 메모 기능 제공</b>
+  <br />
+  <img width="80%" src="/public/대표이미지.png" alt="서비스 대표이미지" />
 </div>
 
 <br />
@@ -24,6 +26,11 @@
   * [PostCSS](#postcss)
 - [4. 겪은 문제와 해결 과정](#4-%EA%B2%AA%EC%9D%80-%EB%AC%B8%EC%A0%9C%EC%99%80-%ED%95%B4%EA%B2%B0-%EA%B3%BC%EC%A0%95)
   * [어떻게 기존 페이지의 전역 스타일과 DOM 구조로부터 격리할 수 있을까?](#%EC%96%B4%EB%96%BB%EA%B2%8C-%EA%B8%B0%EC%A1%B4-%ED%8E%98%EC%9D%B4%EC%A7%80%EC%9D%98-%EC%A0%84%EC%97%AD-%EC%8A%A4%ED%83%80%EC%9D%BC%EA%B3%BC-dom-%EA%B5%AC%EC%A1%B0%EB%A1%9C%EB%B6%80%ED%84%B0-%EA%B2%A9%EB%A6%AC%ED%95%A0-%EC%88%98-%EC%9E%88%EC%9D%84%EA%B9%8C)
+  * [웹 페이지 main DOM을 어떻게 파싱하여 서비스 하이라이트를 제공할까?](#%EC%9B%B9-%ED%8E%98%EC%9D%B4%EC%A7%80-main-dom%EC%9D%84-%EC%96%B4%EB%96%BB%EA%B2%8C-%ED%8C%8C%EC%8B%B1%ED%95%98%EC%97%AC-%EC%84%9C%EB%B9%84%EC%8A%A4-%ED%95%98%EC%9D%B4%EB%9D%BC%EC%9D%B4%ED%8A%B8%EB%A5%BC-%EC%A0%9C%EA%B3%B5%ED%95%A0%EA%B9%8C)
+- [5. 개발과 감상](#5-%EA%B0%9C%EB%B0%9C%EA%B3%BC-%EA%B0%90%EC%83%81)
+  * [왜 indexedDB에 데이터를 저장하는 것으로 결정하게 되었을까?](#%EC%99%9C-indexeddb%EC%97%90-%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%A5%BC-%EC%A0%80%EC%9E%A5%ED%95%98%EB%8A%94-%EA%B2%83%EC%9C%BC%EB%A1%9C-%EA%B2%B0%EC%A0%95%ED%95%98%EA%B2%8C-%EB%90%98%EC%97%88%EC%9D%84%EA%B9%8C)
+  * [향후 확장 계획](#%ED%96%A5%ED%9B%84-%ED%99%95%EC%9E%A5-%EA%B3%84%ED%9A%8D)
+  * [회고](#%ED%9A%8C%EA%B3%A0)
 
 <!-- tocstop -->
 
@@ -65,8 +72,6 @@
   <summary><b>스크린샷: 서비스 자체 하이라이트 표시</b></summary>
   <div markdown="1">
 
-<!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
-
   <div align="center">
     <img width="95%" src="/public/기능-1.png" alt="서비스 자체 하이라이트 기능"/>
   </div>
@@ -83,8 +88,6 @@
 <details>
   <summary><b>스크린샷: 유저 생성 주석 표시</b></summary>
   <div markdown="1">
-
-<!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
 
   <div align="center">
     <img width="95%" src="/public/기능-2.png" alt="유저 생성 주석 표시 기능"/>
@@ -145,8 +148,10 @@
 - 추가적인 라이브러리 설치 없이 간결한 훅 기반 API를 제공하여, 스토어 생성 및 상태 관리를 빠르고 직관적으로 구현할 수 있습니다.
 
 <details>
-  <summary><b>Slice 예시 코드</b></summary>
+  <summary><b>실제 코드</b></summary>
   <div markdown="1">
+
+<br />
 
 **modalSlice.ts**
 
@@ -181,7 +186,7 @@ export const createModalSlice: StateCreator<ModalState> = (set) => ({
 - Esbuild의 `define` 옵션을 PostCSS와 함께 사용하여 빌드 시점에 `process.env.INLINE_CSS`을 문자열 CSS로 대체하였습니다. 대체된 문자열 CSS는 `shadow DOM` 내부의 `<style>` 태그의 내용으로 주입하였습니다.
 
 <details>
-  <summary><b>관련 코드</b></summary>
+  <summary><b>실제 코드</b></summary>
   <div markdown="1">
 
 ```js
@@ -216,6 +221,8 @@ const runEsbuild = async (inlineCSS) => {
 <details>
   <summary><b>플러그인</b></summary>
   <div markdown="1">
+
+<br />
 
 1. tailwindCSS의 PostCSS 플러그인
 
@@ -271,7 +278,219 @@ const buildCSS = async () => {
   </div>
 </details>
 
-
 ## 4. 겪은 문제와 해결 과정
 
 ### 어떻게 기존 페이지의 전역 스타일과 DOM 구조로부터 격리할 수 있을까?
+
+- 브라우저 확장 프로그램 서비스로써 구현한 하이라이트 레이어와 대시보드 UI가 기존 웹 페이지의 DOM과 스타일에 영향을 주지 않아야 하며, 동시에 웹 페이지의 스타일 및 동작에 영향을 받지 않도록 설계해야 했습니다. 이를 위해, 웹 표준 API인 `Custom Element`와 `Shadow DOM`를 사용하였습니다.
+- `Custom Element`: 새로운 사용자 정의 요소를 만들 수 있게 해주는 JavaScript API입니다.
+  - HTML 요소 기본 클래스 HTMLElement에서 상속받은 자율적인 사용자 정의 요소(Autonomous custom elements)로 구현하였습니다.
+- `Shadow DOM`: 캡슐화, 즉, 만들어진 사용자 정의 요소 내부의 DOM 트리를 페이지에서 실행 중인 JavaScript 및 CSS로부터 숨기기 위하여 사용한 JavaScript API입니다.
+  - Shadow DOM 내부의 DOM tree(Shadow tree) 내부에서는 일반적인 DOM 노드와 동일한 방식으로 자유롭게 자식을 추가하거나 속성을 설정하거나 `<style>` 요소 내부에 전체 shadow DOM 트리에 스타일을 추가하는 등의 설정이 가능합니다.
+
+<details>
+  <summary><b>문제의 근본적 원인: 샌드박스 환경</b></summary>
+  <div markdown="1">
+
+<br />
+
+기획이 모두 끝나고 개발을 시작하면서 서비스가 제공하는 하이라이트 기능 구현에 대해 먼저 고민하였습니다. 기존 페이지인 main DOM에 스타일이나 요소를 주입하는 방식은 이미 적용이 되는 스타일 및 이벤트에 의해 실행될 추가적인 코드 스크립트와의 충돌을 야기할 것으로 예상되었습니다. 따라서, 별도의 레이어를 구성하여 구현하고자 했고, 웹 컴포넌트(`Web Components`)인 `Shadow DOM`과 `Custom Element`를 알게 되었습니다.
+
+- 브라우저 확장 프로그램의 콘텐츠 스크립트는 백그라운드 스크립트나 팝업 스크립트 등 다른 스크립트의 환경과는 구별되는 웹페이지 컨텍스트에서 실행되는 파일입니다. 이는 웹페이지의 기본 JavaScript 코드(해당 페이지가 로드한 스크립트)와 격리된 환경에서 실행이 되는데요, 해당 환경을 샌드박스 환경이라고 합니다.
+- 샌드박스 환경의 특징은 아래와 같습니다.
+  - 웹페이지의 전역 스코프에 노출되지 않고, 웹페이지의 전역 스코프에 선언된 변수에도 접근할 수 없는 자체 전역 객체(window)를 가지고 있습니다. 
+  - 보안을 위해 콘텐츠 스크립트가 웹페이지의 스크립트와 충돌하거나 악의적인 웹페이지가 콘텐츠 스크립트를 오염시키는 것을 방지합니다.
+  - **브라우저 확장 전용 API(`chrome.runtime` 등)에 접근 가능하지만, 기본적으로 웹 페이지의 `Custom Element`나 `shadow DOM` API에 직접 접근할 수 없습니다.**
+
+  </div>
+</details>
+
+<details>
+  <summary><b>1차 난관: Custom Elements가 만들어지지 않는 문제</b></summary>
+  <div markdown="1">
+
+<br />
+
+- 문제 상황
+  - 콘텐츠 스크립트가 실행되는 샌드박스 환경에서는 `window.customElements`가 null로 나타나 `Custom Elements` 정의가 불가능했습니다. 위의 샌드박스 환경의 마지막 특징을 알아내는 데 오랜 시간이 걸렸습니다.
+
+- 해결 방법
+  - 콘텐츠 스크립트에서 `Custom Elements` 정의가 불가능했기에, 따라서 `Custom Elements`를 shadow host로 가질 `Shadow DOM`도 정의할 수 없다는 것을 알았습니다.
+  - 이에 콘텐츠 스크립트가 실행되는 샌드박스 환경이 아닌, `웹 페이지 환경`에서 `Custom Elements`와 `Shadow DOM`을 정의하는 코드가 실행되도록 **스크립트를 주입하는 것을 결정**했습니다.
+  - 주입된 스크립트는 샌드박스 외부에서 실행되고, `window.customElements`와 같은 브라우저 API에 접근할 수 있었습니다.
+  - 실제 코드는 아래 토글을 참고 바랍니다.
+
+  </div>
+</details>
+
+<details>
+  <summary><b>2차 난관: Shadow DOM 내부에 createRoot가 되지 않는 문제</b></summary>
+  <div markdown="1">
+
+<br />
+
+- 문제 상황
+  - Custom Elements는 정의되었지만, Shadow DOM 내부에 React 컴포넌트를 렌더링하려고 하면 계속 null이 반환되었습니다.
+
+- 해결 방법
+  - Custom Elements가 완전히 정의되지 않은 상태에서 Shadow DOM에 접근하려고 했기 때문에 null이 발생했습니다. 이를 해결하기 위해 `whenDefined` 메서드를 사용하여 Custom Elements가 정의될 때까지 대기하도록 했습니다.
+  - 그 후, Custom Elements가 정의되었을 때, 정의되었음을 `window.postMessage`를 통해 콘텐츠 스크립트로 알렸습니다.
+  - 콘텐츠 스크립트는 `window.addEventListener`로 메시지를 수신하고, Shadow DOM 내부 태그를 루트로 React 컴포넌트를 렌더링했습니다.
+
+  </div>
+</details>
+
+<details>
+  <summary><b>3차 난관: Shadow DOM 내부에 TailwindCSS 스타일이 적용되지 않는 문제</b></summary>
+  <div markdown="1">
+
+<br />
+
+- 문제 상황
+  - Shadow DOM은 외부 스타일과 격리되어 있기 때문에, TailwindCSS와 같은 유틸리티 클래스가 적용되지 않았습니다. 왜냐하면, TailwindCSS는 전역 스타일 규칙을 클래스에 적용하는 방식으로 작동합니다. 그러나 Shadow DOM 내부는 전역 스타일 정의를 참조하지 않기 때문에 TailwindCSS 클래스가 적용되지 않습니다.
+
+- 해결 방법
+  - Shadow DOM 내부에 `<style>` 태그를 만들고 자식으로 삽입했습니다.
+  - esbuild로 CSS 빌드 시 문자열로 변환하여 Shadow DOM 내부의 `<style>` 태그에 동적으로 CSS 문자열을 삽입했습니다.
+
+  </div>
+</details>
+
+<details>
+  <summary><b>상세 설명: Custom Element와 Shadow DOM</b></summary>
+  <div markdown="1">
+
+<br />
+
+**1. 스타일 격리**
+
+- Shadow DOM 내부의 스타일은 전역 스타일과 완전히 분리되어, 확장 프로그램이 웹 페이지의 기존 스타일에 영향을 주지 않습니다.
+- 반대로, 웹 페이지의 스타일이 확장 프로그램의 UI에 영향을 끼치지 않는다는 것도 보장합니다.
+- 확장 프로그램을 사용할 때는 방문하는 웹 페이지가 다양하기 때문에, 스타일 충돌 방지를 위해 Shadow DOM을 사용했습니다.
+
+**2. DOM 구조 격리**
+
+- 확장 프로그램의 DOM 조작이 웹 페이지의 기존 DOM과 충돌하지 않습니다.
+- 크롬 익스텐션에서 사용하는 content-script는 웹 페이지와 동일한 DOM에 접근하지만, Shadow DOM을 활용하면 이러한 접근을 격리할 수 있습니다.
+- 예를 들어, 확장 프로그램이 특정 UI를 추가하거나 React 컴포넌트를 렌더링하더라도 웹 페이지의 JavaScript와 충돌하지 않습니다.
+- 예를 들어,Custom Elements를 통해 `<web-highlight-layer>`와 같은 사용자 정의 태그를 생성하여 특정 역할을 담당하게 합니다.
+
+**3. 확장 프로그램의 안전성**
+
+- Shadow DOM은 확장 프로그램의 스크립트와 스타일이 웹 페이지의 기존 스크립트 및 스타일과 의도치 않게 상호작용하지 않도록 보장합니다.
+- 특히, 이번 프로젝트에서 사용한 TailwindCSS와 같은 유틸리티 기반 CSS를 사용할 때 전역 클래스 네임 충돌을 피할 수 있다는 점도 큰 장점입니다.
+
+  </div>
+</details>
+
+<br />
+
+<details>
+  <summary><b>실제 코드</b></summary>
+  <div markdown="1">
+
+<br />
+
+1. Script 태그 주입하여 샌드박스 벗어나기(/content-script/index.tsx)
+
+```tsx
+const injectScript = async () => {
+  const script = document.createElement('script');
+  script.src = Browser.runtime.getURL('injected-customElements-script.js');
+  (document.body || document.head || document.documentElement).appendChild(script);
+  script.remove();
+};
+```
+
+2. `whenDefined`로 Custom Elements의 정의 상태 확인 후 `window.postMessage`로 상태 전달(/content-script/injected-customElements-script.ts)
+
+```ts
+const notifyCustomElementsReady = async () => {
+  await customElements.whenDefined('web-highlight-layer');
+  await customElements.whenDefined('web-dashboard');
+
+  window.postMessage({ type: 'ELEMENT_READY', element: 'web-highlight-layer' }, '*');
+  window.postMessage({ type: 'ELEMENT_READY', element: 'web-dashboard' }, '*');
+};
+
+notifyCustomElementsReady();
+```
+
+3. `window.addEventListener`로 Custom Elements의 정의 확인에 대한 메시지를 수신하고, Shadow DOM 내부에서 React 컴포넌트 렌더링(/content-script/index.tsx)
+
+```tsx
+window.addEventListener('message', (event) => {
+  if (event.data?.type === 'ELEMENT_READY' && event.data.element === 'web-highlight-layer') {
+    const webHighlightLayer = document.querySelector('web-highlight-layer');
+    const shadowRootForWebHighlightLayer = webHighlightLayer?.shadowRoot;
+    const renderRoot = shadowRootForWebHighlightLayer?.querySelector('div');
+
+    if (renderRoot) {
+      createRoot(renderRoot).render(
+        <StrictMode>
+          <UserHighlightLayer />
+          <ServiceHighlightLayer />
+        </StrictMode>
+      );
+    }
+  }
+```
+
+4. 빌드 시 문자열로 변환된 CSS를 Shadow DOM 내부에 주입
+
+```ts
+connectedCallback() {
+  if (!this.shadowRoot) {
+    const shadowRoot = this.attachShadow({ mode: 'open' });
+
+    const styleTag = document.createElement('style');
+    styleTag.textContent = process.env.INLINE_CSS as string;
+    shadowRoot.appendChild(styleTag);
+
+    const reactRoot = document.createElement('div');
+    shadowRoot.appendChild(reactRoot);
+  }
+}
+```
+
+  </div>
+</details>
+
+<br />
+
+<details>
+  <summary><b>관련 이미지</b></summary>
+  <div markdown="1">
+
+<br />
+
+1. Shadow DOM
+
+<div align="center">
+  <img width="80%" src="./public/겪은문제와해결과정-1.PNG" alt="Shadow DOM 구조"/>
+</div>
+
+1. `web-highlight-layer` Custom Element와 Shadow DOM 
+
+<div align="center">
+  <img width="80%" src="./public/겪은문제와해결과정-2.PNG" alt="Custom Element와 Shadow DOM 구조"/>
+</div>
+
+3. `web-dashboard` Custom Element와 Shadow DOM 
+
+<div align="center">
+  <img width="80%" src="./public/겪은문제와해결과정-3.PNG" alt="Custom Element와 Shadow DOM 구조"/>
+</div>
+
+  </div>
+</details>
+
+### 웹 페이지 main DOM을 어떻게 파싱하여 서비스 하이라이트를 제공할까?
+
+## 5. 개발과 감상
+
+### 왜 indexedDB에 데이터를 저장하는 것으로 결정하게 되었을까?
+
+### 향후 확장 계획
+
+### 회고
