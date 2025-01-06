@@ -296,7 +296,7 @@ const buildCSS = async () => {
 - `Shadow DOM`: 캡슐화, 즉, 만들어진 사용자 정의 요소 내부의 DOM 트리를 페이지에서 실행 중인 JavaScript 및 CSS로부터 숨기기 위하여 사용한 JavaScript API입니다.
   - Shadow DOM 내부의 DOM tree(Shadow tree) 내부에서는 일반적인 DOM 노드와 동일한 방식으로 자유롭게 자식을 추가하거나 속성을 설정하거나 `<style>` 요소 내부에 전체 shadow DOM 트리에 스타일을 추가하는 등의 설정이 가능합니다.
 
-### 문제의 근본적 원인: 샌드박스 환경
+### [문제의 근본적 원인: 샌드박스 환경]
 
 기획이 모두 끝나고 개발을 시작하면서 서비스가 제공하는 하이라이트 기능 구현에 대해 먼저 고민하였습니다. 기존 페이지인 main DOM에 스타일이나 요소를 주입하는 방식은 이미 적용이 되는 스타일 및 이벤트에 의해 실행될 추가적인 코드 스크립트와의 충돌을 야기할 것으로 예상되었습니다. 따라서, 별도의 레이어를 구성하여 구현하고자 했고, 웹 컴포넌트(`Web Components`)인 `Shadow DOM`과 `Custom Element`를 알게 되었습니다.
 
@@ -306,7 +306,7 @@ const buildCSS = async () => {
   - 보안을 위해 콘텐츠 스크립트가 웹페이지의 스크립트와 충돌하거나 악의적인 웹페이지가 콘텐츠 스크립트를 오염시키는 것을 방지합니다.
   - **브라우저 확장 전용 API(`chrome.runtime` 등)에 접근 가능하지만, 기본적으로 웹 페이지의 `Custom Element`나 `shadow DOM` API에 직접 접근할 수 없습니다.**
 
-### 1차 난관: Custom Elements가 만들어지지 않는 문제
+### [1차 난관: Custom Elements가 만들어지지 않는 문제]
 
 - 문제 상황
   - 콘텐츠 스크립트가 실행되는 샌드박스 환경에서는 `window.customElements`가 null로 나타나 `Custom Elements` 정의가 불가능했습니다. 샌드박스 환경에서는 `Custom Element`나 `shadow DOM` API에 직접 접근할 수 없는 샌드박스의 특징을 알아내는 데 오랜 시간이 걸렸습니다.
@@ -371,7 +371,7 @@ script.remove();
   - 주입된 스크립트는 샌드박스 외부에서 실행되고, `window.customElements`와 같은 브라우저 API에 접근할 수 있었습니다.
   - 실제 코드는 아래 토글을 참고 바랍니다.
 
-### 2차 난관: Shadow DOM 내부에 createRoot가 되지 않는 문제
+### [2차 난관: Shadow DOM 내부에 createRoot가 되지 않는 문제]
 
 - 문제 상황
   - Custom Elements는 정의되었지만, Shadow DOM 내부에 React 컴포넌트를 렌더링하려고 하면 계속 null이 반환되었습니다.
@@ -381,7 +381,7 @@ script.remove();
   - 그 후, Custom Elements가 정의되었을 때, 정의되었음을 `window.postMessage`를 통해 콘텐츠 스크립트로 알렸습니다.
   - 콘텐츠 스크립트는 `window.addEventListener`로 메시지를 수신하고, Shadow DOM 내부 태그를 루트로 React 컴포넌트를 렌더링했습니다.
 
-### 3차 난관: Shadow DOM 내부에 TailwindCSS 스타일이 적용되지 않는 문제
+### [3차 난관: Shadow DOM 내부에 TailwindCSS 스타일이 적용되지 않는 문제]
 
 - 문제 상황
   - Shadow DOM은 외부 스타일과 격리되어 있기 때문에, TailwindCSS와 같은 유틸리티 클래스가 적용되지 않았습니다. 왜냐하면, TailwindCSS는 전역 스타일 규칙을 클래스에 적용하는 방식으로 작동합니다. 그러나 Shadow DOM 내부는 전역 스타일 정의를 참조하지 않기 때문에 TailwindCSS 클래스가 적용되지 않습니다.
