@@ -24,7 +24,7 @@ function MemoCard({ memo }: Props) {
   };
 
   return (
-    <div className='w-full flex flex-col justify-center items-start gap-8 border-1 rounded-sm p-10 text-customBlack border-borderColor break-words'>
+    <div className='w-full flex flex-col justify-center items-start gap-8 border-1 rounded-sm p-10 text-customBlack border-borderColor break-words hover:shadow-sm'>
       <h3
         onClick={handleCardClick}
         className='w-full p-2 font-semibold text-18 cursor-pointer hover:bg-backgroundColor-hover hover:underline'
@@ -42,7 +42,7 @@ function MemoCard({ memo }: Props) {
       </div>
       <div className='flex items-center gap-5 text-12 text-black/80'>
         <ClockwiseIcon className='size-14 pt-1' />
-        {`${year}-${month}-${date} ${hour}:${minute} ${standard}`}
+        {`${year}-${month}-${date} ${hour.toString().length < 2 ? `0${hour}` : hour}:${minute.toString().length < 2 ? `0${minute}` : minute} ${standard}`}
       </div>
     </div>
   );
