@@ -227,7 +227,7 @@ const runEsbuild = async (inlineCSS) => {
 - 이를 위해 Shadow DOM 내부에 `<style>` 태그를 동적으로 삽입할 필요가 있었으며, **PostCSS를 사용해 플러그인 배열을 전달, Processor 인스턴스을 생성한 뒤, process 메서드를 통해 CSS 문자열을 반환**받았습니다. 최종적으로 이 CSS 문자열을 `<style>` 태그의 내용으로 주입하여 Shadow DOM 내부에서 스타일을 적용하였습니다.
 
 <details>
-  <summary><b>플러그인</b></summary>
+  <summary><b>사용한 플러그인</b></summary>
   <div markdown="1">
 
 <br />
@@ -316,7 +316,7 @@ const buildCSS = async () => {
 </div>
 
 <div align="center">
-  <img width="80%" src="/public/겪은문제와해결과정-5.png" alt="Custom Elements 생성 에러 관련 소스" />
+  <img width="60%" src="/public/겪은문제와해결과정-5.png" alt="Custom Elements 생성 에러 관련 소스" />
 </div>
 
 - 해결 과정
