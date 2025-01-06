@@ -11,6 +11,7 @@ const getPagination = (totalDataCount: number, currentPage: number) => {
   const hasNext = endPage < totalPages;
 
   const pages: number[] = [];
+
   for (let i = startPage; i <= endPage; i++) {
     pages.push(i);
   }

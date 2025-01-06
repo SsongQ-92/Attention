@@ -11,11 +11,13 @@ import MemoCard from './MemoCard';
 
 function MemoCardList() {
   const [memos, setMemos] = useState<Memo[]>([]);
+  const [filteredMemos, setFilteredMemos] = useState<Memo[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [sort, setSort] = useState<'newest' | 'oldest'>('newest');
+  const [isCurrentPageMemo, setIsCurrentPageMemo] = useState<boolean>(false);
 
   const setCreatingMemoMode = useBoundStore((state) => state.setCreatingMemoMode);
-  const { pages, hasPrev, hasNext } = getPagination(memos.length, currentPage);
+  const { pages, hasPrev, hasNext } = getPagination(filteredMemos.length, currentPage);
 
   const startIndex = pagination.pageSize * (currentPage - 1);
   const endIndex = pagination.pageSize * (currentPage - 1) + 4;
@@ -28,6 +30,16 @@ function MemoCardList() {
     }
   };
 
+  const handleCurrentPageMemoClick = () => {
+    if (isCurrentPageMemo) {
+      setFilteredMemos(memos);
+    } else {
+      setFilteredMemos((prev) => prev.filter((memo) => memo.url === window.location.href));
+    }
+
+    setIsCurrentPageMemo((prev) => !prev);
+  };
+
   const handleCreateClick = () => {
     setCreatingMemoMode(true);
   };
@@ -38,6 +50,7 @@ function MemoCardList() {
         const response = await asyncLoadMemo();
 
         setMemos(response);
+        setFilteredMemos(response);
       } catch (error) {
         console.error(error);
       }
@@ -46,7 +59,7 @@ function MemoCardList() {
     fetchMemos();
   }, []);
 
-  if (!memos || memos.length === 0) {
+  if (!filteredMemos || filteredMemos.length === 0) {
     return (
       <div className='h-full flex flex-col gap-15 pb-20'>
         <div className='flex justify-end items-center'>
@@ -62,7 +75,7 @@ function MemoCardList() {
     );
   }
 
-  const slicedMemos = memos.slice(startIndex, endIndex);
+  const slicedMemos = filteredMemos.slice(startIndex, endIndex);
 
   if (sort === 'newest') {
     slicedMemos.sort((a, b) => b.id - a.id);
@@ -83,12 +96,20 @@ function MemoCardList() {
             <SortOldestIcon classNames='size-18' />
           )}
         </div>
-        <button
-          className='py-3 px-5 rounded-sm border-1 border-borderColor text-customBlack text-14 hover:bg-backgroundColor-hover '
-          onClick={handleCreateClick}
-        >
-          새 메모
-        </button>
+        <div className='flex gap-5'>
+          <button
+            className='py-3 px-5 rounded-sm border-1 border-borderColor text-customBlack text-14 hover:bg-backgroundColor-hover'
+            onClick={handleCurrentPageMemoClick}
+          >
+            {isCurrentPageMemo ? '전체' : '현재 페이지'}
+          </button>
+          <button
+            className='py-3 px-5 rounded-sm border-1 border-borderColor text-customBlack text-14 hover:bg-backgroundColor-hover '
+            onClick={handleCreateClick}
+          >
+            새 메모
+          </button>
+        </div>
       </div>
       <div className='flex flex-col gap-15 flex-grow w-full'>
         {slicedMemos.map((memo) => {
