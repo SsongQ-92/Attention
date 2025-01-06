@@ -303,12 +303,15 @@ const useRoughNotation = () => {
       }
     };
 
+    const throttledLoadHighlight = throttle(async () => {
+      previousUrl = window.location.href;
+
+      await loadHighlight();
+    }, 300);
+
     const observer = new MutationObserver(() => {
       if (window.location.href !== previousUrl) {
-        console.log(`URL 변경 감지: ${window.location.href}`);
-        previousUrl = window.location.href;
-
-        loadHighlight();
+        throttledLoadHighlight();
       }
     });
 
@@ -318,6 +321,7 @@ const useRoughNotation = () => {
 
     return () => {
       observer.disconnect();
+      throttledLoadHighlight.cancel();
     };
   }, [setUserHighlightMode, recalculatePositions]);
 
