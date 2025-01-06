@@ -18,23 +18,23 @@
 <!-- toc -->
 
 - [1. 기획 의도 및 목적](#1-%EA%B8%B0%ED%9A%8D-%EC%9D%98%EB%8F%84-%EB%B0%8F-%EB%AA%A9%EC%A0%81)
-  * [기획 의도](#%EA%B8%B0%ED%9A%8D-%EC%9D%98%EB%8F%84)
-  * [목적 및 기대 효과](#%EB%AA%A9%EC%A0%81-%EB%B0%8F-%EA%B8%B0%EB%8C%80-%ED%9A%A8%EA%B3%BC)
+  * [1) 기획 의도](#1-%EA%B8%B0%ED%9A%8D-%EC%9D%98%EB%8F%84)
+  * [2) 목적 및 기대 효과](#2-%EB%AA%A9%EC%A0%81-%EB%B0%8F-%EA%B8%B0%EB%8C%80-%ED%9A%A8%EA%B3%BC)
 - [2. 기능](#2-%EA%B8%B0%EB%8A%A5)
-  * [서비스 자체 하이라이트 표시: Reading Assistant Mode](#%EC%84%9C%EB%B9%84%EC%8A%A4-%EC%9E%90%EC%B2%B4-%ED%95%98%EC%9D%B4%EB%9D%BC%EC%9D%B4%ED%8A%B8-%ED%91%9C%EC%8B%9C-reading-assistant-mode)
-  * [유저 생성 주석 표시: Self-annotation Mode](#%EC%9C%A0%EC%A0%80-%EC%83%9D%EC%84%B1-%EC%A3%BC%EC%84%9D-%ED%91%9C%EC%8B%9C-self-annotation-mode)
-  * [아티클 관련 메모 작성 및 아카이빙 대시보드: Memo edit & archive Mode](#%EC%95%84%ED%8B%B0%ED%81%B4-%EA%B4%80%EB%A0%A8-%EB%A9%94%EB%AA%A8-%EC%9E%91%EC%84%B1-%EB%B0%8F-%EC%95%84%EC%B9%B4%EC%9D%B4%EB%B9%99-%EB%8C%80%EC%8B%9C%EB%B3%B4%EB%93%9C-memo-edit--archive-mode)
+  * [1) 서비스 자체 하이라이트 표시: Reading Assistant Mode](#1-%EC%84%9C%EB%B9%84%EC%8A%A4-%EC%9E%90%EC%B2%B4-%ED%95%98%EC%9D%B4%EB%9D%BC%EC%9D%B4%ED%8A%B8-%ED%91%9C%EC%8B%9C-reading-assistant-mode)
+  * [2) 유저 생성 주석 표시: Self-annotation Mode](#2-%EC%9C%A0%EC%A0%80-%EC%83%9D%EC%84%B1-%EC%A3%BC%EC%84%9D-%ED%91%9C%EC%8B%9C-self-annotation-mode)
+  * [3) 아티클 관련 메모 작성 및 아카이빙 대시보드: Memo edit & archive Mode](#3-%EC%95%84%ED%8B%B0%ED%81%B4-%EA%B4%80%EB%A0%A8-%EB%A9%94%EB%AA%A8-%EC%9E%91%EC%84%B1-%EB%B0%8F-%EC%95%84%EC%B9%B4%EC%9D%B4%EB%B9%99-%EB%8C%80%EC%8B%9C%EB%B3%B4%EB%93%9C-memo-edit--archive-mode)
 - [3. 기술 스택](#3-%EA%B8%B0%EC%88%A0-%EC%8A%A4%ED%83%9D)
-  * [Zustand](#zustand)
-  * [esbuild](#esbuild)
-  * [PostCSS](#postcss)
+  * [1) Zustand](#1-zustand)
+  * [2) esbuild](#2-esbuild)
+  * [3) PostCSS](#3-postcss)
 - [4. 겪은 문제와 해결 과정](#4-%EA%B2%AA%EC%9D%80-%EB%AC%B8%EC%A0%9C%EC%99%80-%ED%95%B4%EA%B2%B0-%EA%B3%BC%EC%A0%95)
-  * [어떻게 기존 페이지의 전역 스타일과 DOM 구조로부터 격리할 수 있을까?](#%EC%96%B4%EB%96%BB%EA%B2%8C-%EA%B8%B0%EC%A1%B4-%ED%8E%98%EC%9D%B4%EC%A7%80%EC%9D%98-%EC%A0%84%EC%97%AD-%EC%8A%A4%ED%83%80%EC%9D%BC%EA%B3%BC-dom-%EA%B5%AC%EC%A1%B0%EB%A1%9C%EB%B6%80%ED%84%B0-%EA%B2%A9%EB%A6%AC%ED%95%A0-%EC%88%98-%EC%9E%88%EC%9D%84%EA%B9%8C)
-  * [웹 페이지 main DOM을 어떻게 파싱하여 서비스 하이라이트를 제공할까?](#%EC%9B%B9-%ED%8E%98%EC%9D%B4%EC%A7%80-main-dom%EC%9D%84-%EC%96%B4%EB%96%BB%EA%B2%8C-%ED%8C%8C%EC%8B%B1%ED%95%98%EC%97%AC-%EC%84%9C%EB%B9%84%EC%8A%A4-%ED%95%98%EC%9D%B4%EB%9D%BC%EC%9D%B4%ED%8A%B8%EB%A5%BC-%EC%A0%9C%EA%B3%B5%ED%95%A0%EA%B9%8C)
+  * [1) 어떻게 기존 페이지의 전역 스타일과 DOM 구조로부터 격리할 수 있을까?](#1-%EC%96%B4%EB%96%BB%EA%B2%8C-%EA%B8%B0%EC%A1%B4-%ED%8E%98%EC%9D%B4%EC%A7%80%EC%9D%98-%EC%A0%84%EC%97%AD-%EC%8A%A4%ED%83%80%EC%9D%BC%EA%B3%BC-dom-%EA%B5%AC%EC%A1%B0%EB%A1%9C%EB%B6%80%ED%84%B0-%EA%B2%A9%EB%A6%AC%ED%95%A0-%EC%88%98-%EC%9E%88%EC%9D%84%EA%B9%8C)
+  * [2) 웹 페이지 main DOM을 어떻게 파싱하여 서비스 하이라이트를 제공할까?](#2-%EC%9B%B9-%ED%8E%98%EC%9D%B4%EC%A7%80-main-dom%EC%9D%84-%EC%96%B4%EB%96%BB%EA%B2%8C-%ED%8C%8C%EC%8B%B1%ED%95%98%EC%97%AC-%EC%84%9C%EB%B9%84%EC%8A%A4-%ED%95%98%EC%9D%B4%EB%9D%BC%EC%9D%B4%ED%8A%B8%EB%A5%BC-%EC%A0%9C%EA%B3%B5%ED%95%A0%EA%B9%8C)
 - [5. 개발과 감상](#5-%EA%B0%9C%EB%B0%9C%EA%B3%BC-%EA%B0%90%EC%83%81)
-  * [왜 indexedDB에 데이터를 저장하는 것으로 결정하게 되었을까?](#%EC%99%9C-indexeddb%EC%97%90-%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%A5%BC-%EC%A0%80%EC%9E%A5%ED%95%98%EB%8A%94-%EA%B2%83%EC%9C%BC%EB%A1%9C-%EA%B2%B0%EC%A0%95%ED%95%98%EA%B2%8C-%EB%90%98%EC%97%88%EC%9D%84%EA%B9%8C)
-  * [향후 확장 계획](#%ED%96%A5%ED%9B%84-%ED%99%95%EC%9E%A5-%EA%B3%84%ED%9A%8D)
-  * [회고](#%ED%9A%8C%EA%B3%A0)
+  * [1) 왜 indexedDB에 데이터를 저장하는 것으로 결정하게 되었을까?](#1-%EC%99%9C-indexeddb%EC%97%90-%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%A5%BC-%EC%A0%80%EC%9E%A5%ED%95%98%EB%8A%94-%EA%B2%83%EC%9C%BC%EB%A1%9C-%EA%B2%B0%EC%A0%95%ED%95%98%EA%B2%8C-%EB%90%98%EC%97%88%EC%9D%84%EA%B9%8C)
+  * [2) 향후 확장 계획](#2-%ED%96%A5%ED%9B%84-%ED%99%95%EC%9E%A5-%EA%B3%84%ED%9A%8D)
+  * [3) 회고](#3-%ED%9A%8C%EA%B3%A0)
 
 <!-- tocstop -->
 
@@ -42,11 +42,11 @@
 
 ## 1. 기획 의도 및 목적
 
-### 기획 의도
+### 1) 기획 의도
 
 긴 글을 읽기 어려워하거나 집중력이 흐려지는 현대인들을 위해, 읽기 경험을 향상시키는 소프트웨어 서비스(SaaS; Software as a Service) 개발
 
-### 목적 및 기대 효과
+### 2) 목적 및 기대 효과
 
 긴 글을 제공하는 대표적인 블로그 사이트를 대상으로 개발
 
@@ -61,7 +61,7 @@
 
 ## 2. 기능
 
-### 서비스 자체 하이라이트 표시: Reading Assistant Mode
+### 1) 서비스 자체 하이라이트 표시: Reading Assistant Mode
 
 - 특수한 하이라이트 바 (ON/OFF)
   - 하이라이팅할 요소들을 선별하여 DOM 파싱
@@ -83,7 +83,7 @@
   </div>
 </details>
 
-### 유저 생성 주석 표시: Self-annotation Mode
+### 2) 유저 생성 주석 표시: Self-annotation Mode
 
 - 텍스트에 하이라이트, 동그라미, 네모, 대괄호 등 다양한 시각적 주석 추가 기능 제공 (지면의 글을 읽는 것처럼 직관적으로 표시 가능)
 - 주석의 타입 변경, 삭제, ON/OFF 기능 지원
@@ -100,7 +100,7 @@
   </div>
 </details>
 
-### 아티클 관련 메모 작성 및 아카이빙 대시보드: Memo edit & archive Mode
+### 3) 아티클 관련 메모 작성 및 아카이빙 대시보드: Memo edit & archive Mode
 
 - 웹 페이지 본문 옆 사이드 영역에 메모용 대시보드 표시 (ON/OFF)
 - 메모를 마크다운 형식으로 생성, 조회, 수정, 삭제(CRUD) 가능
@@ -146,7 +146,7 @@
   <img src="https://img.shields.io/badge/postcss-DD3A0A?style=flat-square&logo=postcss&logoColor=white" />
 </div>
 
-### Zustand
+### 1) Zustand
 
 - 대시보드와 하이라이트 레이어의 렌더링 루트를 `Custom Elements`와 `Shadow DOM`을 통해 DOM 상에서 별도의 위치에 두었기 때문에, 중앙 집중형의 전역 상태 관리가 필요하였습니다.
 - 추가적인 라이브러리 설치 없이 간결한 훅 기반 API를 제공하여, 스토어 생성 및 상태 관리를 빠르고 직관적으로 구현할 수 있습니다.
@@ -184,7 +184,7 @@ export const createModalSlice: StateCreator<ModalState> = (set) => ({
   </div>
 </details>
 
-### esbuild
+### 2) esbuild
 
 - React를 활용한 브라우저 확장 프로그램 개발에서는 모듈화되어 있는 여러 파일을 **빠르게 content-script, background와 같은 스크립트로 번들링**하여 변경 사항에 대한 결과물을 확인할 필요가 있었습니다.
 - Esbuild의 `define` 옵션을 PostCSS와 함께 사용하여 빌드 시점에 `process.env.INLINE_CSS`을 문자열 CSS로 대체하였습니다. 대체된 문자열 CSS는 `shadow DOM` 내부의 `<style>` 태그의 내용으로 주입하였습니다.
@@ -217,7 +217,7 @@ const runEsbuild = async (inlineCSS) => {
   </div>
 </details>
 
-### PostCSS
+### 3) PostCSS
 
 - 브라우저 확장 프로그램에 대한 개발이었기 때문에 DOM을 직접 조작하지 않고 **`Shadow DOM`을 활용해 격리된 스타일링**을 하였습니다.
 - 이를 위해 Shadow DOM 내부에 `<style>` 태그를 동적으로 삽입할 필요가 있었으며, **PostCSS를 사용해 플러그인 배열을 전달, Processor 인스턴스을 생성한 뒤, process 메서드를 통해 CSS 문자열을 반환**받았습니다. 최종적으로 이 CSS 문자열을 `<style>` 태그의 내용으로 주입하여 Shadow DOM 내부에서 스타일을 적용하였습니다.
@@ -284,7 +284,7 @@ const buildCSS = async () => {
 
 ## 4. 겪은 문제와 해결 과정
 
-### 어떻게 기존 페이지의 전역 스타일과 DOM 구조로부터 격리할 수 있을까?
+### 1) 어떻게 기존 페이지의 전역 스타일과 DOM 구조로부터 격리할 수 있을까?
 
 - 브라우저 확장 프로그램 서비스로써 구현한 하이라이트 레이어와 대시보드 UI가 기존 웹 페이지의 DOM과 스타일에 영향을 주지 않아야 하며, 동시에 웹 페이지의 스타일 및 동작에 영향을 받지 않도록 설계해야 했습니다. 이를 위해, 웹 표준 API인 `Custom Element`와 `Shadow DOM`를 사용하였습니다.
 - `Custom Element`: 새로운 사용자 정의 요소를 만들 수 있게 해주는 JavaScript API입니다.
@@ -485,12 +485,12 @@ connectedCallback() {
   </div>
 </details>
 
-### 웹 페이지 main DOM을 어떻게 파싱하여 서비스 하이라이트를 제공할까?
+### 2) 웹 페이지 main DOM을 어떻게 파싱하여 서비스 하이라이트를 제공할까?
 
 ## 5. 개발과 감상
 
-### 왜 indexedDB에 데이터를 저장하는 것으로 결정하게 되었을까?
+### 1) 왜 indexedDB에 데이터를 저장하는 것으로 결정하게 되었을까?
 
-### 향후 확장 계획
+### 2) 향후 확장 계획
 
-### 회고
+### 3) 회고
