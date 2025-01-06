@@ -380,6 +380,7 @@ script.remove();
   - Custom Elements가 완전히 정의되지 않은 상태에서 Shadow DOM에 접근하려고 했기 때문에 null이 발생했습니다. 이를 해결하기 위해 `whenDefined` 메서드를 사용하여 Custom Elements가 정의될 때까지 대기하도록 했습니다.
   - 그 후, Custom Elements가 정의되었을 때, 정의되었음을 `window.postMessage`를 통해 콘텐츠 스크립트로 알렸습니다.
   - 콘텐츠 스크립트는 `window.addEventListener`로 메시지를 수신하고, Shadow DOM 내부 태그를 루트로 React 컴포넌트를 렌더링했습니다.
+  - 실제 코드는 아래 토글을 참고 바랍니다.
 
 ### [3차 난관: Shadow DOM 내부에 TailwindCSS 스타일이 적용되지 않는 문제]
 
@@ -389,6 +390,7 @@ script.remove();
 - 해결 방법
   - Shadow DOM 내부에 `<style>` 태그를 만들고 자식으로 삽입했습니다.
   - esbuild로 CSS 빌드 시 문자열로 변환하여 Shadow DOM 내부의 `<style>` 태그에 동적으로 CSS 문자열을 삽입했습니다.
+  - 실제 코드는 아래 토글을 참고 바랍니다.
 
 <details>
   <summary><b>상세 설명: Custom Element와 Shadow DOM</b></summary>
