@@ -287,6 +287,8 @@ const useRoughNotation = () => {
   }, [lastWindowWidth, recalculatePositions]);
 
   useEffect(() => {
+    let previousUrl = window.location.href;
+
     const loadHighlight = async () => {
       const annotations = await asyncLoadHighlight();
 
@@ -297,12 +299,26 @@ const useRoughNotation = () => {
 
       if (currentAnnotations.length > 0) {
         setUserHighlightMode(true);
-
         recalculatePositions();
       }
     };
 
+    const observer = new MutationObserver(() => {
+      if (window.location.href !== previousUrl) {
+        console.log(`URL 변경 감지: ${window.location.href}`);
+        previousUrl = window.location.href;
+
+        loadHighlight();
+      }
+    });
+
     loadHighlight();
+
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    return () => {
+      observer.disconnect();
+    };
   }, [setUserHighlightMode, recalculatePositions]);
 
   useEffect(() => {
