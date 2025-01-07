@@ -52,7 +52,7 @@ function RoughHighlight({ annotation, setEditHighlight }: Props) {
         type: annotation.type,
         color: annotation.type === 'highlight' ? annotation.color + '24' : annotation.color + 'B3',
         animate: false,
-        strokeWidth: 3,
+        strokeWidth: annotation.type === 'circle' ? 2 : 3,
       });
 
       roughAnnotationRef.current.show();

@@ -40,7 +40,7 @@ const useRoughNotation = () => {
 
       setTooltipPosition({
         top: rect.top < 30 ? rect.bottom + window.scrollY : rect.top + window.scrollY - 40,
-        left: rect.right + window.scrollX - 130,
+        left: rect.right + window.scrollX - 155,
       });
 
       setSelection({ isSelection: true, infoObject: selection });

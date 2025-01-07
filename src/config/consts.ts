@@ -9,11 +9,12 @@ interface AnnotationTypeMap {
   [key: string]: annotationType;
 }
 
-export const ANNOTATION_TYPES = ['원', '박스', '하이라이트'];
+export const ANNOTATION_TYPES = ['원', '박스', '하이라이트', '밑줄'];
 export const ANNOTATION_TYPES_MAP: AnnotationTypeMap = {
   원: 'circle',
   박스: 'box',
   하이라이트: 'highlight',
+  밑줄: 'underline',
 };
 
 export const msgAction = Object.freeze({
@@ -40,6 +41,6 @@ export const pagination = Object.freeze({
 });
 
 export const editTooltip = Object.freeze({
-  width: 170,
-  height: 35,
+  width: 180,
+  height: 38,
 });
