@@ -38,9 +38,9 @@ const config: Config = {
         pretendard: ['Pretendard', 'sans-serif'],
       },
       zIndex: {
-        toolTip: '9000',
-        annotation: '9500',
-        dashboard: '9999',
+        annotation: '9000',
+        dashboard: '9500',
+        toolTip: '9999',
       },
     },
   },
