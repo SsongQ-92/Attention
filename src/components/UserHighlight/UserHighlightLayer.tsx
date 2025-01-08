@@ -133,9 +133,9 @@ function UserHighlightLayer() {
               setRenderingAnnotations(updatedRenderingAnnotations);
               setEditHighlight({ isEditHighlight: false, position: null, id: null });
             }}
-            className='flex-center rounded-sm size-20 cursor-pointer bg-white hover:bg-backgroundColor-hover'
+            className='flex-center rounded-sm size-24 cursor-pointer bg-white hover:bg-backgroundColor-hover'
           >
-            <TrashIcon className='size-15' />
+            <TrashIcon className='size-20' />
           </div>
         </div>
       )}
