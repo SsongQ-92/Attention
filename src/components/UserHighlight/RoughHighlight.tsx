@@ -4,7 +4,7 @@ import { annotate } from 'rough-notation';
 import { RoughAnnotation } from 'rough-notation/lib/model';
 
 import { editTooltip } from '../../config/consts';
-import { AnnotationInfo } from '../../config/types';
+import { AnnotationInfo, annotationType } from '../../config/types';
 
 interface highlightPosition {
   top: number;
@@ -43,6 +43,17 @@ function RoughHighlight({ annotation, setEditHighlight }: Props) {
   };
 
   useLayoutEffect(() => {
+    const getAnnotationStrokeWidth = (annotationType: annotationType) => {
+      switch (annotationType) {
+        case 'circle':
+          return 2;
+        case 'bracket':
+          return 4;
+        default:
+          return 3;
+      }
+    };
+
     if (elementRef.current) {
       if (roughAnnotationRef.current) {
         roughAnnotationRef.current.remove();
@@ -52,7 +63,8 @@ function RoughHighlight({ annotation, setEditHighlight }: Props) {
         type: annotation.type,
         color: annotation.type === 'highlight' ? annotation.color + '24' : annotation.color + 'B3',
         animate: false,
-        strokeWidth: annotation.type === 'circle' ? 2 : 3,
+        strokeWidth: getAnnotationStrokeWidth(annotation.type),
+        brackets: ['left', 'right'],
       });
 
       roughAnnotationRef.current.show();

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
-import { ANNOTATION_TYPES } from '../../config/consts';
+import { ANNOTATION_COLOR, ANNOTATION_TYPES } from '../../config/consts';
 import useRoughNotation from '../../hooks/useRoughNotation';
 import useBoundStore from '../../store/useBoundStore';
 import { asyncDeleteHighlightById, asyncUpdateHighlightById } from '../../utils/idbUserHighlight';
@@ -67,7 +67,7 @@ function UserHighlightLayer() {
                   setAnnotationType((prev) => ({
                     ...prev,
                     type,
-                    color: '#d4ff00',
+                    color: ANNOTATION_COLOR,
                   }));
                 }}
                 className='bg-white shadow-md border-1 border-borderColor rounded-sm p-1 hover:bg-backgroundColor-hover'

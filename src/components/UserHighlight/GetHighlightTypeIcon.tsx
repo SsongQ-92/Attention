@@ -1,5 +1,6 @@
 import { annotationType } from '../../config/types';
 import BoxIcon from '../Icon/BoxIcon';
+import BracketIcon from '../Icon/BracketIcon';
 import CircleIcon from '../Icon/CircleIcon';
 import HighlighterIcon from '../Icon/HighlighterIcon';
 import UnderlineIcon from '../Icon/UnderlineIcon';
@@ -19,6 +20,8 @@ function GetHighlightTypeIcon({ type, size }: Props) {
       return <CircleIcon className={`size-${size}`} />;
     case 'highlight':
       return <HighlighterIcon className={`size-${size}`} />;
+    case 'bracket':
+      return <BracketIcon className={`size-${size}`} />;
   }
 }
 
