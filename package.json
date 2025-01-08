@@ -1,8 +1,8 @@
 {
   "name": "attention",
-  "description": "Highlight and memo contents of pages you read",
+  "description": "읽기 가이드라인 표시와 드로잉 하이라이트 기능을 통합 제공하는 스마트 크롬 익스텐션 | Smart Chrome Extension Integrating Reading Guidelines Display and Drawing Highlight Features",
   "author": "ssongq",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "scripts": {
     "build": "node build.js",
