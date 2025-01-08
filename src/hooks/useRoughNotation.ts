@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { throttle } from 'lodash-es';
 
+import { ANNOTATION_TYPES } from '../config/consts';
 import { AnnotationInfo, annotationType } from '../config/types';
 import useBoundStore from '../store/useBoundStore';
 import {
@@ -40,7 +41,7 @@ const useRoughNotation = () => {
 
       setTooltipPosition({
         top: rect.top < 30 ? rect.bottom + window.scrollY : rect.top + window.scrollY - 40,
-        left: rect.right + window.scrollX - 155,
+        left: rect.right + window.scrollX - (ANNOTATION_TYPES.length * 20 + 5),
       });
 
       setSelection({ isSelection: true, infoObject: selection });

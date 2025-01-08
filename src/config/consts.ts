@@ -31,6 +31,6 @@ export const pagination = Object.freeze({
 });
 
 export const editTooltip = Object.freeze({
-  width: 180,
-  height: 38,
+  width: (ANNOTATION_TYPES.length + 1) * 20 + 5,
+  height: 40,
 });
