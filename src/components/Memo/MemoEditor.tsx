@@ -161,9 +161,15 @@ function MemoEditor() {
         value={newNote.content}
         onChange={handleContentChange}
       />
-      <article className='prose prose-sm max-w-none w-full flex-1 border-1 rounded-sm p-5 border-borderColor overflow-y-auto'>
-        <Markdown remarkPlugins={[remarkGfm]}>{newNote.content}</Markdown>
-      </article>
+      {newNote.content ? (
+        <article className='prose prose-sm max-w-none w-full flex-1 border-1 rounded-sm p-5 border-borderColor overflow-y-auto'>
+          <Markdown remarkPlugins={[remarkGfm]}>{newNote.content}</Markdown>
+        </article>
+      ) : (
+        <article className='max-w-none w-full flex-1 border-1 rounded-sm p-5  border-borderColor text-15 text-slate-400 pointer-events-none'>
+          입력하는 메모 내용을 이 곳에서 확인할 수 있습니다.
+        </article>
+      )}
       {openModalTypeList.includes('confirm') && (
         <ConfirmModal confirmText={modalText.backToList} onConfirmClick={handleConfirmClick} />
       )}
