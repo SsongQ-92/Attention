@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 
-import { ANNOTATION_TYPES, ANNOTATION_TYPES_MAP } from '../../config/consts';
+import { ANNOTATION_TYPES } from '../../config/consts';
 import useRoughNotation from '../../hooks/useRoughNotation';
 import useBoundStore from '../../store/useBoundStore';
 import { asyncDeleteHighlightById, asyncUpdateHighlightById } from '../../utils/idbUserHighlight';
 import TrashIcon from '../Icon/TrashIcon';
+import GetHighlightTypeIcon from './GetHighlightTypeIcon';
 import RoughHighlight from './RoughHighlight';
 
 interface highlightPosition {
@@ -65,13 +66,13 @@ function UserHighlightLayer() {
                   setUserHighlightMode(true);
                   setAnnotationType((prev) => ({
                     ...prev,
-                    type: ANNOTATION_TYPES_MAP[type],
+                    type,
                     color: '#d4ff00',
                   }));
                 }}
                 className='bg-white shadow-md border-1 border-borderColor rounded-sm p-1 hover:bg-backgroundColor-hover'
               >
-                {type}
+                <GetHighlightTypeIcon type={type} size={20} />
               </button>
             );
           })}
@@ -97,7 +98,7 @@ function UserHighlightLayer() {
                 onClick={async () => {
                   const updatedRenderingAnnotations = renderingAnnotations.map((annotation) => {
                     if (annotation.id === editHighlight.id) {
-                      return { ...annotation, type: ANNOTATION_TYPES_MAP[type] };
+                      return { ...annotation, type };
                     }
 
                     return annotation;
@@ -109,7 +110,7 @@ function UserHighlightLayer() {
 
                   await asyncUpdateHighlightById(editHighlight.id as string, {
                     ...currentAnnotation,
-                    type: ANNOTATION_TYPES_MAP[type],
+                    type,
                   });
 
                   setRenderingAnnotations(updatedRenderingAnnotations);
@@ -117,7 +118,7 @@ function UserHighlightLayer() {
                 }}
                 className='bg-white shadow-md border-1 border-borderColor rounded-sm p-1 hover:bg-backgroundColor-hover'
               >
-                {type}
+                <GetHighlightTypeIcon type={type} size={20} />
               </button>
             );
           })}
