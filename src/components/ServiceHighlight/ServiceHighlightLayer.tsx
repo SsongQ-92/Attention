@@ -1,3 +1,4 @@
+import ErrorBoundary from '../../config/ErrorBoundary';
 import useBoundStore from '../../store/useBoundStore';
 
 function ServiceHighlightLayer() {
@@ -5,6 +6,8 @@ function ServiceHighlightLayer() {
   const isKeyboardMode = useBoundStore((state) => state.isKeyboardMode);
   const isKeyboardIconHover = useBoundStore((state) => state.isKeyboardIconHover);
   const highlightLayerInfo = useBoundStore((state) => state.highlightLayerInfo);
+  const setGlobalError = useBoundStore((state) => state.setGlobalError);
+
   const { top, left, width, height } = highlightLayerInfo;
 
   const isMouseEnter =
@@ -14,7 +17,7 @@ function ServiceHighlightLayer() {
     highlightLayerInfo.width !== 0;
 
   return (
-    <>
+    <ErrorBoundary onError={(error: Error) => setGlobalError(error.message)}>
       {isHighlightBarOpen && isKeyboardMode && (
         <div className='fixed left-0 z-50 top-20 w-full flex-center pointer-events-none'>
           <div className='flex-center text-center bg-white text-red-600 p-10 border-customBlack border-2 rounded-md text-12 opacity-40 pointer-events-auto hover:opacity-100'>
@@ -42,7 +45,7 @@ function ServiceHighlightLayer() {
           className='fixed z-40 bg-yellow-400/20'
         />
       )}
-    </>
+    </ErrorBoundary>
   );
 }
 

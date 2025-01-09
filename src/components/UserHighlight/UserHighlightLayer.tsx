@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 
 import { ANNOTATION_COLOR, ANNOTATION_TYPES } from '../../config/consts';
+import ErrorBoundary from '../../config/ErrorBoundary';
 import useRoughNotation from '../../hooks/useRoughNotation';
 import useBoundStore from '../../store/useBoundStore';
 import { asyncDeleteHighlightById, asyncUpdateHighlightById } from '../../utils/idbUserHighlight';
@@ -33,6 +34,7 @@ function UserHighlightLayer() {
 
   const isUserHighlightMode = useBoundStore((state) => state.isUserHighlightMode);
   const setUserHighlightMode = useBoundStore((state) => state.setUserHighlightMode);
+  const setGlobalError = useBoundStore((state) => state.setGlobalError);
 
   const editHighlightRef = useRef<HTMLDivElement | null>(null);
 
@@ -48,7 +50,7 @@ function UserHighlightLayer() {
   }, []);
 
   return (
-    <>
+    <ErrorBoundary onError={(error: Error) => setGlobalError(error.message)}>
       {selection.isSelection && (
         <div
           style={{
@@ -150,7 +152,7 @@ function UserHighlightLayer() {
             />
           );
         })}
-    </>
+    </ErrorBoundary>
   );
 }
 
