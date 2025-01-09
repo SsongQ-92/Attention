@@ -60,3 +60,8 @@ export interface ModalState {
   closeModal: (modalType: modalType) => void;
   clearOpenModalTypeList: () => void;
 }
+
+export interface ErrorState {
+  globalError: string[];
+  setGlobalError: (errorMessage: string) => void;
+}
