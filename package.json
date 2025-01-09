@@ -2,7 +2,7 @@
   "name": "attention",
   "description": "읽기 가이드라인 표시와 드로잉 주석 기능을 제공하는 확장 프로그램 | Extension Providing Reading Guidelines Display and Drawing Annotation Features",
   "author": "ssongq",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "type": "module",
   "scripts": {
     "build": "node build.js",
