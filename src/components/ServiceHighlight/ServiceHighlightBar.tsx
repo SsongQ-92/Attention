@@ -32,7 +32,7 @@ function ServiceHighlightBar({
             setPrevScrollY(window.scrollY);
 
             window.scrollBy({
-              top: window.innerHeight,
+              top: window.innerHeight - 100,
               behavior: 'smooth',
             });
           } else {
