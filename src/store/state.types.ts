@@ -5,9 +5,15 @@ interface View {
   content: string;
 }
 
+interface NewNote {
+  title: string;
+  content: string;
+}
+
 export interface DashboardState {
   isDashboardOpen: boolean;
   viewMemoMode: View;
+  newNote: NewNote;
   isCreatingMemoMode: boolean;
   isEditingMemoMode: boolean;
   isFoldedDashboardOpen: boolean;
@@ -15,6 +21,7 @@ export interface DashboardState {
   setDashboardOpen: (isOpen: boolean) => void;
   setFoldedDashboardOpen: (isOpen: boolean) => void;
   setViewMemoMode: (viewMode: View) => void;
+  setNewNote: (newNote: NewNote) => void;
   setCreatingMemoMode: (isCreate: boolean) => void;
   setEditingMemoMode: (isEdit: boolean) => void;
 }

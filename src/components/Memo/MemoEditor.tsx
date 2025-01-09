@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent } from 'react';
 
 import { omit } from 'lodash-es';
 import Markdown from 'react-markdown';
@@ -14,6 +14,7 @@ import InformModal from '../Modal/InformModal';
 
 function MemoEditor() {
   const viewMemoMode = useBoundStore((state) => state.viewMemoMode);
+  const newNote = useBoundStore((state) => state.newNote);
   const isCreatingMemoMode = useBoundStore((state) => state.isCreatingMemoMode);
   const isEditingMemoMode = useBoundStore((state) => state.isEditingMemoMode);
   const isKeyboardMode = useBoundStore((state) => state.isKeyboardMode);
@@ -21,13 +22,9 @@ function MemoEditor() {
   const addModal = useBoundStore((state) => state.addModal);
   const highlightLayerInfo = useBoundStore((state) => state.highlightLayerInfo);
   const setViewMemoMode = useBoundStore((state) => state.setViewMemoMode);
+  const setNewNote = useBoundStore((state) => state.setNewNote);
   const setCreatingMemoMode = useBoundStore((state) => state.setCreatingMemoMode);
   const setEditingMemoMode = useBoundStore((state) => state.setEditingMemoMode);
-
-  const [newNote, setNewNote] = useState<{ title: string; content: string }>({
-    title: viewMemoMode.title,
-    content: viewMemoMode.content,
-  });
 
   const handleConfirmClick = () => {
     setCreatingMemoMode(false);
@@ -81,6 +78,7 @@ function MemoEditor() {
         await asyncCreateMemo(memo);
 
         setCreatingMemoMode(false);
+        setNewNote({ title: '', content: '' });
       }
 
       if (isEditingMemoMode) {
@@ -114,11 +112,11 @@ function MemoEditor() {
   };
 
   const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setNewNote((prev) => ({ ...prev, title: e.target.value }));
+    setNewNote({ ...newNote, title: e.target.value });
   };
 
   const handleContentChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    setNewNote((prev) => ({ ...prev, content: e.target.value }));
+    setNewNote({ ...newNote, content: e.target.value });
   };
 
   return (
