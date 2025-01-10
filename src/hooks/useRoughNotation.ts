@@ -224,11 +224,19 @@ const useRoughNotation = () => {
                   const firstNode = getNodeByXPath(firstNodeXPath);
                   const lastNode = getNodeByXPath(lastNodeXPath);
 
+                  const validateOffset = (node: Node, offset: number) => {
+                    if (node.nodeType !== Node.TEXT_NODE) return false;
+                    if (node.textContent === null) return false;
+                    if (offset > node.textContent.length) return false;
+
+                    return true;
+                  };
+
                   if (
-                    firstNode &&
-                    lastNode &&
-                    firstNode.nodeType === Node.TEXT_NODE &&
-                    lastNode.nodeType === Node.TEXT_NODE
+                    firstNode !== null &&
+                    lastNode !== null &&
+                    validateOffset(firstNode, startOffset) &&
+                    validateOffset(lastNode, endOffset)
                   ) {
                     const range = document.createRange();
 
