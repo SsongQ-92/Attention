@@ -2,7 +2,8 @@
 
 <div align="center">
   <b>긴 글 읽기를 돕는 크롬 익스텐션</b><br/>
-  <b>서비스 자체 가이드라인 하이라이트와 자유로운 주석 표시 및 메모 기능 제공</b>
+  <b>서비스 자체 가이드라인 하이라이트와 자유로운 주석 표시 및 메모 기능 제공</b><br/>
+  <a href="https://chromewebstore.google.com/detail/attention-web-reading-ass/hakidcoicmfocffkkkefhiifdahdaeme?authuser=0&hl=ko">[크롬 웹 스토어] 확장 프로그램: Attention - Web Reading Assistant</a>
 </div>
 
 <br />
@@ -30,15 +31,21 @@
   * [3) PostCSS](#3-postcss)
 - [4. 겪은 문제와 해결 과정](#4-%EA%B2%AA%EC%9D%80-%EB%AC%B8%EC%A0%9C%EC%99%80-%ED%95%B4%EA%B2%B0-%EA%B3%BC%EC%A0%95)
   * [1) 어떻게 기존 페이지의 전역 스타일과 DOM 구조로부터 격리할 수 있을까?](#1-%EC%96%B4%EB%96%BB%EA%B2%8C-%EA%B8%B0%EC%A1%B4-%ED%8E%98%EC%9D%B4%EC%A7%80%EC%9D%98-%EC%A0%84%EC%97%AD-%EC%8A%A4%ED%83%80%EC%9D%BC%EA%B3%BC-dom-%EA%B5%AC%EC%A1%B0%EB%A1%9C%EB%B6%80%ED%84%B0-%EA%B2%A9%EB%A6%AC%ED%95%A0-%EC%88%98-%EC%9E%88%EC%9D%84%EA%B9%8C)
-    + [문제의 근본적 원인: 샌드박스 환경](#%EB%AC%B8%EC%A0%9C%EC%9D%98-%EA%B7%BC%EB%B3%B8%EC%A0%81-%EC%9B%90%EC%9D%B8-%EC%83%8C%EB%93%9C%EB%B0%95%EC%8A%A4-%ED%99%98%EA%B2%BD)
-    + [1차 난관: Custom Elements가 만들어지지 않는 문제](#1%EC%B0%A8-%EB%82%9C%EA%B4%80-custom-elements%EA%B0%80-%EB%A7%8C%EB%93%A4%EC%96%B4%EC%A7%80%EC%A7%80-%EC%95%8A%EB%8A%94-%EB%AC%B8%EC%A0%9C)
-    + [2차 난관: Shadow DOM 내부에 createRoot가 되지 않는 문제](#2%EC%B0%A8-%EB%82%9C%EA%B4%80-shadow-dom-%EB%82%B4%EB%B6%80%EC%97%90-createroot%EA%B0%80-%EB%90%98%EC%A7%80-%EC%95%8A%EB%8A%94-%EB%AC%B8%EC%A0%9C)
-    + [3차 난관: Shadow DOM 내부에 TailwindCSS 스타일이 적용되지 않는 문제](#3%EC%B0%A8-%EB%82%9C%EA%B4%80-shadow-dom-%EB%82%B4%EB%B6%80%EC%97%90-tailwindcss-%EC%8A%A4%ED%83%80%EC%9D%BC%EC%9D%B4-%EC%A0%81%EC%9A%A9%EB%90%98%EC%A7%80-%EC%95%8A%EB%8A%94-%EB%AC%B8%EC%A0%9C)
-  * [2) 웹 페이지 main DOM을 어떻게 파싱하여 서비스 하이라이트를 제공할까?](#2-%EC%9B%B9-%ED%8E%98%EC%9D%B4%EC%A7%80-main-dom%EC%9D%84-%EC%96%B4%EB%96%BB%EA%B2%8C-%ED%8C%8C%EC%8B%B1%ED%95%98%EC%97%AC-%EC%84%9C%EB%B9%84%EC%8A%A4-%ED%95%98%EC%9D%B4%EB%9D%BC%EC%9D%B4%ED%8A%B8%EB%A5%BC-%EC%A0%9C%EA%B3%B5%ED%95%A0%EA%B9%8C)
+    + [[문제의 근본적 원인: 샌드박스 환경]](#%EB%AC%B8%EC%A0%9C%EC%9D%98-%EA%B7%BC%EB%B3%B8%EC%A0%81-%EC%9B%90%EC%9D%B8-%EC%83%8C%EB%93%9C%EB%B0%95%EC%8A%A4-%ED%99%98%EA%B2%BD)
+    + [[1차 난관: Custom Elements가 만들어지지 않는 문제]](#1%EC%B0%A8-%EB%82%9C%EA%B4%80-custom-elements%EA%B0%80-%EB%A7%8C%EB%93%A4%EC%96%B4%EC%A7%80%EC%A7%80-%EC%95%8A%EB%8A%94-%EB%AC%B8%EC%A0%9C)
+    + [[2차 난관: Shadow DOM 내부에 createRoot가 되지 않는 문제]](#2%EC%B0%A8-%EB%82%9C%EA%B4%80-shadow-dom-%EB%82%B4%EB%B6%80%EC%97%90-createroot%EA%B0%80-%EB%90%98%EC%A7%80-%EC%95%8A%EB%8A%94-%EB%AC%B8%EC%A0%9C)
+    + [[3차 난관: Shadow DOM 내부에 TailwindCSS 스타일이 적용되지 않는 문제]](#3%EC%B0%A8-%EB%82%9C%EA%B4%80-shadow-dom-%EB%82%B4%EB%B6%80%EC%97%90-tailwindcss-%EC%8A%A4%ED%83%80%EC%9D%BC%EC%9D%B4-%EC%A0%81%EC%9A%A9%EB%90%98%EC%A7%80-%EC%95%8A%EB%8A%94-%EB%AC%B8%EC%A0%9C)
+  * [2) 서비스 자체 하이라이트에 대한 상태를 효율적으로 업데이트하려면 웹 페이지 DOM을 어떻게 파싱할까?](#2-%EC%84%9C%EB%B9%84%EC%8A%A4-%EC%9E%90%EC%B2%B4-%ED%95%98%EC%9D%B4%EB%9D%BC%EC%9D%B4%ED%8A%B8%EC%97%90-%EB%8C%80%ED%95%9C-%EC%83%81%ED%83%9C%EB%A5%BC-%ED%9A%A8%EC%9C%A8%EC%A0%81%EC%9C%BC%EB%A1%9C-%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8%ED%95%98%EB%A0%A4%EB%A9%B4-%EC%9B%B9-%ED%8E%98%EC%9D%B4%EC%A7%80-dom%EC%9D%84-%EC%96%B4%EB%96%BB%EA%B2%8C-%ED%8C%8C%EC%8B%B1%ED%95%A0%EA%B9%8C)
+    + [[불필요한 연산 방지를 위한 최적화: Intersection Observer]](#%EB%B6%88%ED%95%84%EC%9A%94%ED%95%9C-%EC%97%B0%EC%82%B0-%EB%B0%A9%EC%A7%80%EB%A5%BC-%EC%9C%84%ED%95%9C-%EC%B5%9C%EC%A0%81%ED%99%94-intersection-observer)
+    + [[빈번한 스크롤 이벤트에 대한 최적화: throttle과 requestAnimationFrame]](#%EB%B9%88%EB%B2%88%ED%95%9C-%EC%8A%A4%ED%81%AC%EB%A1%A4-%EC%9D%B4%EB%B2%A4%ED%8A%B8%EC%97%90-%EB%8C%80%ED%95%9C-%EC%B5%9C%EC%A0%81%ED%99%94-throttle%EA%B3%BC-requestanimationframe)
+  * [3) 사용자가 생성한 드로잉 주석 컴포넌트를 페이지 재방문 시 어떻게 본래 자리를 찾아가게 할까?](#3-%EC%82%AC%EC%9A%A9%EC%9E%90%EA%B0%80-%EC%83%9D%EC%84%B1%ED%95%9C-%EB%93%9C%EB%A1%9C%EC%9E%89-%EC%A3%BC%EC%84%9D-%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8%EB%A5%BC-%ED%8E%98%EC%9D%B4%EC%A7%80-%EC%9E%AC%EB%B0%A9%EB%AC%B8-%EC%8B%9C-%EC%96%B4%EB%96%BB%EA%B2%8C-%EB%B3%B8%EB%9E%98-%EC%9E%90%EB%A6%AC%EB%A5%BC-%EC%B0%BE%EC%95%84%EA%B0%80%EA%B2%8C-%ED%95%A0%EA%B9%8C)
+    + [[1차 시도(실패): TreeWalker API를 사용한 노드 탐색]](#1%EC%B0%A8-%EC%8B%9C%EB%8F%84%EC%8B%A4%ED%8C%A8-treewalker-api%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%9C-%EB%85%B8%EB%93%9C-%ED%83%90%EC%83%89)
+    + [[2차 시도(성공): XPath를 활용한 노드 탐색]](#2%EC%B0%A8-%EC%8B%9C%EB%8F%84%EC%84%B1%EA%B3%B5-xpath%EB%A5%BC-%ED%99%9C%EC%9A%A9%ED%95%9C-%EB%85%B8%EB%93%9C-%ED%83%90%EC%83%89)
 - [5. 개발과 감상](#5-%EA%B0%9C%EB%B0%9C%EA%B3%BC-%EA%B0%90%EC%83%81)
   * [1) 왜 indexedDB에 데이터를 저장하는 것으로 결정하게 되었을까?](#1-%EC%99%9C-indexeddb%EC%97%90-%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%A5%BC-%EC%A0%80%EC%9E%A5%ED%95%98%EB%8A%94-%EA%B2%83%EC%9C%BC%EB%A1%9C-%EA%B2%B0%EC%A0%95%ED%95%98%EA%B2%8C-%EB%90%98%EC%97%88%EC%9D%84%EA%B9%8C)
-  * [2) 향후 확장 계획](#2-%ED%96%A5%ED%9B%84-%ED%99%95%EC%9E%A5-%EA%B3%84%ED%9A%8D)
-  * [3) 회고](#3-%ED%9A%8C%EA%B3%A0)
+  * [2) 서비스 현황](#2-%EC%84%9C%EB%B9%84%EC%8A%A4-%ED%98%84%ED%99%A9)
+  * [3) 향후 확장 계획](#3-%ED%96%A5%ED%9B%84-%ED%99%95%EC%9E%A5-%EA%B3%84%ED%9A%8D)
+  * [4) 회고](#4-%ED%9A%8C%EA%B3%A0)
 
 <!-- tocstop -->
 
@@ -76,16 +83,13 @@
   - ↑, ↓, SpaceBar: 하이라이팅 위치를 이동하고 고정
   - Esc(escape): 키보드 모드 종료
 
-<details>
-  <summary><b>스크린샷: 서비스 자체 하이라이트 표시</b></summary>
-  <div markdown="1">
+<br />
 
-  <div align="center">
-    <img width="95%" src="/public/기능-1.png" alt="서비스 자체 하이라이트 기능"/>
-  </div>
+**[스크린샷: 서비스 자체 하이라이트 표시]**
 
-  </div>
-</details>
+<div align="center">
+  <img width="90%" src="/public/기능-1.png" alt="서비스 자체 하이라이트 기능"/>
+</div>
 
 ## 2) 유저 생성 주석 표시: Self-annotation Mode
 
@@ -93,16 +97,13 @@
 - 주석의 타입 변경, 삭제, ON/OFF 기능 지원
 - 생성된 주석을 브라우저의 `indexedDB`에 저장해 해당 페이지를 재방문 시 주석을 그대로 복원하여 표시
 
-<details>
-  <summary><b>스크린샷: 유저 생성 주석 표시</b></summary>
-  <div markdown="1">
+<br />
 
-  <div align="center">
-    <img width="95%" src="/public/기능-2.png" alt="유저 생성 주석 표시 기능"/>
-  </div>
+**[스크린샷: 유저 생성 주석 표시]**
 
-  </div>
-</details>
+<div align="center">
+  <img width="90%" src="/public/기능-2.png" alt="유저 생성 주석 표시 기능"/>
+</div>
 
 ## 3) 아티클 관련 메모 작성 및 아카이빙 대시보드: Memo edit & archive Mode
 
@@ -111,33 +112,27 @@
 - 작성된 메모는 브라우저의 `indexedDB`와 동기화되어 데이터 영속성 보장
 - 서비스 자체 하이라이트의 키보드 모드 동작 시, 하이라이트 된 텍스트를 즉시 복사할 수 있는 기능 제공
 
-<details>
-  <summary><b>스크린샷: 아티클 관련 메모 작성 및 아카이빙 대시보드</b></summary>
-  <div markdown="1">
+<br />
 
-<!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
-  <br />
+**[스크린샷: 아티클 관련 메모 작성 및 아카이빙 대시보드]**
 
-  **1. 메모 작성**
+**1. 메모 작성**
 
-  <div align="center">
-    <img width="95%" src="/public/기능-3.png" alt="아티클 관련 메모 작성 및 아카이빙 대시보드"/>
-  </div>
+<div align="center">
+  <img width="90%" src="/public/기능-3.png" alt="아티클 관련 메모 작성 및 아카이빙 대시보드"/>
+</div>
 
-  <br />
+<br />
 
-  **2. 메모 조회**
+**2. 메모 조회**
 
-  <div align="center">
-    <img width="95%" src="/public/기능-4.png" alt="아티클 관련 메모 작성 및 아카이빙 대시보드"/>
-  </div>
+<div align="center">
+  <img width="90%" src="/public/기능-4.png" alt="아티클 관련 메모 작성 및 아카이빙 대시보드"/>
+</div>
 
-  <div align="center">
-    <img width="95%" src="/public/기능-5.png" alt="아티클 관련 메모 작성 및 아카이빙 대시보드"/>
-  </div>
-
-  </div>
-</details>
+<div align="center">
+  <img width="90%" src="/public/기능-5.png" alt="아티클 관련 메모 작성 및 아카이빙 대시보드"/>
+</div>
 
 <br />
 
@@ -506,13 +501,13 @@ connectedCallback() {
   <img width="80%" src="./public/겪은문제와해결과정-1.PNG" alt="Shadow DOM 구조"/>
 </div>
 
-1. `web-highlight-layer` Custom Element와 Shadow DOM 
+2. `web-highlight-layer` Custom Element와 Shadow DOM 
 
 <div align="center">
   <img width="80%" src="./public/겪은문제와해결과정-2.PNG" alt="Custom Element와 Shadow DOM 구조"/>
 </div>
 
-3. `web-dashboard` Custom Element와 Shadow DOM 
+3. `web-dashboard` Custom Element와 Shadow DOM
 
 <div align="center">
   <img width="80%" src="./public/겪은문제와해결과정-3.PNG" alt="Custom Element와 Shadow DOM 구조"/>
@@ -523,7 +518,419 @@ connectedCallback() {
 
 <br />
 
-## 2) 웹 페이지 main DOM을 어떻게 파싱하여 서비스 하이라이트를 제공할까?
+## 2) 서비스 자체 하이라이트에 대한 상태를 효율적으로 업데이트하려면 웹 페이지 DOM을 어떻게 파싱할까?
+
+- 긴 글이 있는 웹 페이지, 즉, 블로그 글이나 정보 글의 DOM을 분석했습니다. 주로 블로그 글의 본문은 특정 태그(`<p>`, `<li>`, `<h1>`, `<h2>`, `<h3>`, `<pre>`)로 구성되어있다는 것을 확인했고, 따라서 해당 태그들을 대상으로 뷰포트에 표시되는 요소만을 효율적으로 파싱하여 읽기 가이드라인을 제공하기로 목표했습니다.
+- `Intersection Observer API`를 활용하여 뷰포트에 보이는 요소만 상태 값으로 관리하여 불필요한 연산을 방지했습니다. 또한, 웹 표준 API인 `DOMRect`를 사용하여 DOM 요소의 위치와 크기를 계산하여 하이라이팅된 읽기 가이드라인을 제공하였습니다. 
+- 스크롤 이벤트는 브라우저에서 매우 빈번하게 발생합니다. 따라서 적절한 최적화 없이 이벤트 핸들러를 실행하면 로직에 따라 성능 저하와 프레임 드롭이 발생할 수 있습니다. 이를 방지하기 위해 `throttle`과 `requestAnimationFrame`을 결합하여 효율적으로 이벤트를 처리하였습니다.
+
+### [불필요한 연산 방지를 위한 최적화: Intersection Observer]
+
+웹 페이지에서 읽기 가이드라인을 제공하기 위해 main DOM의 target elements(`<p>`, `<li>`, `<h1>`, `<h2>`, `<h3>`, `<pre>`) 정보를 상태 값으로 관리해야 했습니다.
+
+- 문제 상황
+  - DOM의 모든 요소를 순회하여 상태 값으로 처리하면 뷰포트 밖의 요소까지 모두 상태 값에 포함되어 비효율적입니다.
+  - 스크롤 및 DOM 변경 이벤트마다 전체 요소를 다시 계산하면, 페이지의 복잡도에 따라 성능이 급격히 저하될 것이 우려되었습니다.
+
+- 해결 방법
+  - **[뷰포트 내 요소만 감지]** `Intersection Observer`를 사용하여 target elements가 뷰포트에 들어오거나 나가는 시점에만 상태를 업데이트하였습니다. 이에 따라 뷰포트 외 요소는 무시하게 되므로 연산량을 줄였습니다.
+  - **[DOMRect로 위치 및 크기 계산]** `IntersectionObserver` 생성자의 콜백 함수는 뷰포트에 들어오거나 나가는 요소들에 대한 정보를 `entries(IntersectionObserverEntry)` 배열 형태로 제공합니다. 이 entries 파라미터가 담고 있는 DOM 요소(`entry.target`)로부터 `getBoundingClientRect` 메소드를 이용하여 해당 요소의 위치와 크기를 `DOMRect API`로 추출하였습니다. 이를 통해, 요소가 뷰포트 내 어디에 위치하는지 정확히 측정할 수 있었습니다.
+  - **[상태 업데이트]** 뷰포트와의 교차 여부(`entry.isIntersecting`)를 활용하여 상태 값을 갱신하였습니다. 즉, 뷰포트 내에 들어온 요소는 상태 값 업데이트 시 요소에 대한 정보를 추가하고, 뷰포트에서 벗어나는 요소는 정보를 제거하였습니다. 추가로, 상태 값의 중복을 방지하기 위해 요소의 textContent, 크기(width, height)를 조합하여 고유 키를 사용했습니다.
+  - 실제 코드는 아래 토글을 참고 바랍니다.
+
+### [빈번한 스크롤 이벤트에 대한 최적화: throttle과 requestAnimationFrame]
+
+Intersection Observer를 사용하여 요소가 뷰포트에 들어오거나 나가는 시점은 감지할 수 있었지만, 스크롤 중 뷰포트 내 정적인 요소 상태 업데이트에는 한계가 있었습니다.
+
+- 문제 상황
+  - 스크롤 이벤트 중, 화면 내의 요소가 그대로 있는 경우에는 Intersection Observer가 요소 상태를 업데이트하지 않았습니다.
+  - 스크롤 이벤트에 대한 로직을 구현했지만, 스크롤 이벤트가 초당 수백 번 발생하기 때문에, 이를 처리하는 연산으로 인해 성능 저하와 프레임 드롭이 발생했습니다.
+
+- 해결 방법
+  - 이 문제를 해결하기 위해 스크롤 시 현재 뷰포트 내 요소의 위치(top, bottom)를 `DOMRect`로 재계산하고 `throttle`과 `requestAnimationFrame`을 결합하여 스크롤 이벤트의 상태 업데이트를 최적화했습니다.
+  - **[스크롤 시 요소 상태 업데이트]** 스크롤 시, 현재 뷰포트 내 요소의 상태 값 중 textContent가 동일한 요소의 위치를 재계산하여 상태 값을 업데이트했습니다. 이를 통해, `Intersection Observer`가 처리하지 못하는 뷰포트 내의 요소 위치 업데이트를 스크롤 이벤트로 보완했습니다.
+  - **[스로틀링으로 이벤트 호출 제한]** 스로틀링(`Throttling`)은 이벤트가 짧은 시간 간격으로 반복해서 발생할 때, 지정한 시간 간격 동안은 해당 이벤트의 콜백 함수가 실행되지 않도록 합니다. 즉, 일정 시간 간격으로 한 번만 이벤트 리스너의 콜백 함수가 실행됩니다. 따라서, `throttle`을 사용하여 스크롤 이벤트 핸들러가 100ms 간격으로 실행되도록 이벤트 빈도를 제한하여 이벤트 호출이 과도하게 발생하는 문제를 해결하였습니다.
+  - **[requestAnimationFrame으로 렌더링 최적화]** `requestAnimationFrame`은 브라우저의 화면 갱신 주기에 맞춰 콜백을 실행하는 API입니다. 만약, 디스플레이가 60Hz라면 화면 갱신을 1초에 60번 하는 것이고, 이는 16.66ms(1s/60)마다 한 번씩 화면 갱신을 한다고도 볼 수 있습니다. 이런 특징을 이용해 DOMRect를 사용해 뷰포트 내 요소의 위치를 재계산하는 작업을 브라우저의 화면 갱신 주기와 동기화했습니다.
+  - 스로틀링과 `requestAnimationFrame`을 함께 사용하여 `getBoundingClientRect`와 같이 비싼 DOM 계산에 대한 연산량을 줄이기에 자연스럽게 `requestAnimationFrame`의 콜백이 최대한 화면 갱신 주기에 맞춰 실행될 수 있다고 생각하였습니다.
+  - 실제 코드는 아래 토글을 참고 바랍니다.
+
+<details>
+  <summary><b>실제 코드</b></summary>
+  <div markdown="1">
+
+<br />
+
+1. [Intersection Observer] 뷰포트 내 요소만을 감지(/hooks/useParseDOM.ts)
+
+```ts
+const TARGET_HIGHLIGHTS_SELECTORS = ['p', 'li', 'h1', 'h2', 'h3', 'pre'];
+
+const observeElements = () => {
+  const targetElements = document.querySelectorAll(TARGET_HIGHLIGHTS_SELECTORS.join(', '));
+
+  const observer = new IntersectionObserver(updateRects, {
+    root: null,
+    rootMargin: '0px',
+    threshold: 0.1, // 요소가 10% 이상 보이면 감지
+  });
+
+  targetElements.forEach((el) => observer.observe(el));
+};
+```
+
+2. [Intersection Observer] 뷰포트 내에 들어온 요소와 나간 요소에 대한 상태 업데이트(/hooks/useParseDOM.ts)
+
+```ts
+const updateRects = (entries: IntersectionObserverEntry[]) => {
+  setElementsRects((prevRects) => {
+    const updatedRects: TagRectData[] = [...prevRects];
+
+    entries.forEach((entry) => {
+      const rect: DOMRect = entry.target.getBoundingClientRect();
+      const trimmedTextContent = entry.target.textContent?.trim() ?? '';
+
+      const currentRect: TagRectData = {
+        tagName: entry.target.tagName.toLocaleLowerCase(),
+        tagStartRectY: rect.top,
+        tagEndRectY: rect.bottom,
+        tagStartRectX: rect.left,
+        tagWidth: rect.width,
+        tagHeight: rect.height,
+        tagVisiblePartially:
+          entry.isIntersecting && isElementInsideViewport(rect.top, rect.bottom),
+        tagTextContent: trimmedTextContent,
+        tagUniqueKey: `${trimmedTextContent.length < 10 ? trimmedTextContent : trimmedTextContent.slice(0, 10)}_${rect.width}_${rect.height}`,
+      };
+
+      const index = updatedRects.findIndex(
+        (rect) => rect.tagUniqueKey === currentRect.tagUniqueKey
+      );
+
+      if (entry.isIntersecting) {
+        if (index === -1 && currentRect.tagTextContent !== '') {
+          updatedRects.push(currentRect);
+        }
+      } else if (index !== -1) {
+        updatedRects.splice(index, 1);
+      }
+    });
+
+    return updatedRects.sort((a, b) => a.tagStartRectY - b.tagStartRectY);
+  });
+};
+```
+
+3. [throttle, requestAnimationFrame] 스크롤 시, 뷰포트 내부의 타겟 요소 위치 업데이트(/hooks/useParseDOM.ts)
+
+```ts
+const handleScroll = throttle(() => {
+  requestAnimationFrame(() => {
+    setElementsRects((prevRects) =>
+      prevRects.map((rect) => {
+        const elements = Array.from(document.querySelectorAll(rect.tagName)) as HTMLElement[];
+
+        const element = elements.find((el) => el.textContent?.trim() === rect.tagTextContent);
+
+        if (element) {
+          const newRect = element.getBoundingClientRect();
+
+          return {
+            ...rect,
+            tagStartRectY: newRect.top,
+            tagEndRectY: newRect.bottom,
+            tagVisiblePartially: isElementInsideViewport(newRect.top, newRect.bottom),
+          };
+        }
+
+        return { ...rect };
+      })
+    );
+  });
+}, 100);
+
+window.addEventListener('scroll', handleScroll);
+```
+
+  </div>
+</details>
+
+<br />
+
+## 3) 사용자가 생성한 드로잉 주석 컴포넌트를 페이지 재방문 시 어떻게 본래 자리를 찾아가게 할까?
+
+- 사용자가 생성한 드로잉 주석 컴포넌트는 생성, 수정, 삭제는 이상 없이 되었으나, 메모 대시보드를 ON/OFF 하거나 사용자가 임의로 브라우저 창을 조절하여 `document.body`의 width가 변경될 때, 드로잉 주석이 기존 자리에 고정되어 위치가 자연스럽게 조정되지 않았습니다. 이에 따라, 페이지 재방문 시에도 드로잉 주석이 제 자리를 찾아가는 기능이 제대로 동작하지 않았습니다.
+- 사용자 주석의 위치를 재계산하기 위해 1차 시도에서는 `TreeWalker API`를 사용하여 텍스트 노드를 순회했으나, 특정 상황에서 예상치 못한 순서와 텍스트 분리에 따른 실패를 경험했습니다.
+- 이후, 2차 시도에서 `XPath`를 사용하여 정확한 노드를 추적하고 위치를 계산하는 방식으로 문제를 해결했습니다.
+
+### [1차 시도(실패): TreeWalker API를 사용한 노드 탐색]
+
+- 문제 상황
+  - 사용자가 생성한 드로잉 주석(하이라이트) 정보를 resize에 따라 유지하기 위해 주석의 textContent와 일치하는 노드를 찾으려 했습니다. 이를 위해 `TreeWalker API`를 사용하여 텍스트 노드를 순회하며 노드를 매칭하고, getBoundingClientRect로 위치를 계산하고자 했습니다.
+
+- 실패 코드
+
+```ts
+const findMatchingNode = (content: string, context: AnnotationInfo['context']) => {
+  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+    acceptNode: (node) => {
+      if (
+        node.nodeType === Node.TEXT_NODE &&
+        typeof node.nodeValue === 'string' &&
+        node.nodeValue !== '' &&
+        node.nodeValue !== ' ' &&
+        (node.nodeValue.includes(content) || content.includes(node.nodeValue))
+      ) {
+        return NodeFilter.FILTER_ACCEPT;
+      }
+      return NodeFilter.FILTER_REJECT;
+    },
+  });
+
+  // TreeWalker를 순회하며 매칭되는 노드를 찾음
+  let currentNode = walker.nextNode();
+  let combinedText = '';
+  let firstNode: Node | null = null;
+  let lastNode: Node | null = null;
+
+  while (currentNode) {
+    if (currentNode.nodeType === Node.TEXT_NODE) {
+      const nodeText = currentNode.nodeValue || '';
+
+      if (nodeText.includes(content)) {
+        combinedText += nodeText;
+        firstNode = currentNode;
+        lastNode = currentNode;
+        break;
+      }
+
+      if (combinedText && content.includes(combinedText + nodeText)) {
+        combinedText += nodeText;
+        lastNode = currentNode;
+      }
+
+      if (combinedText.includes(content)) {
+        break;
+      }
+    }
+    currentNode = walker.nextNode();
+  }
+
+  if (combinedText.includes(content) && firstNode && lastNode) {
+    return { firstNode, lastNode };
+  }
+
+  return null;
+};
+```
+
+- 실패 원인
+  - **[TreeWalker 순회 순서]** 예상과는 다르게 TreeWalker가 때에 따라 DOM 구조상의 텍스트 노드를 순회할 때 예상과 다른 순서로 노드를 반환하였습니다. 예를 들어, 줄 바꿈(`\n`)이 포함된 경우, 여러 문단이 여러 텍스트 노드로 분리되어 `\n` 이후의 텍스트 노드가 먼저 처리되고 `\n`이 그다음 순서로 들어오는 이슈로 `combinedText + nodeText`가 `content`에 포함되지 않는 문제가 발생했습니다. 
+  - 아래의 이미지에서 "리액트 19로 업그레이드하기 전에 먼저 리액트 18.3으로 업그레이드하여 잠재적인 문제를 파악하시기를 권장합니다."라는 nodeText가 `\n` 이전에 나오는 현상이 발생했습니다.
+
+  <br />
+
+  <div align="center">
+    <img width="80%" src="./public/겪은문제와해결과정-6.png" alt="실패 원인의 예시 이미지"/>
+  </div>
+
+  <br />
+
+  - **[문자열 매칭 문제]** 줄 바꿈과 공백이 포함된 경우, `content`와 `nodeValue`의 매칭이 실패했습니다. 예외 처리를 통해 `\n` 등을 제거하거나 replaceAll로 `\n`을 빈 문자열로 매칭 방식을 수정했으나, 추가적인 예외 상황이 발생할 염려가 있었고 자연스러운 해결 방식은 아니라고 생각했습니다.
+
+### [2차 시도(성공): XPath를 활용한 노드 탐색]
+
+`TreeWalker`를 해결하던 도중, 문득 접근 방식을 아예 다르게 해보면 어떨지 생각하고, `createAnnotation` 함수로 드로잉 주석을 생성할 당시에 `firstNode`와 `lastNode`를 context로 저장해보자고 생각했습니다. 
+
+- 해결 방법
+  - 1차 시도에서 발생했던 `TreeWalker`의 한계를 극복하고자 firstNode와 lastNode를 탐색하는 방법으로 `XPath(XML Path Language)`를 찾았습니다. `XPath`는 XML 및 HTML 문서 내의 노드 또는 노드 집합을 식별하는 데 사용되는 언어입니다. DOM 요소를 정확히 추적하고, 해당 노드의 위치를 안정적으로 계산하는 방식으로 `XPath`를 도입했습니다.
+  - **[getXPath: 노드의 고유 XPath 생성]** 사용자에 의해 select 된 range(`Range` 객체)를 통해 firstNode와 lastNode를 추출하였습니다. 그 후, 주석 생성 시 해당 노드들에 대한 XPath 경로를 생성하여 상태를 업데이트하고 indexedDB에 데이터를 저장하였습니다. 해당 getXPath라는 함수를 만들어 해당 과정을 실행하였는데, 텍스트 노드의 경우, 부모 노드와의 관계를 통해 `text()` 경로를 추적하였고, 그 뒤 요소 노드는 노드의 부모를 순회하며 각 노드의 태그 이름과 형제 요소 중의 순서를 포함한 경로를 생성하였습니다. 최종적으로 루트부터 해당 노드까지의 경로를 조합하여 XPath 표현식을 반환합니다.
+  - **[getNodeByXPath: XPath를 통해 노드를 찾는 함수]** 저장된 firstNode와 lastNode에 대한 XPath 표현식을 기반으로 `document.evaluate` 사용하여 DOM에서 노드를 찾습니다. 검색 결과가 텍스트 노드(`text()`)인 경우, 해당 노드를 바로 반환하고, 요소 노드인 경우, 텍스트 인덱스를 기준으로 정확한 텍스트 노드를 추적하여 반환합니다.
+  - **[탐색한 노드와 저장한 context를 활용하여 위치 재계산]** 해당 노드들과 함께 context로 저장했던 range의 `firstOffset`과 `lastOffset`을 활용하여 새로운 range를 만듭니다. 새로 만든 range의 범위를 지정하고 `DOMRect`를 추출하여 위치를 재계산합니다. 만약, 본문 내용이 업데이트되어 해당 Node가 사라지거나, 저장했던 offset보다 노드 textContent 길이가 짧아지면 해당 주석은 삭제되게끔 구현하였습니다.
+
+<details>
+  <summary><b>실제 코드</b></summary>
+  <div markdown="1">
+
+<br />
+
+1. createAnnotation 함수 내부의 XPath 표현식 생성 함수 (/hooks/useRoughNotation.ts)
+
+```ts
+const getXPath = (node: Node): string => {
+  const paths: string[] = [];
+
+  while (node) {
+    if (node.nodeType === Node.ELEMENT_NODE) {
+      const element = node as Element;
+      let index = 0;
+      let sibling = element.previousSibling;
+
+      while (sibling) {
+        if (sibling.nodeType === Node.ELEMENT_NODE && sibling.nodeName === element.nodeName) {
+          index++;
+        }
+
+        sibling = sibling.previousSibling;
+      }
+
+      const tagName = element.nodeName.toLowerCase();
+      const pathIndex = `[${index + 1}]`;
+
+      paths.unshift(`${tagName}${pathIndex}`);
+    } else if (node.nodeType === Node.TEXT_NODE) {
+      const parent = node.parentNode;
+
+      if (parent && parent.nodeType === Node.ELEMENT_NODE) {
+        let textIndex = 0;
+        let sibling = parent.firstChild;
+
+        while (sibling && sibling !== node) {
+          if (sibling.nodeType === Node.TEXT_NODE) {
+            textIndex++;
+          }
+
+          sibling = sibling.nextSibling;
+        }
+
+        paths.unshift(`text()[${textIndex + 1}]`);
+        node = parent;
+
+        continue;
+      } else {
+        break;
+      }
+    } else {
+      break;
+    }
+
+    if (node.parentNode) {
+      node = node.parentNode;
+    } else {
+      break;
+    }
+  }
+
+  return paths.length ? '/' + paths.join('/') : '';
+};
+```
+
+2. 생성된 XPath 표현식으로부터 firstNode와 lastNode를 구하는 함수 (/hooks/useRoughNotation.ts)
+
+```ts
+const getNodeByXPath = useCallback(
+  (xpath: string, documentRoot: Document = document): Node | null => {
+    const result = documentRoot.evaluate(
+      xpath,
+      documentRoot,
+      null,
+      XPathResult.FIRST_ORDERED_NODE_TYPE,
+      null
+    );
+
+    const node = result.singleNodeValue;
+
+    if (node?.nodeType === Node.TEXT_NODE) {
+      return node;
+    }
+
+    if (node?.nodeType === Node.ELEMENT_NODE) {
+      const match = xpath.match(/text\(\)\[(\d+)\]$/);
+
+      if (match && node.childNodes.length > 0) {
+        const textIndex = parseInt(match[1], 10) - 1;
+        let currentTextIndex = 0;
+
+        for (const child of node.childNodes) {
+          if (child.nodeType === Node.TEXT_NODE) {
+            if (currentTextIndex === textIndex) {
+              return child;
+            }
+
+            currentTextIndex++;
+          }
+        }
+      }
+    }
+
+    return null;
+  },
+  []
+);
+```
+
+3. 탐색한 firstNode, lastNode와 context로 저장했던 startOffset, endOffset를 활용하여 주석의 위치를 재계산하는 함수 (/hooks/useRoughNotation.ts)
+
+```ts
+requestAnimationFrame(() => {
+  setRenderingAnnotations((prevAnnotations) => {
+    return prevAnnotations
+      .map((annotation) => {
+        const { context } = annotation;
+        const { firstNodeXPath, lastNodeXPath, startOffset, endOffset } = context;
+
+        const firstNode = getNodeByXPath(firstNodeXPath);
+        const lastNode = getNodeByXPath(lastNodeXPath);
+
+        const validateOffset = (node: Node, offset: number) => {
+          if (node.nodeType !== Node.TEXT_NODE) return false;
+          if (node.textContent === null) return false;
+          if (offset > node.textContent.length) return false;
+
+          return true;
+        };
+
+        if (
+          firstNode !== null &&
+          lastNode !== null &&
+          validateOffset(firstNode, startOffset) &&
+          validateOffset(lastNode, endOffset)
+        ) {
+          const range = document.createRange();
+
+          range.setStart(firstNode, startOffset);
+          range.setEnd(lastNode, endOffset);
+
+          const rect = range.getBoundingClientRect();
+
+          return {
+            ...annotation,
+            position: {
+              top: rect.top + window.scrollY,
+              bottom: rect.bottom + window.scrollY,
+              left: rect.left + window.scrollX,
+              right: rect.right + window.scrollX,
+              width: rect.width,
+              height: rect.height,
+            },
+          };
+        } else {
+          asyncDeleteHighlightById(annotation.id);
+
+          return null;
+        }
+      })
+      .filter(Boolean) as AnnotationInfo[];
+  });
+});
+```
+
+  </div>
+</details>
+
+<details>
+  <summary><b>관련 이미지</b></summary>
+  <div markdown="1">
+
+<br />
+
+**[indexedDB에 저장된 주석 관련 데이터]**
+
+<div align="center">
+  <img width="80%" src="./public/겪은문제와해결과정-7.PNG" alt="indexedDB에 저장된 주석 관련 데이터"/>
+</div>
+
+  </div>
+</details>
 
 <br />
 
@@ -531,6 +938,100 @@ connectedCallback() {
 
 ## 1) 왜 indexedDB에 데이터를 저장하는 것으로 결정하게 되었을까?
 
-## 2) 향후 확장 계획
+- 개발 일정과 배포 효율성 고려
+  - 로그인 및 회원가입은 확장 프로그램을 사용하는 사용자들에게 큰 허들이 될 수 있다고 생각했습니다. 또한, 로그인 기능이나 외부 서버와의 통신을 구현하는 데에는 추가적인 개발 시간과 복잡성이 요구됩니다.
+  - 서비스 초기 단계에서는 로컬 스토리지인 IndexedDB를 활용하여 MVP 기능을 구현하고, 사용자 경험을 검증하는 데 집중했습니다. 이후 서비스가 안정화되고 사용자 수가 증가한다면, 클라우드 기반 데이터베이스와의 통합을 검토할 계획입니다.
 
-## 3) 회고
+- 대용량 데이터 처리 가능
+  - IndexedDB는 브라우저 스토리지 중에서도 상대적으로 큰 용량을 저장할 수 있어, 사용자가 작성한 많은 양의 메모와 드로잉 주석도 안정적으로 관리할 수 있습니다.
+
+## 2) 서비스 현황
+
+**1월 13일 자 서비스 현황**
+
+<details>
+  <summary><b>설치 및 제거</b></summary>
+  <div markdown="1">
+
+<br />
+
+**1. 설치 수**
+
+<div align="center">
+  <img width="95%" src="/public/서비스현황-1.PNG" alt="서비스 설치 수"/>
+</div>
+
+**2. 제거 수**
+
+<div align="center">
+  <img width="95%" src="/public/서비스현황-2.PNG" alt="서비스 제거 수"/>
+</div>
+
+  </div>
+</details>
+
+<details>
+  <summary><b>페이지 조회수</b></summary>
+  <div markdown="1">
+
+<br />
+
+<div align="center">
+  <img width="95%" src="/public/서비스현황-3.PNG" alt="서비스 페이지 조회수"/>
+</div>
+
+  </div>
+</details>
+
+<details>
+  <summary><b>시간별 주간 사용자 수</b></summary>
+  <div markdown="1">
+
+<br />
+
+<div align="center">
+  <img width="95%" src="/public/서비스현황-4.PNG" alt="서비스 시간별 주간 사용자 수"/>
+</div>
+
+  </div>
+</details>
+
+## 3) 향후 확장 계획
+
+- 공통
+  - 한영 언어 전환 기능: 로컬 스토리지에 이전 선택 언어를 기억, 이후 방문 시 해당 언어로 서비스 제공
+  - 로그인 및 회원가입 기능: 유저의 메모와 드로잉 주석을 클라우드에 저장하고, 브라우저 간 동기화 지원
+  - 다크모드 지원: 서비스가 웹 페이지의 다크 모드와 조화를 이루도록, 하이라이트와 UI가 다크 모드와 호환되도록 설계
+  - 지원 웹 사이트 확장 => 현재는 `velog` 및 `tistory`만 지원. 특정 페이지는 div 태그로 본문의 text 노드가 감싸진 것을 확인하였는데, div 태그를 허용하는 순간 하이라이트 바의 노란 박스가 겹쳐지는 현상이 발생
+
+- 서비스 자체 하이라이트 표시: Reading Assistant Mode
+  - 하이라이트 색상 선택 기능
+  - `resize` 및 `mutation` 이벤트에 따른 하이라이트 위치 및 크기 즉시 업데이트 보완 => 현재 `ResizeObserver` 및 `MutationObserver`를 활용한 로직이 구현되어 있지만, 제대로 작동하지 않는 것을 확인
+
+- 유저 생성 주석 표시: Self-annotation Mode
+  - 대시보드를 활용하여 유저 생성 주석이 적용된 노드들의 content를 따로 추출하여 드로잉 주석 모아보기 기능
+  - 하이라이트 텍스트 복사 기능
+
+- 메모 기능 개선
+  - 비개발자나 Markdown을 모르는 사용자를 위한 일반 텍스트 편집기(WYSIWYG: What You See Is What You Get) 지원
+
+## 4) 회고
+
+<details>
+  <summary><b>팀 프로젝트와 개인 프로젝트의 차이점</b></summary>
+  <div markdown="1">
+
+<br />
+
+- 팀 프로젝트
+
+팀 프로젝트는 **멀티 스레드 프로세스**에 비유할 수 있을 것 같습니다. 각 팀원이 병렬적으로 각자 다른 관점에서 아이디어를 제안하고 발전시키고 미팅을 통해 이를 공유하였습니다. 서로가 서로의 기폭제가 되어 주며 작업을 나누어 진행하면서, 프로젝트 완성이라는 목표를 향해 동시에 나아갔습니다. 놓친 부분이나 모르는 점을 보완해 주고, 반복 작업도 분담하여 효율성을 높일 수 있습니다. 한 명이 잠시 쉬더라도 다른 팀원이 작업을 이어갈 수 있어 프로젝트는 꾸준히 진행되었습니다. 그러나 리소스를 공유하는 과정에서 git 충돌이 발생하기도 하였고, 서로의 의견을 공유할 때는 의견 충돌이 발생할 때도 있었습니다. 또, 모든 결정을 최대한 동의로 이끌어야 해서 진행 속도가 느려질 때도 있었습니다.
+
+- 개인 프로젝트
+
+개인 프로젝트는 **싱글 스레드 프로레스**와 같았습니다. 아이디어를 고민하고 결정하는 것부터 모든 기능 구현과 배포까지 모든 작업을 혼자 순차적으로 진행하며 프로젝트의 전체적인 흐름을 파악할 수 있었습니다. 계획 했던 일이 모두 끝나서 스택이 모두 비워지면 원하는대로 구현된 기능을 보완하거나 새로운 기능과 기술에 대한 구상을 자유롭게 했습니다. 작업 중 모르는 부분이 있거나 진행이 막히면, 필요한 경우 인터넷 검색이나 동료를 통해 비동기적으로 도움을 얻을 수 있었습니다. 그러나 이러한 도움은 팀 프로젝트처럼 병렬적으로 이루어지는 것은 아니었으므로, 결국 스스로 해결해야 할 책임이 컸습니다. 자유롭게 진행 방향을 수정할 수는 있으나, 추가 학습도 온전히 혼자 감당해야 했으며, 프로젝트가 복잡해질수록 특정 기술 스택에 대한 지식은 온전히 나 자신만이 알게 되어 도움을 요청하기도 어려웠습니다. 이 과정에서 좌절할 때도 있었지만, 문제를 해결하며 성취감을 느끼고 성장하는 제 자신을 발견했습니다.
+
+  </div>
+</details>
+
+<br />
