@@ -688,13 +688,13 @@ window.addEventListener('scroll', handleScroll);
 **1. 설치 수**
 
 <div align="center">
-  <img width="95%" src="/public/서비스현황-1.png" alt="서비스 설치 수"/>
+  <img width="95%" src="/public/서비스현황-1.PNG" alt="서비스 설치 수"/>
 </div>
 
 **2. 제거 수**
 
 <div align="center">
-  <img width="95%" src="/public/서비스현황-2.png" alt="서비스 제거 수"/>
+  <img width="95%" src="/public/서비스현황-2.PNG" alt="서비스 제거 수"/>
 </div>
 
   </div>
@@ -707,7 +707,7 @@ window.addEventListener('scroll', handleScroll);
 <br />
 
 <div align="center">
-  <img width="95%" src="/public/서비스현황-3.png" alt="서비스 페이지 조회수"/>
+  <img width="95%" src="/public/서비스현황-3.PNG" alt="서비스 페이지 조회수"/>
 </div>
 
   </div>
@@ -720,7 +720,7 @@ window.addEventListener('scroll', handleScroll);
 <br />
 
 <div align="center">
-  <img width="95%" src="/public/서비스현황-4.png" alt="서비스 시간별 주간 사용자 수"/>
+  <img width="95%" src="/public/서비스현황-4.PNG" alt="서비스 시간별 주간 사용자 수"/>
 </div>
 
   </div>
