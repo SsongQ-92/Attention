@@ -525,6 +525,140 @@ connectedCallback() {
 
 ## 2) 웹 페이지 main DOM을 어떻게 파싱하여 서비스 하이라이트를 제공할까?
 
+- 긴 글이 있는 웹 페이지, 즉, 블로그 글이나 정보 글의 DOM을 분석했습니다. 주로 블로그 글의 본문은 특정 태그(p, li, h1, h2, h3, pre)로 구성되어있다는 것을 확인했고, 따라서 해당 태그들을 대상으로 뷰포트에 표시되는 요소만을 효율적으로 파싱하여 읽기 가이드라인을 제공하기로 목표했습니다.
+- `Intersection Observer API`를 활용하여 뷰포트에 보이는 요소만 상태 값으로 관리하여 불필요한 연산을 방지했습니다. 또한, 웹 표준 API인 `DOMRect`를 사용하여 DOM 요소의 위치와 크기를 계산하여 하이라이팅된 읽기 가이드라인을 제공하였습니다. 
+- 스크롤 이벤트는 브라우저에서 매우 빈번하게 발생합니다. 따라서 적절한 최적화 없이 이벤트 핸들러를 실행하면 로직에 따라 성능 저하와 프레임 드롭이 발생할 수 있습니다. 이를 방지하기 위해 `throttle`과 `requestAnimationFrame`을 결합하여 효율적으로 이벤트를 처리하였습니다.
+
+### [불필요한 연산 방지를 위한 최적화: Intersection Observer]
+
+웹 페이지에서 읽기 가이드라인을 제공하기 위해 main DOM의 target elements(예: p, li, h1, h2, h3, pre) 정보를 상태 값으로 관리해야 했습니다.
+
+- 문제 상황
+  - DOM의 모든 요소를 순회하여 상태 값으로 처리하면 뷰포트 밖의 요소까지 모두 상태 값에 포함되어 비효율적입니다.
+  - 스크롤 및 DOM 변경 이벤트마다 전체 요소를 다시 계산하면, 페이지의 복잡도에 따라 성능이 급격히 저하될 것이 우려되었습니다.
+
+- 해결 방법
+  - [뷰포트 내 요소만 감지] **`Intersection Observer`**를 사용하여 target elements가 뷰포트에 들어오거나 나가는 시점에만 상태를 업데이트하였습니다. 이에 따라 뷰포트 외 요소는 무시하게 되므로 연산량을 줄였습니다.
+  - [DOMRect로 위치 및 크기 계산] `IntersectionObserver` 생성자의 콜백 함수는 뷰포트에 들어오거나 나가는 요소들에 대한 정보를 `entries(IntersectionObserverEntry)` 배열 형태로 제공합니다. 이 entries 파라미터가 담고 있는 DOM 요소(`entry.target`)로부터 `getBoundingClientRect` 메소드를 이용하여 해당 요소의 위치와 크기를 `DOMRect API`로 추출하였습니다. 이를 통해, 요소가 뷰포트 내 어디에 위치하는지 정확히 측정할 수 있었습니다.
+  - [상태 업데이트] 뷰포트와의 교차 여부(`entry.isIntersecting`)를 활용하여 상태 값을 갱신하였습니다. 즉, 뷰포트 내에 들어온 요소는 상태 값 업데이트 시 요소에 대한 정보를 추가하고, 뷰포트에서 벗어나는 요소는 정보를 제거하였습니다. 추가로, 상태 값의 중복을 방지하기 위해 요소의 textContent, 크기(width, height)를 조합하여 고유 키를 사용했습니다.
+  - 실제 코드는 아래 토글을 참고 바랍니다.
+
+### [빈번한 스크롤 이벤트에 대한 최적화: throttle과 requestAnimationFrame]
+
+Intersection Observer를 사용하여 요소가 뷰포트에 들어오거나 나가는 시점은 감지할 수 있었지만, 스크롤 중 뷰포트 내 정적인 요소 상태 업데이트에는 한계가 있었습니다.
+
+- 문제 상황
+  - 스크롤 이벤트 중, 화면 내의 요소가 그대로 있는 경우에는 Intersection Observer가 요소 상태를 업데이트하지 않았습니다.
+  - 스크롤 이벤트에 대한 로직을 구현했지만, 스크롤 이벤트가 초당 수백 번 발생하기 때문에, 이를 처리하는 연산으로 인해 성능 저하와 프레임 드롭이 발생했습니다.
+
+- 해결 방법
+  - 이 문제를 해결하기 위해 스크롤 시 현재 뷰포트 내 요소의 위치(top, bottom)를 `DOMRect`로 재계산하고 **`throttle`과 `requestAnimationFrame`**을 결합하여 스크롤 이벤트의 상태 업데이트를 최적화했습니다.
+  - 스크롤 시, 현재 뷰포트 내 요소의 상태 값 중 textContent가 동일한 요소의 위치를 재계산하여 상태 값을 업데이트했습니다. 이를 통해, `Intersection Observer`가 처리하지 못하는 뷰포트 내의 요소 위치 업데이트를 스크롤 이벤트로 보완했습니다.
+  - 스로틀링(`Throttling`)은 이벤트가 짧은 시간 간격으로 반복해서 발생할 때, 지정한 시간 간격 동안은 해당 이벤트의 콜백 함수가 실행되지 않도록 합니다. 즉, 일정 시간 간격으로 한 번만 이벤트 리스너의 콜백 함수가 실행됩니다. 따라서, `throttle`을 사용하여 스크롤 이벤트 핸들러가 100ms 간격으로 실행되도록 이벤트 빈도를 제한하여 이벤트 호출이 과도하게 발생하는 문제를 해결하였습니다.
+  - `requestAnimationFrame`은 브라우저의 화면 갱신 주기에 맞춰 콜백을 실행하는 API입니다. 만약, 디스플레이가 60Hz라면 화면 갱신을 1초에 60번 하는 것이고, 이는 16.66ms(1s/60)마다 한 번씩 화면 갱신을 한다고도 볼 수 있습니다. 이런 특징을 이용해 DOMRect를 사용해 뷰포트 내 요소의 위치를 재계산하는 작업을 브라우저의 화면 갱신 주기와 동기화했습니다.
+  - 스로틀링과 `requestAnimationFrame`을 함께 사용하여 `getBoundingClientRect`와 같이 비싼 DOM 계산에 대한 연산량을 줄이기에 자연스럽게 `requestAnimationFrame`의 콜백이 최대한 화면 갱신 주기에 맞춰 실행될 수 있다고 생각하였습니다.
+  - 실제 코드는 아래 토글을 참고 바랍니다.
+
+<details>
+  <summary><b>실제 코드</b></summary>
+  <div markdown="1">
+
+<br />
+
+1. [Intersection Observer] 뷰포트 내 요소만을 감지(/hooks/useParseDOM.ts)
+
+```ts
+const TARGET_HIGHLIGHTS_SELECTORS = ['p', 'li', 'h1', 'h2', 'h3', 'pre'];
+
+const observeElements = () => {
+  const targetElements = document.querySelectorAll(TARGET_HIGHLIGHTS_SELECTORS.join(', '));
+
+  const observer = new IntersectionObserver(updateRects, {
+    root: null,
+    rootMargin: '0px',
+    threshold: 0.1, // 요소가 10% 이상 보이면 감지
+  });
+
+  targetElements.forEach((el) => observer.observe(el));
+};
+```
+
+2. [Intersection Observer] 뷰포트 내에 들어온 요소와 나간 요소에 대한 상태 업데이트(/hooks/useParseDOM.ts)
+
+```ts
+const updateRects = (entries: IntersectionObserverEntry[]) => {
+  setElementsRects((prevRects) => {
+    const updatedRects: TagRectData[] = [...prevRects];
+
+    entries.forEach((entry) => {
+      const rect: DOMRect = entry.target.getBoundingClientRect();
+      const trimmedTextContent = entry.target.textContent?.trim() ?? '';
+
+      const currentRect: TagRectData = {
+        tagName: entry.target.tagName.toLocaleLowerCase(),
+        tagStartRectY: rect.top,
+        tagEndRectY: rect.bottom,
+        tagStartRectX: rect.left,
+        tagWidth: rect.width,
+        tagHeight: rect.height,
+        tagVisiblePartially:
+          entry.isIntersecting && isElementInsideViewport(rect.top, rect.bottom),
+        tagTextContent: trimmedTextContent,
+        tagUniqueKey: `${trimmedTextContent.length < 10 ? trimmedTextContent : trimmedTextContent.slice(0, 10)}_${rect.width}_${rect.height}`,
+      };
+
+      const index = updatedRects.findIndex(
+        (rect) => rect.tagUniqueKey === currentRect.tagUniqueKey
+      );
+
+      if (entry.isIntersecting) {
+        if (index === -1 && currentRect.tagTextContent !== '') {
+          updatedRects.push(currentRect);
+        }
+      } else if (index !== -1) {
+        updatedRects.splice(index, 1);
+      }
+    });
+
+    return updatedRects.sort((a, b) => a.tagStartRectY - b.tagStartRectY);
+  });
+};
+```
+
+3. [throttle, requestAnimationFrame] 스크롤 시, 뷰포트 내부의 타겟 요소 위치 업데이트(/hooks/useParseDOM.ts)
+
+```ts
+const handleScroll = throttle(() => {
+  requestAnimationFrame(() => {
+    setElementsRects((prevRects) =>
+      prevRects.map((rect) => {
+        const elements = Array.from(document.querySelectorAll(rect.tagName)) as HTMLElement[];
+
+        const element = elements.find((el) => el.textContent?.trim() === rect.tagTextContent);
+
+        if (element) {
+          const newRect = element.getBoundingClientRect();
+
+          return {
+            ...rect,
+            tagStartRectY: newRect.top,
+            tagEndRectY: newRect.bottom,
+            tagVisiblePartially: isElementInsideViewport(newRect.top, newRect.bottom),
+          };
+        }
+
+        return { ...rect };
+      })
+    );
+  });
+}, 100);
+
+window.addEventListener('scroll', handleScroll);
+```
+
+  </div>
+</details>
+
 <br />
 
 # 5. 개발과 감상
