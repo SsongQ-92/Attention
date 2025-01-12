@@ -700,8 +700,6 @@ window.addEventListener('scroll', handleScroll);
   </div>
 </details>
 
-<br />
-
 <details>
   <summary><b>페이지 조회수</b></summary>
   <div markdown="1">
@@ -714,8 +712,6 @@ window.addEventListener('scroll', handleScroll);
 
   </div>
 </details>
-
-<br />
 
 <details>
   <summary><b>시간별 주간 사용자 수</b></summary>
