@@ -39,8 +39,9 @@
     + [[빈번한 스크롤 이벤트에 대한 최적화: throttle과 requestAnimationFrame]](#%EB%B9%88%EB%B2%88%ED%95%9C-%EC%8A%A4%ED%81%AC%EB%A1%A4-%EC%9D%B4%EB%B2%A4%ED%8A%B8%EC%97%90-%EB%8C%80%ED%95%9C-%EC%B5%9C%EC%A0%81%ED%99%94-throttle%EA%B3%BC-requestanimationframe)
 - [5. 개발과 감상](#5-%EA%B0%9C%EB%B0%9C%EA%B3%BC-%EA%B0%90%EC%83%81)
   * [1) 왜 indexedDB에 데이터를 저장하는 것으로 결정하게 되었을까?](#1-%EC%99%9C-indexeddb%EC%97%90-%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%A5%BC-%EC%A0%80%EC%9E%A5%ED%95%98%EB%8A%94-%EA%B2%83%EC%9C%BC%EB%A1%9C-%EA%B2%B0%EC%A0%95%ED%95%98%EA%B2%8C-%EB%90%98%EC%97%88%EC%9D%84%EA%B9%8C)
-  * [2) 향후 확장 계획](#2-%ED%96%A5%ED%9B%84-%ED%99%95%EC%9E%A5-%EA%B3%84%ED%9A%8D)
-  * [3) 회고](#3-%ED%9A%8C%EA%B3%A0)
+  * [2) 서비스 현황](#2-%EC%84%9C%EB%B9%84%EC%8A%A4-%ED%98%84%ED%99%A9)
+  * [3) 향후 확장 계획](#3-%ED%96%A5%ED%9B%84-%ED%99%95%EC%9E%A5-%EA%B3%84%ED%9A%8D)
+  * [4) 회고](#4-%ED%9A%8C%EA%B3%A0)
 
 <!-- tocstop -->
 
@@ -770,4 +771,3 @@ window.addEventListener('scroll', handleScroll);
 </details>
 
 <br />
-
