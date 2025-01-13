@@ -79,16 +79,13 @@
   - ↑, ↓, SpaceBar: 하이라이팅 위치를 이동하고 고정
   - Esc(escape): 키보드 모드 종료
 
-<details>
-  <summary><b>스크린샷: 서비스 자체 하이라이트 표시</b></summary>
-  <div markdown="1">
+<br />
 
-  <div align="center">
-    <img width="95%" src="/public/기능-1.png" alt="서비스 자체 하이라이트 기능"/>
-  </div>
+**[스크린샷: 서비스 자체 하이라이트 표시]**
 
-  </div>
-</details>
+<div align="center">
+  <img width="90%" src="/public/기능-1.png" alt="서비스 자체 하이라이트 기능"/>
+</div>
 
 ## 2) 유저 생성 주석 표시: Self-annotation Mode
 
@@ -96,16 +93,13 @@
 - 주석의 타입 변경, 삭제, ON/OFF 기능 지원
 - 생성된 주석을 브라우저의 `indexedDB`에 저장해 해당 페이지를 재방문 시 주석을 그대로 복원하여 표시
 
-<details>
-  <summary><b>스크린샷: 유저 생성 주석 표시</b></summary>
-  <div markdown="1">
+<br />
 
-  <div align="center">
-    <img width="95%" src="/public/기능-2.png" alt="유저 생성 주석 표시 기능"/>
-  </div>
+**[스크린샷: 유저 생성 주석 표시]**
 
-  </div>
-</details>
+<div align="center">
+  <img width="90%" src="/public/기능-2.png" alt="유저 생성 주석 표시 기능"/>
+</div>
 
 ## 3) 아티클 관련 메모 작성 및 아카이빙 대시보드: Memo edit & archive Mode
 
@@ -114,33 +108,27 @@
 - 작성된 메모는 브라우저의 `indexedDB`와 동기화되어 데이터 영속성 보장
 - 서비스 자체 하이라이트의 키보드 모드 동작 시, 하이라이트 된 텍스트를 즉시 복사할 수 있는 기능 제공
 
-<details>
-  <summary><b>스크린샷: 아티클 관련 메모 작성 및 아카이빙 대시보드</b></summary>
-  <div markdown="1">
+<br />
 
-<!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
-  <br />
+**[스크린샷: 아티클 관련 메모 작성 및 아카이빙 대시보드]**
 
-  **1. 메모 작성**
+**1. 메모 작성**
 
-  <div align="center">
-    <img width="95%" src="/public/기능-3.png" alt="아티클 관련 메모 작성 및 아카이빙 대시보드"/>
-  </div>
+<div align="center">
+  <img width="90%" src="/public/기능-3.png" alt="아티클 관련 메모 작성 및 아카이빙 대시보드"/>
+</div>
 
-  <br />
+<br />
 
-  **2. 메모 조회**
+**2. 메모 조회**
 
-  <div align="center">
-    <img width="95%" src="/public/기능-4.png" alt="아티클 관련 메모 작성 및 아카이빙 대시보드"/>
-  </div>
+<div align="center">
+  <img width="90%" src="/public/기능-4.png" alt="아티클 관련 메모 작성 및 아카이빙 대시보드"/>
+</div>
 
-  <div align="center">
-    <img width="95%" src="/public/기능-5.png" alt="아티클 관련 메모 작성 및 아카이빙 대시보드"/>
-  </div>
-
-  </div>
-</details>
+<div align="center">
+  <img width="90%" src="/public/기능-5.png" alt="아티클 관련 메모 작성 및 아카이빙 대시보드"/>
+</div>
 
 <br />
 
