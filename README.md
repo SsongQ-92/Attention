@@ -498,13 +498,13 @@ connectedCallback() {
   <img width="80%" src="./public/겪은문제와해결과정-1.PNG" alt="Shadow DOM 구조"/>
 </div>
 
-1. `web-highlight-layer` Custom Element와 Shadow DOM 
+2. `web-highlight-layer` Custom Element와 Shadow DOM 
 
 <div align="center">
   <img width="80%" src="./public/겪은문제와해결과정-2.PNG" alt="Custom Element와 Shadow DOM 구조"/>
 </div>
 
-3. `web-dashboard` Custom Element와 Shadow DOM 
+3. `web-dashboard` Custom Element와 Shadow DOM
 
 <div align="center">
   <img width="80%" src="./public/겪은문제와해결과정-3.PNG" alt="Custom Element와 Shadow DOM 구조"/>
