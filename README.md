@@ -2,7 +2,7 @@
 
 <div align="center">
   <b>긴 글 읽기를 돕는 크롬 익스텐션</b><br/>
-  <b>서비스 자체 가이드라인 하이라이트와 자유로운 주석 표시 및 메모 기능 제공</b>
+  <b>서비스 자체 가이드라인 하이라이트와 자유로운 주석 표시 및 메모 기능 제공</b><br/>
   <a href="https://chromewebstore.google.com/detail/attention-web-reading-ass/hakidcoicmfocffkkkefhiifdahdaeme?authuser=0&hl=ko">[크롬 웹 스토어] 확장 프로그램: Attention - Web Reading Assistant</a>
 </div>
 
