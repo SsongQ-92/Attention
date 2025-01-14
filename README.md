@@ -35,9 +35,12 @@
     + [[1차 난관: Custom Elements가 만들어지지 않는 문제]](#1%EC%B0%A8-%EB%82%9C%EA%B4%80-custom-elements%EA%B0%80-%EB%A7%8C%EB%93%A4%EC%96%B4%EC%A7%80%EC%A7%80-%EC%95%8A%EB%8A%94-%EB%AC%B8%EC%A0%9C)
     + [[2차 난관: Shadow DOM 내부에 createRoot가 되지 않는 문제]](#2%EC%B0%A8-%EB%82%9C%EA%B4%80-shadow-dom-%EB%82%B4%EB%B6%80%EC%97%90-createroot%EA%B0%80-%EB%90%98%EC%A7%80-%EC%95%8A%EB%8A%94-%EB%AC%B8%EC%A0%9C)
     + [[3차 난관: Shadow DOM 내부에 TailwindCSS 스타일이 적용되지 않는 문제]](#3%EC%B0%A8-%EB%82%9C%EA%B4%80-shadow-dom-%EB%82%B4%EB%B6%80%EC%97%90-tailwindcss-%EC%8A%A4%ED%83%80%EC%9D%BC%EC%9D%B4-%EC%A0%81%EC%9A%A9%EB%90%98%EC%A7%80-%EC%95%8A%EB%8A%94-%EB%AC%B8%EC%A0%9C)
-  * [2) 웹 페이지 main DOM을 어떻게 파싱하여 서비스 하이라이트를 제공할까?](#2-%EC%9B%B9-%ED%8E%98%EC%9D%B4%EC%A7%80-main-dom%EC%9D%84-%EC%96%B4%EB%96%BB%EA%B2%8C-%ED%8C%8C%EC%8B%B1%ED%95%98%EC%97%AC-%EC%84%9C%EB%B9%84%EC%8A%A4-%ED%95%98%EC%9D%B4%EB%9D%BC%EC%9D%B4%ED%8A%B8%EB%A5%BC-%EC%A0%9C%EA%B3%B5%ED%95%A0%EA%B9%8C)
+  * [2) 서비스 자체 하이라이트에 대한 상태를 효율적으로 업데이트하려면 웹 페이지 DOM을 어떻게 파싱할까?](#2-%EC%84%9C%EB%B9%84%EC%8A%A4-%EC%9E%90%EC%B2%B4-%ED%95%98%EC%9D%B4%EB%9D%BC%EC%9D%B4%ED%8A%B8%EC%97%90-%EB%8C%80%ED%95%9C-%EC%83%81%ED%83%9C%EB%A5%BC-%ED%9A%A8%EC%9C%A8%EC%A0%81%EC%9C%BC%EB%A1%9C-%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8%ED%95%98%EB%A0%A4%EB%A9%B4-%EC%9B%B9-%ED%8E%98%EC%9D%B4%EC%A7%80-dom%EC%9D%84-%EC%96%B4%EB%96%BB%EA%B2%8C-%ED%8C%8C%EC%8B%B1%ED%95%A0%EA%B9%8C)
     + [[불필요한 연산 방지를 위한 최적화: Intersection Observer]](#%EB%B6%88%ED%95%84%EC%9A%94%ED%95%9C-%EC%97%B0%EC%82%B0-%EB%B0%A9%EC%A7%80%EB%A5%BC-%EC%9C%84%ED%95%9C-%EC%B5%9C%EC%A0%81%ED%99%94-intersection-observer)
     + [[빈번한 스크롤 이벤트에 대한 최적화: throttle과 requestAnimationFrame]](#%EB%B9%88%EB%B2%88%ED%95%9C-%EC%8A%A4%ED%81%AC%EB%A1%A4-%EC%9D%B4%EB%B2%A4%ED%8A%B8%EC%97%90-%EB%8C%80%ED%95%9C-%EC%B5%9C%EC%A0%81%ED%99%94-throttle%EA%B3%BC-requestanimationframe)
+  * [3) 사용자가 생성한 드로잉 주석 컴포넌트를 페이지 재방문 시 어떻게 본래 자리를 찾아가게 할까?](#3-%EC%82%AC%EC%9A%A9%EC%9E%90%EA%B0%80-%EC%83%9D%EC%84%B1%ED%95%9C-%EB%93%9C%EB%A1%9C%EC%9E%89-%EC%A3%BC%EC%84%9D-%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8%EB%A5%BC-%ED%8E%98%EC%9D%B4%EC%A7%80-%EC%9E%AC%EB%B0%A9%EB%AC%B8-%EC%8B%9C-%EC%96%B4%EB%96%BB%EA%B2%8C-%EB%B3%B8%EB%9E%98-%EC%9E%90%EB%A6%AC%EB%A5%BC-%EC%B0%BE%EC%95%84%EA%B0%80%EA%B2%8C-%ED%95%A0%EA%B9%8C)
+    + [[1차 시도(실패): TreeWalker API를 사용한 노드 탐색]](#1%EC%B0%A8-%EC%8B%9C%EB%8F%84%EC%8B%A4%ED%8C%A8-treewalker-api%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%9C-%EB%85%B8%EB%93%9C-%ED%83%90%EC%83%89)
+    + [[2차 시도(성공): XPath를 활용한 노드 탐색]](#2%EC%B0%A8-%EC%8B%9C%EB%8F%84%EC%84%B1%EA%B3%B5-xpath%EB%A5%BC-%ED%99%9C%EC%9A%A9%ED%95%9C-%EB%85%B8%EB%93%9C-%ED%83%90%EC%83%89)
 - [5. 개발과 감상](#5-%EA%B0%9C%EB%B0%9C%EA%B3%BC-%EA%B0%90%EC%83%81)
   * [1) 왜 indexedDB에 데이터를 저장하는 것으로 결정하게 되었을까?](#1-%EC%99%9C-indexeddb%EC%97%90-%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%A5%BC-%EC%A0%80%EC%9E%A5%ED%95%98%EB%8A%94-%EA%B2%83%EC%9C%BC%EB%A1%9C-%EA%B2%B0%EC%A0%95%ED%95%98%EA%B2%8C-%EB%90%98%EC%97%88%EC%9D%84%EA%B9%8C)
   * [2) 서비스 현황](#2-%EC%84%9C%EB%B9%84%EC%8A%A4-%ED%98%84%ED%99%A9)
@@ -515,7 +518,7 @@ connectedCallback() {
 
 <br />
 
-## 2) 웹 페이지 main DOM을 어떻게 파싱하여 서비스 하이라이트를 제공할까?
+## 2) 서비스 자체 하이라이트에 대한 상태를 효율적으로 업데이트하려면 웹 페이지 DOM을 어떻게 파싱할까?
 
 - 긴 글이 있는 웹 페이지, 즉, 블로그 글이나 정보 글의 DOM을 분석했습니다. 주로 블로그 글의 본문은 특정 태그(`<p>`, `<li>`, `<h1>`, `<h2>`, `<h3>`, `<pre>`)로 구성되어있다는 것을 확인했고, 따라서 해당 태그들을 대상으로 뷰포트에 표시되는 요소만을 효율적으로 파싱하여 읽기 가이드라인을 제공하기로 목표했습니다.
 - `Intersection Observer API`를 활용하여 뷰포트에 보이는 요소만 상태 값으로 관리하여 불필요한 연산을 방지했습니다. 또한, 웹 표준 API인 `DOMRect`를 사용하여 DOM 요소의 위치와 크기를 계산하여 하이라이팅된 읽기 가이드라인을 제공하였습니다. 
@@ -653,6 +656,280 @@ window.addEventListener('scroll', handleScroll);
 
 <br />
 
+## 3) 사용자가 생성한 드로잉 주석 컴포넌트를 페이지 재방문 시 어떻게 본래 자리를 찾아가게 할까?
+
+- 사용자가 생성한 드로잉 주석 컴포넌트는 생성, 수정, 삭제는 이상 없이 되었으나, 메모 대시보드를 ON/OFF 하거나 사용자가 임의로 브라우저 창을 조절하여 `document.body`의 width가 변경될 때, 드로잉 주석이 기존 자리에 고정되어 위치가 자연스럽게 조정되지 않았습니다. 이에 따라, 페이지 재방문 시에도 드로잉 주석이 제 자리를 찾아가는 기능이 제대로 동작하지 않았습니다.
+- 사용자 주석의 위치를 재계산하기 위해 1차 시도에서는 `TreeWalker API`를 사용하여 텍스트 노드를 순회했으나, 특정 상황에서 예상치 못한 순서와 텍스트 분리에 따른 실패를 경험했습니다.
+- 이후, 2차 시도에서 `XPath`를 사용하여 정확한 노드를 추적하고 위치를 계산하는 방식으로 문제를 해결했습니다.
+
+### [1차 시도(실패): TreeWalker API를 사용한 노드 탐색]
+
+- 문제 상황
+  - 사용자가 생성한 드로잉 주석(하이라이트) 정보를 resize에 따라 유지하기 위해 주석의 textContent와 일치하는 노드를 찾으려 했습니다. 이를 위해 `TreeWalker API`를 사용하여 텍스트 노드를 순회하며 노드를 매칭하고, getBoundingClientRect로 위치를 계산하고자 했습니다.
+
+- 실패 코드
+
+```ts
+const findMatchingNode = (content: string, context: AnnotationInfo['context']) => {
+  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+    acceptNode: (node) => {
+      if (
+        node.nodeType === Node.TEXT_NODE &&
+        typeof node.nodeValue === 'string' &&
+        node.nodeValue !== '' &&
+        node.nodeValue !== ' ' &&
+        (node.nodeValue.includes(content) || content.includes(node.nodeValue))
+      ) {
+        return NodeFilter.FILTER_ACCEPT;
+      }
+      return NodeFilter.FILTER_REJECT;
+    },
+  });
+
+  // TreeWalker를 순회하며 매칭되는 노드를 찾음
+  let currentNode = walker.nextNode();
+  let combinedText = '';
+  let firstNode: Node | null = null;
+  let lastNode: Node | null = null;
+
+  while (currentNode) {
+    if (currentNode.nodeType === Node.TEXT_NODE) {
+      const nodeText = currentNode.nodeValue || '';
+
+      if (nodeText.includes(content)) {
+        combinedText += nodeText;
+        firstNode = currentNode;
+        lastNode = currentNode;
+        break;
+      }
+
+      if (combinedText && content.includes(combinedText + nodeText)) {
+        combinedText += nodeText;
+        lastNode = currentNode;
+      }
+
+      if (combinedText.includes(content)) {
+        break;
+      }
+    }
+    currentNode = walker.nextNode();
+  }
+
+  if (combinedText.includes(content) && firstNode && lastNode) {
+    return { firstNode, lastNode };
+  }
+
+  return null;
+};
+```
+
+- 실패 원인
+  - **[TreeWalker 순회 순서]** 예상과는 다르게 TreeWalker가 때에 따라 DOM 구조상의 텍스트 노드를 순회할 때 예상과 다른 순서로 노드를 반환하였습니다. 예를 들어, 줄 바꿈(`\n`)이 포함된 경우, 여러 문단이 여러 텍스트 노드로 분리되어 `\n` 이후의 텍스트 노드가 먼저 처리되고 `\n`이 그다음 순서로 들어오는 이슈로 `combinedText + nodeText`가 `content`에 포함되지 않는 문제가 발생했습니다. 
+  - 아래의 이미지에서 "리액트 19로 업그레이드하기 전에 먼저 리액트 18.3으로 업그레이드하여 잠재적인 문제를 파악하시기를 권장합니다."라는 nodeText가 `\n` 이전에 나오는 현상이 발생했습니다.
+
+  <div align="center">
+    <img width="80%" src="./public/겪은문제와해결과정-6.PNG" alt="실패 원인의 예시 이미지"/>
+  </div>
+
+  - **[문자열 매칭 문제]** 줄 바꿈과 공백이 포함된 경우, `content`와 `nodeValue`의 매칭이 실패했습니다. 예외 처리를 통해 `\n` 등을 제거하거나 replaceAll로 `\n`을 빈 문자열로 매칭 방식을 수정했으나, 추가적인 예외 상황이 발생할 염려가 있었고 자연스러운 해결 방식은 아니라고 생각했습니다.
+
+### [2차 시도(성공): XPath를 활용한 노드 탐색]
+
+`TreeWalker`를 해결하던 도중, 문득 접근 방식을 아예 다르게 해보면 어떨지 생각하고, `createAnnotation` 함수로 드로잉 주석을 생성할 당시에 `firstNode`와 `lastNode`를 context로 저장해보자고 생각했습니다. 
+
+- 해결 방법
+  - 1차 시도에서 발생했던 `TreeWalker`의 한계를 극복하고자 firstNode와 lastNode를 탐색하는 방법으로 `XPath(XML Path Language)`를 찾았습니다. `XPath`는 XML 및 HTML 문서 내의 노드 또는 노드 집합을 식별하는 데 사용되는 언어입니다. DOM 요소를 정확히 추적하고, 해당 노드의 위치를 안정적으로 계산하는 방식으로 `XPath`를 도입했습니다.
+  - **[getXPath: 노드의 고유 XPath 생성]** 사용자에 의해 select 된 range(`Range` 객체)를 통해 firstNode와 lastNode를 추출하였습니다. 그 후, 주석 생성 시 해당 노드들에 대한 XPath 경로를 생성하여 상태를 업데이트하고 indexedDB에 데이터를 저장하였습니다. 해당 getXPath라는 함수를 만들어 해당 과정을 실행하였는데, 텍스트 노드의 경우, 부모 노드와의 관계를 통해 `text()` 경로를 추적하였고, 그 뒤 요소 노드는 노드의 부모를 순회하며 각 노드의 태그 이름과 형제 요소 중의 순서를 포함한 경로를 생성하였습니다. 최종적으로 루트부터 해당 노드까지의 경로를 조합하여 XPath 표현식을 반환합니다.
+  - **[getNodeByXPath: XPath를 통해 노드를 찾는 함수]** 저장된 firstNode와 lastNode에 대한 XPath 표현식을 기반으로 `document.evaluate` 사용하여 DOM에서 노드를 찾습니다. 검색 결과가 텍스트 노드(`text()`)인 경우, 해당 노드를 바로 반환하고, 요소 노드인 경우, 텍스트 인덱스를 기준으로 정확한 텍스트 노드를 추적하여 반환합니다.
+  - **[탐색한 노드와 저장한 context를 활용하여 위치 재계산]** 해당 노드들과 함께 context로 저장했던 range의 `firstOffset`과 `lastOffset`을 활용하여 새로운 range를 만듭니다. 새로 만든 range의 범위를 지정하고 `DOMRect`를 추출하여 위치를 재계산합니다. 만약, 본문 내용이 업데이트되어 해당 Node가 사라지거나, 저장했던 offset보다 노드 textContent 길이가 짧아지면 해당 주석은 삭제되게끔 구현하였습니다.
+
+<details>
+  <summary><b>실제 코드</b></summary>
+  <div markdown="1">
+
+<br />
+
+1. createAnnotation 함수 내부의 XPath 표현식 생성 함수 (/hooks/useRoughNotation.ts)
+
+```ts
+const getXPath = (node: Node): string => {
+  const paths: string[] = [];
+
+  while (node) {
+    if (node.nodeType === Node.ELEMENT_NODE) {
+      const element = node as Element;
+      let index = 0;
+      let sibling = element.previousSibling;
+
+      while (sibling) {
+        if (sibling.nodeType === Node.ELEMENT_NODE && sibling.nodeName === element.nodeName) {
+          index++;
+        }
+
+        sibling = sibling.previousSibling;
+      }
+
+      const tagName = element.nodeName.toLowerCase();
+      const pathIndex = `[${index + 1}]`;
+
+      paths.unshift(`${tagName}${pathIndex}`);
+    } else if (node.nodeType === Node.TEXT_NODE) {
+      const parent = node.parentNode;
+
+      if (parent && parent.nodeType === Node.ELEMENT_NODE) {
+        let textIndex = 0;
+        let sibling = parent.firstChild;
+
+        while (sibling && sibling !== node) {
+          if (sibling.nodeType === Node.TEXT_NODE) {
+            textIndex++;
+          }
+
+          sibling = sibling.nextSibling;
+        }
+
+        paths.unshift(`text()[${textIndex + 1}]`);
+        node = parent;
+
+        continue;
+      } else {
+        break;
+      }
+    } else {
+      break;
+    }
+
+    if (node.parentNode) {
+      node = node.parentNode;
+    } else {
+      break;
+    }
+  }
+
+  return paths.length ? '/' + paths.join('/') : '';
+};
+```
+
+2. 생성된 XPath 표현식으로부터 firstNode와 lastNode를 구하는 함수 (/hooks/useRoughNotation.ts)
+
+```ts
+const getNodeByXPath = useCallback(
+  (xpath: string, documentRoot: Document = document): Node | null => {
+    const result = documentRoot.evaluate(
+      xpath,
+      documentRoot,
+      null,
+      XPathResult.FIRST_ORDERED_NODE_TYPE,
+      null
+    );
+
+    const node = result.singleNodeValue;
+
+    if (node?.nodeType === Node.TEXT_NODE) {
+      return node;
+    }
+
+    if (node?.nodeType === Node.ELEMENT_NODE) {
+      const match = xpath.match(/text\(\)\[(\d+)\]$/);
+
+      if (match && node.childNodes.length > 0) {
+        const textIndex = parseInt(match[1], 10) - 1;
+        let currentTextIndex = 0;
+
+        for (const child of node.childNodes) {
+          if (child.nodeType === Node.TEXT_NODE) {
+            if (currentTextIndex === textIndex) {
+              return child;
+            }
+
+            currentTextIndex++;
+          }
+        }
+      }
+    }
+
+    return null;
+  },
+  []
+);
+```
+
+3. 탐색한 firstNode, lastNode와 context로 저장했던 startOffset, endOffset를 활용하여 주석의 위치를 재계산하는 함수 (/hooks/useRoughNotation.ts)
+
+```ts
+requestAnimationFrame(() => {
+  setRenderingAnnotations((prevAnnotations) => {
+    return prevAnnotations
+      .map((annotation) => {
+        const { context } = annotation;
+        const { firstNodeXPath, lastNodeXPath, startOffset, endOffset } = context;
+
+        const firstNode = getNodeByXPath(firstNodeXPath);
+        const lastNode = getNodeByXPath(lastNodeXPath);
+
+        const validateOffset = (node: Node, offset: number) => {
+          if (node.nodeType !== Node.TEXT_NODE) return false;
+          if (node.textContent === null) return false;
+          if (offset > node.textContent.length) return false;
+
+          return true;
+        };
+
+        if (
+          firstNode !== null &&
+          lastNode !== null &&
+          validateOffset(firstNode, startOffset) &&
+          validateOffset(lastNode, endOffset)
+        ) {
+          const range = document.createRange();
+
+          range.setStart(firstNode, startOffset);
+          range.setEnd(lastNode, endOffset);
+
+          const rect = range.getBoundingClientRect();
+
+          return {
+            ...annotation,
+            position: {
+              top: rect.top + window.scrollY,
+              bottom: rect.bottom + window.scrollY,
+              left: rect.left + window.scrollX,
+              right: rect.right + window.scrollX,
+              width: rect.width,
+              height: rect.height,
+            },
+          };
+        } else {
+          asyncDeleteHighlightById(annotation.id);
+
+          return null;
+        }
+      })
+      .filter(Boolean) as AnnotationInfo[];
+  });
+});
+```
+
+  </div>
+</details>
+
+<details>
+  <summary><b>관련 이미지</b></summary>
+  <div markdown="1">
+
+<br />
+
+**[indexedDB에 저장된 주석 관련 데이터]**
+
+<div align="center">
+  <img width="80%" src="./public/겪은문제와해결과정-7.PNG" alt="indexedDB에 저장된 주석 관련 데이터"/>
+</div>
+
+  </div>
+</details>
+
+<br />
+
 # 5. 개발과 감상
 
 ## 1) 왜 indexedDB에 데이터를 저장하는 것으로 결정하게 되었을까?
@@ -714,8 +991,6 @@ window.addEventListener('scroll', handleScroll);
 
   </div>
 </details>
-
-<br />
 
 ## 3) 향후 확장 계획
 
