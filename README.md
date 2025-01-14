@@ -728,7 +728,7 @@ const findMatchingNode = (content: string, context: AnnotationInfo['context']) =
   - 아래의 이미지에서 "리액트 19로 업그레이드하기 전에 먼저 리액트 18.3으로 업그레이드하여 잠재적인 문제를 파악하시기를 권장합니다."라는 nodeText가 `\n` 이전에 나오는 현상이 발생했습니다.
 
   <div align="center">
-    <img width="80%" src="./public/겪은문제와해결과정-6.PNG" alt="실패 원인의 예시 이미지"/>
+    <img width="80%" src="./public/겪은문제와해결과정-6.png" alt="실패 원인의 예시 이미지"/>
   </div>
 
   - **[문자열 매칭 문제]** 줄 바꿈과 공백이 포함된 경우, `content`와 `nodeValue`의 매칭이 실패했습니다. 예외 처리를 통해 `\n` 등을 제거하거나 replaceAll로 `\n`을 빈 문자열로 매칭 방식을 수정했으나, 추가적인 예외 상황이 발생할 염려가 있었고 자연스러운 해결 방식은 아니라고 생각했습니다.
