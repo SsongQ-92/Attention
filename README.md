@@ -30,16 +30,16 @@
   * [2) esbuild](#2-esbuild)
   * [3) PostCSS](#3-postcss)
 - [4. 겪은 문제와 해결 과정](#4-%EA%B2%AA%EC%9D%80-%EB%AC%B8%EC%A0%9C%EC%99%80-%ED%95%B4%EA%B2%B0-%EA%B3%BC%EC%A0%95)
-  * [1) 어떻게 기존 페이지의 전역 스타일과 DOM 구조로부터 격리할 수 있을까?](#1-%EC%96%B4%EB%96%BB%EA%B2%8C-%EA%B8%B0%EC%A1%B4-%ED%8E%98%EC%9D%B4%EC%A7%80%EC%9D%98-%EC%A0%84%EC%97%AD-%EC%8A%A4%ED%83%80%EC%9D%BC%EA%B3%BC-dom-%EA%B5%AC%EC%A1%B0%EB%A1%9C%EB%B6%80%ED%84%B0-%EA%B2%A9%EB%A6%AC%ED%95%A0-%EC%88%98-%EC%9E%88%EC%9D%84%EA%B9%8C)
-    + [[문제의 근본적 원인: 샌드박스 환경]](#%EB%AC%B8%EC%A0%9C%EC%9D%98-%EA%B7%BC%EB%B3%B8%EC%A0%81-%EC%9B%90%EC%9D%B8-%EC%83%8C%EB%93%9C%EB%B0%95%EC%8A%A4-%ED%99%98%EA%B2%BD)
+  * [1) Custom Element와 Shadow DOM을 활용한 UI 캡슐화 및 스타일 격리](#1-custom-element%EC%99%80-shadow-dom%EC%9D%84-%ED%99%9C%EC%9A%A9%ED%95%9C-ui-%EC%BA%A1%EC%8A%90%ED%99%94-%EB%B0%8F-%EC%8A%A4%ED%83%80%EC%9D%BC-%EA%B2%A9%EB%A6%AC)
+    + [[격리된 실행 환경(Isolated Execution Environment)]](#%EA%B2%A9%EB%A6%AC%EB%90%9C-%EC%8B%A4%ED%96%89-%ED%99%98%EA%B2%BDisolated-execution-environment)
     + [[1차 난관: Custom Elements가 만들어지지 않는 문제]](#1%EC%B0%A8-%EB%82%9C%EA%B4%80-custom-elements%EA%B0%80-%EB%A7%8C%EB%93%A4%EC%96%B4%EC%A7%80%EC%A7%80-%EC%95%8A%EB%8A%94-%EB%AC%B8%EC%A0%9C)
     + [[2차 난관: Shadow DOM 내부에 createRoot가 되지 않는 문제]](#2%EC%B0%A8-%EB%82%9C%EA%B4%80-shadow-dom-%EB%82%B4%EB%B6%80%EC%97%90-createroot%EA%B0%80-%EB%90%98%EC%A7%80-%EC%95%8A%EB%8A%94-%EB%AC%B8%EC%A0%9C)
     + [[3차 난관: Shadow DOM 내부에 TailwindCSS 스타일이 적용되지 않는 문제]](#3%EC%B0%A8-%EB%82%9C%EA%B4%80-shadow-dom-%EB%82%B4%EB%B6%80%EC%97%90-tailwindcss-%EC%8A%A4%ED%83%80%EC%9D%BC%EC%9D%B4-%EC%A0%81%EC%9A%A9%EB%90%98%EC%A7%80-%EC%95%8A%EB%8A%94-%EB%AC%B8%EC%A0%9C)
-  * [2) 서비스 자체 하이라이트에 대한 상태를 효율적으로 업데이트하려면 웹 페이지 DOM을 어떻게 파싱할까?](#2-%EC%84%9C%EB%B9%84%EC%8A%A4-%EC%9E%90%EC%B2%B4-%ED%95%98%EC%9D%B4%EB%9D%BC%EC%9D%B4%ED%8A%B8%EC%97%90-%EB%8C%80%ED%95%9C-%EC%83%81%ED%83%9C%EB%A5%BC-%ED%9A%A8%EC%9C%A8%EC%A0%81%EC%9C%BC%EB%A1%9C-%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8%ED%95%98%EB%A0%A4%EB%A9%B4-%EC%9B%B9-%ED%8E%98%EC%9D%B4%EC%A7%80-dom%EC%9D%84-%EC%96%B4%EB%96%BB%EA%B2%8C-%ED%8C%8C%EC%8B%B1%ED%95%A0%EA%B9%8C)
+  * [2) Intersection Observer와 requestAnimationFrame을 활용해 웹 페이지 DOM을 효율적으로 파싱하기](#2-intersection-observer%EC%99%80-requestanimationframe%EC%9D%84-%ED%99%9C%EC%9A%A9%ED%95%B4-%EC%9B%B9-%ED%8E%98%EC%9D%B4%EC%A7%80-dom%EC%9D%84-%ED%9A%A8%EC%9C%A8%EC%A0%81%EC%9C%BC%EB%A1%9C-%ED%8C%8C%EC%8B%B1%ED%95%98%EA%B8%B0)
     + [[불필요한 연산 방지를 위한 최적화: Intersection Observer]](#%EB%B6%88%ED%95%84%EC%9A%94%ED%95%9C-%EC%97%B0%EC%82%B0-%EB%B0%A9%EC%A7%80%EB%A5%BC-%EC%9C%84%ED%95%9C-%EC%B5%9C%EC%A0%81%ED%99%94-intersection-observer)
     + [[빈번한 스크롤 이벤트에 대한 최적화: throttle과 requestAnimationFrame]](#%EB%B9%88%EB%B2%88%ED%95%9C-%EC%8A%A4%ED%81%AC%EB%A1%A4-%EC%9D%B4%EB%B2%A4%ED%8A%B8%EC%97%90-%EB%8C%80%ED%95%9C-%EC%B5%9C%EC%A0%81%ED%99%94-throttle%EA%B3%BC-requestanimationframe)
-  * [3) 사용자가 생성한 드로잉 주석 컴포넌트를 페이지 재방문 시 어떻게 본래 자리를 찾아가게 할까?](#3-%EC%82%AC%EC%9A%A9%EC%9E%90%EA%B0%80-%EC%83%9D%EC%84%B1%ED%95%9C-%EB%93%9C%EB%A1%9C%EC%9E%89-%EC%A3%BC%EC%84%9D-%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8%EB%A5%BC-%ED%8E%98%EC%9D%B4%EC%A7%80-%EC%9E%AC%EB%B0%A9%EB%AC%B8-%EC%8B%9C-%EC%96%B4%EB%96%BB%EA%B2%8C-%EB%B3%B8%EB%9E%98-%EC%9E%90%EB%A6%AC%EB%A5%BC-%EC%B0%BE%EC%95%84%EA%B0%80%EA%B2%8C-%ED%95%A0%EA%B9%8C)
-    + [[1차 시도(실패): TreeWalker API를 사용한 노드 탐색]](#1%EC%B0%A8-%EC%8B%9C%EB%8F%84%EC%8B%A4%ED%8C%A8-treewalker-api%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%9C-%EB%85%B8%EB%93%9C-%ED%83%90%EC%83%89)
+  * [3) XPath를 활용한 드로잉 주석 재배치](#3-xpath%EB%A5%BC-%ED%99%9C%EC%9A%A9%ED%95%9C-%EB%93%9C%EB%A1%9C%EC%9E%89-%EC%A3%BC%EC%84%9D-%EC%9E%AC%EB%B0%B0%EC%B9%98)
+    + [[1차 시도: TreeWalker API를 사용한 노드 탐색]](#1%EC%B0%A8-%EC%8B%9C%EB%8F%84-treewalker-api%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%9C-%EB%85%B8%EB%93%9C-%ED%83%90%EC%83%89)
     + [[2차 시도(성공): XPath를 활용한 노드 탐색]](#2%EC%B0%A8-%EC%8B%9C%EB%8F%84%EC%84%B1%EA%B3%B5-xpath%EB%A5%BC-%ED%99%9C%EC%9A%A9%ED%95%9C-%EB%85%B8%EB%93%9C-%ED%83%90%EC%83%89)
 - [5. 개발과 감상](#5-%EA%B0%9C%EB%B0%9C%EA%B3%BC-%EA%B0%90%EC%83%81)
   * [1) 왜 indexedDB에 데이터를 저장하는 것으로 결정하게 되었을까?](#1-%EC%99%9C-indexeddb%EC%97%90-%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%A5%BC-%EC%A0%80%EC%9E%A5%ED%95%98%EB%8A%94-%EA%B2%83%EC%9C%BC%EB%A1%9C-%EA%B2%B0%EC%A0%95%ED%95%98%EA%B2%8C-%EB%90%98%EC%97%88%EC%9D%84%EA%B9%8C)
@@ -298,20 +298,24 @@ const buildCSS = async () => {
 | **Shadow Tree** | Shadow DOM 내부에서 관리되는 DOM 트리로, 일반 DOM과 동일한 방식으로 노드를 추가하거나 속성을 설정할 수 있으며, `<style>` 요소를 통해 Shadow Tree 내부에 스타일을 적용할 수도 있습니다. |
 | **사용 목적** | - 컴포넌트 기반 개발을 지원하여 재사용성과 유지보수성을 높입니다. <br> - 스타일 및 스크립트의 충돌을 방지하여 안정적인 UI를 제공합니다. <br> - 웹 표준을 준수하여 프레임워크에 의존하지 않는 웹 컴포넌트 제작이 가능합니다. |
 
-### [샌드박스 환경]
+### [격리된 실행 환경(Isolated Execution Environment)]
 
-기획이 모두 끝나고 개발을 시작하면서 서비스가 제공하는 하이라이트 기능 구현에 대해 먼저 고민하였습니다. 기존 페이지인 main DOM에 스타일이나 요소를 주입하는 방식은 이미 적용이 되는 스타일 및 이벤트에 의해 실행될 추가적인 코드 스크립트와의 충돌을 야기할 것으로 예상되었습니다. 따라서, 별도의 레이어를 구성하여 구현하고자 했고, 웹 컴포넌트(`Web Components`)인 `Shadow DOM`과 `Custom Element`를 알게 되었습니다.
+기획이 모두 끝나고 개발을 시작하면서 서비스가 제공하는 하이라이트 기능 구현에 대해 먼저 고민하였습니다. 기존 페이지인 main DOM에 스타일이나 요소를 직접 주입하는 방식은 이미 적용이 되는 스타일 및 이벤트에 의해 실행될 추가적인 코드 스크립트와의 충돌을 야기할 것으로 예상되었습니다. 따라서, 별도의 레이어를 구성하여 UI를 독립적으로 구현하고자 했고, 웹 컴포넌트(`Web Components`)인 `Shadow DOM`과 `Custom Element`를 알게 되었습니다.
 
-- 브라우저 확장 프로그램의 콘텐츠 스크립트는 백그라운드 스크립트나 팝업 스크립트 등 다른 스크립트의 환경과는 구별되는 웹페이지 컨텍스트에서 실행되는 파일입니다. 이는 웹페이지의 기본 JavaScript 코드(해당 페이지가 로드한 스크립트)와 격리된 환경에서 실행이 되는데요, 해당 환경을 샌드박스 환경이라고 합니다.
-- 샌드박스 환경의 특징은 아래와 같습니다.
-  - 웹페이지의 전역 스코프에 노출되지 않고, 웹페이지의 전역 스코프에 선언된 변수에도 접근할 수 없는 자체 전역 객체(window)를 가지고 있습니다. 
-  - 보안을 위해 콘텐츠 스크립트가 웹페이지의 스크립트와 충돌하거나 악의적인 웹페이지가 콘텐츠 스크립트를 오염시키는 것을 방지합니다.
-  - **브라우저 확장 전용 API(`chrome.runtime` 등)에 접근 가능하지만, 기본적으로 웹 페이지의 `Custom Element`나 `shadow DOM` API에 직접 접근할 수 없습니다.**
+- 브라우저 확장 프로그램의 콘텐츠 스크립트는 백그라운드 스크립트나 팝업 스크립트 등 다른 스크립트의 환경과는 구별되는 웹페이지 컨텍스트에서 실행되는 파일입니다. 
+- 웹페이지와 동일한 실행 컨텍스트에서 동작하지만, "Isolated Execution Environment"에서 실행되므로 웹페이지의 JavaScript 코드와 직접적인 상호작용이 불가능합니다.
+- 이 환경의 특징은 아래와 같습니다.
+  - 콘텐츠 스크립트는 웹페이지의 전역 스코프(window)에 직접 접근할 수 없습니다.
+  - 웹페이지의 JavaScript 코드에서 선언한 변수나 함수에 접근할 수 없으며, 반대로 웹페이지의 코드도 콘텐츠 스크립트에서 선언한 변수나 함수에 접근할 수 없습니다.
+  - 보안상의 이유로 콘텐츠 스크립트가 웹페이지의 JavaScript 코드와 충돌하는 것을 방지하며, 악의적인 웹사이트가 콘텐츠 스크립트를 조작하는 것을 차단합니다.
+  - **브라우저 확장 전용 API(`chrome.runtime`, `chrome.storage` 등)에 접근 가능하지만, 기본적으로 웹 페이지의 `Custom Element`나 `Shadow DOM` API에 직접 접근할 수 없습니다.**
 
 ### [1차 난관: Custom Elements가 만들어지지 않는 문제]
 
 - 문제 상황
-  - 콘텐츠 스크립트가 실행되는 샌드박스 환경에서는 `window.customElements`가 null로 나타나 `Custom Elements` 정의가 불가능했습니다. 샌드박스 환경에서는 `Custom Element`나 `shadow DOM` API에 직접 접근할 수 없는 샌드박스의 특징을 알아내는 데 오랜 시간이 걸렸습니다.
+  - 콘텐츠 스크립트에서 Custom Elements와 Shadow DOM을 정의하려고 시도했지만, window.customElements가 null로 나타나는 문제가 발생했습니다.
+  - 이는 콘텐츠 스크립트가 "Isolated Execution Environment"에서 실행되기 때문입니다.
+  - 따라서, 웹페이지의 JavaScript 코드에서 선언된 customElements.define()를 콘텐츠 스크립트에서 직접 호출할 수 없었습니다.
 
 <div align="center">
   <img width="80%" src="/public/겪은문제와해결과정-4.png" alt="Custom Elements 생성 에러 로그" />
@@ -322,7 +326,7 @@ const buildCSS = async () => {
 </div>
 
 - 해결 과정
-  - 처음에는 콘텐츠 스크립트 자체에서 생성한 `<script>` 태그에 코드를 직접 주입하여 실행하려 했지만, 아래와 같은 에러를 마주했고 `Custom Elements`와 `Shadow DOM`을 정의하는 코드를 외부 스크립트로 분리하기로 결정하였습니다.
+  - 처음에는 콘텐츠 스크립트 자체에서 생성한 `<script>` 태그에 코드를 직접 주입하여 실행하려 했지만, 아래와 같은 에러를 마주했고 **`Custom Elements`와 `Shadow DOM`을 정의하는 코드를 외부 스크립트로 분리하기로 결정**하였습니다.
   - 에러 내용: Content Security Policy (CSP)에 의해 인라인 스크립트 차단하는 내용입니다. 인라인 스크립트를 허용하려면 추가 설정이 필요한데, 위험성이 있다는 것을 확인하였습니다.
     > content-script.js:41 Refused to execute inline script because it violates the following Content Security Policy directive: "script-src 'self' 'wasm-unsafe-eval' 'inline-speculation-rules' http://localhost:* http://127.0.0.1:*". Either the 'unsafe-inline' keyword, a hash ('sha256-AFeThEgz+MMrLLEvU9Imz1lrWV2iHNplblOMBCTko0c='), or a nonce ('nonce-...') is required to enable inline execution.
 
@@ -369,8 +373,8 @@ script.remove();
 
 - 해결 방법
   - 콘텐츠 스크립트에서 `Custom Elements` 정의가 불가능했기에, 따라서 `Custom Elements`를 shadow host로 가질 `Shadow DOM`도 정의할 수 없다는 것을 알았습니다.
-  - 이에 콘텐츠 스크립트가 실행되는 샌드박스 환경이 아닌, `웹 페이지 환경`에서 `Custom Elements`와 `Shadow DOM`을 정의하는 코드가 실행되도록 **스크립트를 주입하는 것을 결정**했습니다.
-  - 주입된 스크립트는 샌드박스 외부에서 실행되고, `window.customElements`와 같은 브라우저 API에 접근할 수 있었습니다.
+  - 이에 콘텐츠 스크립트가 아닌, `웹 페이지 환경`에서 `Custom Elements`와 `Shadow DOM`을 정의하는 코드가 실행되도록 **스크립트를 주입하는 것을 결정**했습니다.
+  - 스크립트를 웹 페이지에 삽입하면 `window.customElements`와 같은 브라우저 API에 접근할 수 있었고 Custom Element를 정의할 수 있습니다
   - 실제 코드는 아래 토글을 참고 바랍니다.
 
 ### [2차 난관: Shadow DOM 내부에 createRoot가 되지 않는 문제]
@@ -390,8 +394,10 @@ script.remove();
   - Shadow DOM은 외부 스타일과 격리되어 있기 때문에, TailwindCSS와 같은 유틸리티 클래스가 적용되지 않았습니다. 왜냐하면, TailwindCSS는 전역 스타일 규칙을 클래스에 적용하는 방식으로 작동합니다. 그러나 Shadow DOM 내부는 전역 스타일 정의를 참조하지 않기 때문에 TailwindCSS 클래스가 적용되지 않습니다.
 
 - 해결 방법
-  - Shadow DOM 내부에 `<style>` 태그를 만들고 자식으로 삽입했습니다.
-  - esbuild로 CSS 빌드 시 문자열로 변환하여 Shadow DOM 내부의 `<style>` 태그에 동적으로 CSS 문자열을 삽입했습니다.
+  - Esbuild + PostCSS를 활용한 스타일 주입
+    - 확장 프로그램 관련 프레임워크를 사용하지 않고, 직접 Esbuild로 React 컴포넌트를 번들링했습니다.
+    - PostCSS를 활용하여 CSS를 최적화하고, `cssnano`를 사용하여 불필요한 스타일을 제거했습니다.
+    - 최적화된 TailwindCSS 스타일을 문자열로 변환한 후, Shadow DOM 내부의 `<style>` 태그에 동적으로 삽입하여 완전한 스타일 격리를 구현했습니다.
   - 실제 코드는 아래 토글을 참고 바랍니다.
 
 <details>
@@ -427,7 +433,7 @@ script.remove();
 
 <br />
 
-1. Script 태그 주입하여 샌드박스 벗어나기(/content-script/index.tsx)
+1. Script 태그 주입하여 격리된 실행 환경 벗어나기(/content-script/index.tsx)
 
 ```tsx
 const injectScript = async () => {
@@ -521,7 +527,7 @@ connectedCallback() {
 
 <br />
 
-## 2) 서비스 자체 하이라이트에 대한 상태를 효율적으로 업데이트하려면 웹 페이지 DOM을 어떻게 파싱할까?
+## 2) Intersection Observer와 requestAnimationFrame을 활용해 웹 페이지 DOM을 효율적으로 파싱하기
 
 - 긴 글이 있는 웹 페이지, 즉, 블로그 글이나 정보 글의 DOM을 분석했습니다. 주로 블로그 글의 본문은 특정 태그(`<p>`, `<li>`, `<h1>`, `<h2>`, `<h3>`, `<pre>`)로 구성되어있다는 것을 확인했고, 따라서 해당 태그들을 대상으로 뷰포트에 표시되는 요소만을 효율적으로 파싱하여 읽기 가이드라인을 제공하기로 목표했습니다.
 - `Intersection Observer API`를 활용하여 뷰포트에 보이는 요소만 상태 값으로 관리하여 불필요한 연산을 방지했습니다. 또한, 웹 표준 API인 `DOMRect`를 사용하여 DOM 요소의 위치와 크기를 계산하여 하이라이팅된 읽기 가이드라인을 제공하였습니다. 
@@ -659,13 +665,13 @@ window.addEventListener('scroll', handleScroll);
 
 <br />
 
-## 3) 사용자가 생성한 드로잉 주석 컴포넌트를 페이지 재방문 시 어떻게 본래 자리를 찾아가게 할까?
+## 3) XPath를 활용한 드로잉 주석 재배치
 
 - 사용자가 생성한 드로잉 주석 컴포넌트는 생성, 수정, 삭제는 이상 없이 되었으나, 메모 대시보드를 ON/OFF 하거나 사용자가 임의로 브라우저 창을 조절하여 `document.body`의 width가 변경될 때, 드로잉 주석이 기존 자리에 고정되어 위치가 자연스럽게 조정되지 않았습니다. 이에 따라, 페이지 재방문 시에도 드로잉 주석이 제 자리를 찾아가는 기능이 제대로 동작하지 않았습니다.
 - 사용자 주석의 위치를 재계산하기 위해 1차 시도에서는 `TreeWalker API`를 사용하여 텍스트 노드를 순회했으나, 특정 상황에서 예상치 못한 순서와 텍스트 분리에 따른 실패를 경험했습니다.
 - 이후, 2차 시도에서 `XPath`를 사용하여 정확한 노드를 추적하고 위치를 계산하는 방식으로 문제를 해결했습니다.
 
-### [1차 시도(실패): TreeWalker API를 사용한 노드 탐색]
+### [1차 시도: TreeWalker API를 사용한 노드 탐색]
 
 - 문제 상황
   - 사용자가 생성한 드로잉 주석(하이라이트) 정보를 resize에 따라 유지하기 위해 주석의 textContent와 일치하는 노드를 찾으려 했습니다. 이를 위해 `TreeWalker API`를 사용하여 텍스트 노드를 순회하며 노드를 매칭하고, getBoundingClientRect로 위치를 계산하고자 했습니다.
