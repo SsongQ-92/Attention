@@ -18,10 +18,8 @@
 
 <!-- toc -->
 
-- [1. 기획 의도 및 목적](#1-%EA%B8%B0%ED%9A%8D-%EC%9D%98%EB%8F%84-%EB%B0%8F-%EB%AA%A9%EC%A0%81)
-  * [1) 기획 의도](#1-%EA%B8%B0%ED%9A%8D-%EC%9D%98%EB%8F%84)
-  * [2) 목적 및 기대 효과](#2-%EB%AA%A9%EC%A0%81-%EB%B0%8F-%EA%B8%B0%EB%8C%80-%ED%9A%A8%EA%B3%BC)
-- [2. 기능](#2-%EA%B8%B0%EB%8A%A5)
+- [🔥 Motivation](#%F0%9F%94%A5-motivation)
+- [📱 Preview](#%F0%9F%93%B1-preview)
   * [1) 서비스 자체 하이라이트 표시: Reading Assistant Mode](#1-%EC%84%9C%EB%B9%84%EC%8A%A4-%EC%9E%90%EC%B2%B4-%ED%95%98%EC%9D%B4%EB%9D%BC%EC%9D%B4%ED%8A%B8-%ED%91%9C%EC%8B%9C-reading-assistant-mode)
   * [2) 유저 생성 주석 표시: Self-annotation Mode](#2-%EC%9C%A0%EC%A0%80-%EC%83%9D%EC%84%B1-%EC%A3%BC%EC%84%9D-%ED%91%9C%EC%8B%9C-self-annotation-mode)
   * [3) 아티클 관련 메모 작성 및 아카이빙 대시보드: Memo edit & archive Mode](#3-%EC%95%84%ED%8B%B0%ED%81%B4-%EA%B4%80%EB%A0%A8-%EB%A9%94%EB%AA%A8-%EC%9E%91%EC%84%B1-%EB%B0%8F-%EC%95%84%EC%B9%B4%EC%9D%B4%EB%B9%99-%EB%8C%80%EC%8B%9C%EB%B3%B4%EB%93%9C-memo-edit--archive-mode)
@@ -51,26 +49,22 @@
 
 <br />
 
-# 1. 기획 의도 및 목적
+# 🔥 Motivation
 
-## 1) 기획 의도
+요즘 사람들은 긴 글을 읽는 데 어려움을 겪거나 쉽게 집중력이 흐려지는 경우가 많습니다. 이 프로젝트는 그런 문제를 해결하고, 보다 **몰입감 있는 읽기 경험**을 제공하기 위해 시작되었습니다.
 
-긴 글을 읽기 어려워하거나 집중력이 흐려지는 현대인들을 위해, 읽기 경험을 향상시키는 서비스 개발
-
-## 2) 목적 및 기대 효과
-
-긴 글을 제공하는 대표적인 블로그 사이트를 대상으로 개발
+주요 블로그 플랫폼을 대상으로, 사용자가 효과적으로 글을 읽고 이해할 수 있도록 돕는 기능을 개발했습니다.
 
 - **[서비스 자체 하이라이트 표시: Reading Assistant Mode]** <br/>
-  긴 글을 읽을 때 현재 읽는 문단 또는 문장을 강조하여 집중력 향상을 기대
-  - 짧은 글(문단 또는 문장)을 읽는 성취감을 반복적으로 느낄 수 있도록 설계
+  현재 읽고 있는 문단이나 문장을 강조하여 자연스럽게 읽기에 집중할 수 있도록 유도
+  - 짧은 글(문단 또는 문장)을 읽는 성취감을 반복적으로 느낄 수 있도록 설계하여 몰입감 유지
 
 - **[유저 생성 주석 표시: Self-annotation Mode]** <br/>
-  웹상에서 글을 읽을 때 지면의 글을 읽는 것처럼 텍스트에 하이라이트나 동그라미, 네모, 대괄호 등의 시각적 주석을 추가하여 가독성 향상을 기대
+  웹상에서 글을 읽을 때 지면의 글을 읽는 것처럼 텍스트에 하이라이트나 동그라미, 네모, 대괄호 등의 시각적 주석을 추가하여 자신만의 읽기 방식을 반영
 
 <br />
 
-# 2. 기능
+# 📱 Preview
 
 ## 1) 서비스 자체 하이라이트 표시: Reading Assistant Mode
 
@@ -85,10 +79,16 @@
 
 <br />
 
-**[스크린샷: 서비스 자체 하이라이트 표시]**
+**[서비스 자체 하이라이트 표시]**
 
 <div align="center">
   <img width="90%" src="/public/기능-1.png" alt="서비스 자체 하이라이트 기능"/>
+</div>
+<div align="center">
+  <img width="90%" src="/public/프리뷰-하이라이트-1.gif" alt="서비스 자체 하이라이트 기능"/>
+</div>
+<div align="center">
+  <img width="90%" src="/public/프리뷰-하이라이트-2.gif" alt="서비스 자체 하이라이트 기능"/>
 </div>
 
 ## 2) 유저 생성 주석 표시: Self-annotation Mode
@@ -99,10 +99,13 @@
 
 <br />
 
-**[스크린샷: 유저 생성 주석 표시]**
+**[유저 생성 주석 표시]**
 
 <div align="center">
   <img width="90%" src="/public/기능-2.png" alt="유저 생성 주석 표시 기능"/>
+</div>
+<div align="center">
+  <img width="90%" src="/public/프리뷰-드로잉주석.png" alt="유저 생성 주석 표시 기능"/>
 </div>
 
 ## 3) 아티클 관련 메모 작성 및 아카이빙 대시보드: Memo edit & archive Mode
@@ -114,7 +117,7 @@
 
 <br />
 
-**[스크린샷: 아티클 관련 메모 작성 및 아카이빙 대시보드]**
+**[아티클 관련 메모 작성 및 아카이빙 대시보드]**
 
 **1. 메모 작성**
 
