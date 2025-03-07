@@ -234,7 +234,7 @@ script.remove();
 CSP(Content Security Policy)는 웹 브라우저가 악의적인 코드 실행을 방지하기 위해 특정 유형의 콘텐츠 실행을 제한하는 보안 정책입니다. 이는 XSS(Cross-Site Scripting) 공격 방지를 주된 목표로 하며, 브라우저 확장 프로그램에도 적용됩니다.
     
 <div align="center">
-  <img width="50%" src="/public/CSP.png" alt="CSP 관련 이미지" />
+  <img width="80%" src="/public/CSP.png" alt="CSP 관련 이미지" />
 </div>
 
 | 기능 | 설명 |
@@ -311,7 +311,7 @@ window.addEventListener('message', (event) => {
 </div>
 
 <div align="center">
-  <img width="50%" src="/public/개발자도구-대시보드.PNG" alt="대시보드 레이어 DOM 구조" />
+  <img width="45%" src="/public/개발자도구-대시보드.PNG" alt="대시보드 레이어 DOM 구조" />
 </div>
 
 ## 2. TailwindCSS를 Shadow DOM 내부에 어떻게 적용할 수 있을까?
@@ -445,8 +445,10 @@ connectedCallback() {
 이는 `document.createTreeWalker()`를 사용하여 생성할 수 있으며, 특정 필터 조건을 설정하여 원하는 노드만 탐색할 수 있습니다. 
 
 <div align="center">
-  <img width="80%" src="/public/DFS.jpg" alt="DFS 도식화" />
+  <img width="60%" src="/public/DFS.jpg" alt="DFS 도식화" />
 </div>
+
+<br />
 
 | 특징 | 설명 |
 |------|------------------------------------------------------------------------------------------------------|
@@ -510,7 +512,7 @@ const findMatchingNode = (content: string, context: AnnotationInfo['context']) =
    - 예외 처리를 추가하여 \n을 ""로 치환하는 방법도 시도했으나, **특정 환경에서는 원래의 텍스트 구조를 유지해야 하는 경우가 있어 적절하지 않은 방식**이라고 판단되었습니다.
 
 <div align="center">
-  <img width="80%" src="./public/겪은문제와해결과정-6.png" alt="실패 원인의 예시 이미지"/>
+  <img width="70%" src="./public/겪은문제와해결과정-6.png" alt="실패 원인의 예시 이미지"/>
 </div> 
 
 <br />
@@ -646,7 +648,7 @@ requestAnimationFrame(() => {
 - **[indexedDB에 저장된 주석 관련 데이터]**
 
 <div align="center">
-  <img width="80%" src="./public/겪은문제와해결과정-7.PNG" alt="indexedDB에 저장된 주석 관련 데이터"/>
+  <img width="70%" src="./public/겪은문제와해결과정-7.PNG" alt="indexedDB에 저장된 주석 관련 데이터"/>
 </div>
 
 <br />
